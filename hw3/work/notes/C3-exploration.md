@@ -1,59 +1,37 @@
-# Exploration Notes — C3
+# Exploration Notes — C3 (Delete User confirmation dialog)
 
-**Mục đích:** đi một vòng màn hình **trước khi** execute checklist, để biết trên đó có widget gì. Không chấm Pass/Fail ở bước này.
-**Ngày:** _(yyyy-mm-dd)_
-**URL thật:** _(copy từ address bar)_
+**Ngày:** 2026-08-02
+**URL thật:** `https://prod-dev.ems-fitus.cloud/dashboard/admin/users` — dialog, URL không đổi
+**Đường đi:** C1 → cột ACTIONS → nút icon `aria-label="Delete user"` của một dòng
+
+> **Phạm vi C3 đã được điều chỉnh theo kết quả B-12.** Phân công gốc ghi "Block-Unblock & Reset-Password dialogs". Khảo sát cho thấy: Block/Unblock là **checkbox `Active` trong dialog Edit (C2)**, không phải dialog riêng; **Reset Password không tồn tại trong EMS**. Bề mặt duy nhất thật sự là một dialog riêng thuộc nhóm hành động phá huỷ trên scenario C là **Delete User confirm** → C3 = dialog này. Chi tiết ở `C2-exploration.md` §5.
 
 ---
 
-## 1. Đường đi tới màn hình
+## 2. Widget inventory
 
-1. Đăng nhập `admin@gmail.com` tại https://prod-dev.ems-fitus.cloud/login?callbackUrl=%2F
-2. …
-
-## 2. Widget inventory — trên màn hình này có gì?
-
-Đánh dấu ✅ có / ❌ không. Đây là cơ sở để quyết định N/A sau này, nên phải trung thực và kiểm bằng mắt + DevTools.
-
-| Widget | Có? | Ghi chú (số lượng, vị trí, tên hiển thị) |
+| Widget | Có? | Ghi chú |
 | --- | --- | --- |
-| Bảng dữ liệu (số cột) | | |
-| Phân trang | | |
-| Control sort trên header | | |
-| Control filter trên header | | |
-| Ô search | | |
-| Nút toolbar (Export, Add…) | | |
-| Row actions (Edit, Delete…) | | |
-| Form / input text | | |
-| Dropdown / select | | |
-| Checkbox | | |
-| Toggle switch (`role="switch"`) | | |
-| Date input | | |
-| Upload file | | |
-| Rich-text editor | | |
-| Modal / dialog | | |
-| Tab | | |
-| Breadcrumb | | |
-| Back control (dạng gì: text link / text button / icon-only) | | |
-| Badge / status pill (liệt kê các giá trị thấy được) | | |
-| Toast | | |
-| Progress bar / bar meter | | |
-| Empty state | | |
-| Ảnh (avatar, thumbnail) | | |
-| Sidebar | | |
+| Dialog xác nhận | ✅ | Tiêu đề **`Delete User`** kèm icon thùng rác đỏ |
+| Nội dung cảnh báo | ✅ | `Are you sure you want to delete user **SƠN BÙI QUANG**? This action cannot be undone.` — **nêu đúng tên record** (in đậm) **và** nêu hậu quả |
+| Nút hành động | ✅ | `Cancel` (viền, trung tính) · `Confirm` (nền **đỏ** — màu cảnh báo đúng ngữ nghĩa) |
+| Nút X đóng | ✅ | icon-only góc phải |
+| Overlay / dim | ✅ | nền tối + blur như C2 |
+| `aria-live` / `role="status"` | ❌ | 0 |
+| Toast sau khi thao tác | ❌ | không có (xem C1/C2 IA04-04) |
+| Input / select / checkbox | ❌ | 0 — dialog chỉ có text + 3 nút |
 
-## 3. Các hành động có thể làm trên màn hình này
+## 3. Các hành động có thể làm
 
-_(Liệt kê: mở dialog gì, submit được gì, xoá được gì, tải được file gì. Cần cho việc lên kịch bản execute.)_
+- `Cancel` → đóng, **record không bị đụng** (đã xác minh: bấm Delete trên dòng `SƠN BÙI QUANG` rồi Cancel, dòng vẫn còn nguyên)
+- `Confirm` → xoá thật. **KHÔNG thực hiện** trong phiên này (không có user nào được phép xoá vĩnh viễn; §7 handoff cấm xoá hẳn)
+- `X` / ESC → đóng
 
-- …
+## 4. Dữ liệu cần chuẩn bị
 
-## 4. Dữ liệu cần chuẩn bị trước khi execute
-
-_(Vd: cần ít nhất 1 user đang Active và 1 user đang Blocked để so màu badge; cần đủ dòng để có ≥ 2 trang phân trang.)_
-
-- …
+- Không cần tạo gì. Test bằng cách mở confirm rồi **Cancel** — phủ trọn IA04-03 mà không mất dữ liệu.
 
 ## 5. Câu hỏi còn mở
 
-- …
+1. Nhánh `Confirm` (xoá thật) **không được chạy** — có chủ ý, để không phá dữ liệu thật. Ghi rõ trong `C3.md` là giới hạn phạm vi tự đặt, không phải Pass cũng không phải Fail.
+2. Không có toast sau bất kỳ hành động nào → cùng gốc với finding IA04-04 trên C1/C2.
