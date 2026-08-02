@@ -1,90 +1,74 @@
-# CLAUDE.md — HW02 Domain Testing on EShop
+# CLAUDE.md — HW03 GUI & Usability Testing (EMS)
 
 ## Project Context
 
-- **Course:** Software Testing — HW02 Domain Testing & Boundary Value Analysis
-- **SUT:** EShop (Vietnamese e-commerce with intentional bugs)
-- **Your 4 Features:** FR-04, FR-08, FR-15, FR-17
+This repository is **only for HW3 (GUI & Usability Testing)**.
 
----
+Do **NOT** reuse assumptions, workflows, prompts, or artifacts from HW2 unless I explicitly request it.
 
-## Input Documents (Read These First)
+### HW3 Scope
 
-### Homework Requirements
-| File | Purpose |
-|------|---------|
-| `docs/hw2-reqs/2026.HW02.Domain Testing_En.md` | Full HW02 assignment spec |
-| `docs/hw2-reqs/features-that-need-testing.md` | Your 4 assigned features |
-| `docs/general-hw-policies/___2026.Homework.Policies.md` | Submission rules and policies |
+This assignment focuses on **manual GUI testing, usability testing, and cross-platform compatibility testing** on the EMS (Event Management System).
 
-### System Under Test
-| File | Purpose |
-|------|---------|
-| `README.md` | Feature specifications (FR-01 to FR-20) in Vietnamese |
-| `api_specification.md` | Backend API details and validation rules |
-| `setup_guide.md` | How to run the system manually |
-| `DOCKER_README.md` | How to run via Docker |
+There is **no implementation task** and **no source-code analysis** involved.
 
-### AI Declaration Templates (fill these in as you work)
-| File | Purpose |
-|------|---------|
-| `out/ai-declaration/02-audit/[AI-02]...md` | AI Audit Report — log every AI interaction here |
-| `out/ai-declaration/03-disclosure-form/[AI-03]...md` | AI Disclosure Form — declare tools used |
-| `out/ai-declaration/05-privacy-checklist/[AI-05]...md` | Pre-submission checklist — run before submitting |
+The existing `eshop` source code in this repository is **not** the System Under Test (SUT). It only exists because I reused the repository structure. Ignore it completely unless I explicitly mention otherwise.
 
----
+The actual requirements are located at:
 
-## Output Documents (Write These During Homework)
-
-### Root outputs
-| File | Purpose |
-|------|---------|
-| `out/README.md` | Self-assessment table + test summary report |
-| `out/ai-critique.md` | AI Critique (200–300 words) |
-| `out/git_commit_log.txt` | Git commit log — populate with `git log --oneline` |
-
-### FR-04: Personal Profile Management
-| File | Purpose |
-|------|---------|
-| `out/reports/FR-04-personal-profile/domain-testing/report.md` | Domain analysis and test cases |
-| `out/reports/FR-04-personal-profile/boundary-value-analysis/report.md` | BVA test cases |
-| `out/reports/FR-04-personal-profile/bug-reports/report.md` | Bugs found with GitHub issue links |
-
-### FR-08: Checkout
-| File | Purpose |
-|------|---------|
-| `out/reports/FR-08-checkout/domain-testing/report.md` | Domain analysis and test cases |
-| `out/reports/FR-08-checkout/boundary-value-analysis/report.md` | BVA test cases |
-| `out/reports/FR-08-checkout/bug-reports/report.md` | Bugs found with GitHub issue links |
-
-### FR-15: Product Management CRUD
-| File | Purpose |
-|------|---------|
-| `out/reports/FR-15-product-crud/domain-testing/report.md` | Domain analysis and test cases |
-| `out/reports/FR-15-product-crud/boundary-value-analysis/report.md` | BVA test cases |
-| `out/reports/FR-15-product-crud/bug-reports/report.md` | Bugs found with GitHub issue links |
-
-### FR-17: Coupon Management CRUD
-| File | Purpose |
-|------|---------|
-| `out/reports/FR-17-coupon-crud/domain-testing/report.md` | Domain analysis and test cases |
-| `out/reports/FR-17-coupon-crud/boundary-value-analysis/report.md` | BVA test cases |
-| `out/reports/FR-17-coupon-crud/bug-reports/report.md` | Bugs found with GitHub issue links |
-
----
-
-## Running the System
-
-```bash
-# Docker (recommended)
-docker-compose up --build
-
-# Manual
-cd backend && npm install && node database.js && node server.js
-cd frontend-web && npm install && npm run dev        # http://localhost:5173
-cd frontend-admin && npm install && npm run dev      # http://localhost:5174
+```
+hw3/docs/hw3-reqs/2026.HW03.GUI Usability EMS_En.md
 ```
 
-**Test Accounts:**
-- Admin: `admin@eshop.com` / `Admin123!`
-- User: `test@eshop.com` / `Test1234!`
+The shared checklist for Task 1 is located at:
+
+```
+hw3/docs/gui-checklist/Shared_GUI_Checklist.md
+```
+
+Always use these two documents as the primary source of truth.
+
+## Working Rules
+
+When helping with HW3:
+
+* Never inspect or reference the current source code unless I explicitly ask.
+* Never assume this project requires coding, implementation, debugging, or software changes.
+* Never confuse HW3 with HW2.
+* Do not generate implementation plans or engineering tasks.
+* Treat the EMS web application as an external System Under Test (SUT) that is tested manually through its UI.
+
+Instead, focus on:
+
+* GUI Checklist execution
+* GUI heuristic evaluation
+* Usability testing
+* User-testing design
+* Bug reporting
+* Cross-browser / cross-platform testing
+* Test evidence organization
+* AI Audit Report
+* AI Critique
+* Agent Skill design
+* Report generation
+
+## Priority of Context
+
+Whenever there is conflicting information:
+
+1. The current chat instructions.
+2. `hw3/docs/hw3-reqs/2026.HW03.GUI Usability EMS_En.md`
+3. `hw3/docs/gui-checklist/Shared_GUI_Checklist.md`
+4. Everything else in the repository.
+
+Do not infer requirements from unrelated files.
+
+If you are unsure whether something belongs to HW2 or HW3, ask instead of assuming.
+
+## Important Reminder
+
+The repository structure is reused from a previous assignment.
+
+Do **not** interpret the presence of `eshop`, existing source code, previous prompts, implementation documents, or engineering artifacts as relevant to HW3.
+
+Assume they are unrelated unless I explicitly tell you otherwise.
