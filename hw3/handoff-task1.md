@@ -35,14 +35,45 @@ Thực thi **Task 1B** của HW03 (GUI & Usability Testing) **end-to-end**, bằ
 | Được thao tác đổi dữ liệu không? | **Được** — Save, Block, Export, tạo user |
 | Ưu tiên | **Tốc độ**. Chấp nhận không chính xác 100% |
 | Tạo user test? | **Được**, sinh viên yêu cầu trực tiếp |
+| Ai viết AI Audit? | **Agent tự viết**, từ chính phiên làm việc này. Sinh viên không ghi gì cả |
+| Mức tự chủ | **Tối đa.** Chỉ dừng hỏi ở đúng những stop point ở §5. Mọi thứ khác tự quyết và làm tiếp |
 
-## 5. Ba ranh giới KHÔNG được vượt
+## 5. Tự chủ tối đa — chỉ dừng ở 3 chỗ
 
-Đây không phải sở thích, mà là tính đúng đắn của dữ liệu:
+Sinh viên nói rõ: *"các stop point thật sự cần tôi thì mới kêu tôi làm. Không thì bạn làm hết."*
+→ **Không hỏi xác nhận cho việc bình thường.** Không xin phép trước mỗi màn hình. Không báo cáo tiến độ giữa chừng trừ khi có sự cố. Tự quyết mọi lựa chọn thông thường và ghi lại quyết định vào AI Audit.
 
-1. **Không bịa kết quả.** Item nào không quan sát được thật thì để trống + đánh dấu `[CẦN SINH VIÊN]`, không đoán ra verdict.
-2. **AI Audit ghi đúng sự thật** là AI chạy execution. Không khai là sinh viên tự làm.
-3. **Không tự submit Google Form.** §7 yêu cầu email sinh viên `MSSV@....edu.vn` — đó là chữ ký trách nhiệm. Chuẩn bị sẵn nội dung, sinh viên bấm gửi.
+**Ba chỗ bắt buộc dừng — vì agent không làm được về mặt vật lý:**
+
+| # | Stop point | Vì sao | Nói gì với sinh viên |
+| --- | --- | --- | --- |
+| 1 | **IA01-07 (Slow 3G)** và **IA04-11 (Offline)** | Cần bật throttling trong DevTools, extension không chạm được | Đưa hướng dẫn từng click, gom cả 2 item thành **một** lần nhờ ở cuối, không ngắt giữa chừng |
+| 2 | **Submit Google Form** | Cần đăng nhập bằng email sinh viên `MSSV@....edu.vn` — agent không có tài khoản đó | Chuẩn bị sẵn nội dung từng finding ở dạng copy-paste được, sinh viên chỉ dán và bấm gửi |
+| 3 | **SUT chết / mất login / permission bị chặn** | Không tự khắc phục được | Báo ngay, nêu rõ chặn ở đâu |
+
+**Ngoài 3 chỗ đó: không dừng.** Gặp lựa chọn mơ hồ → chọn phương án hợp lý nhất, ghi lý do vào Notes hoặc AI Audit, đi tiếp.
+
+### Một ranh giới duy nhất giữ nguyên
+
+**Không viết verdict cho item chưa thực sự quan sát.** Đây không phải chuyện tuân thủ quy định — một bảng kết quả có dòng bịa thì cả bảng mất giá trị, kể cả những dòng thật. Item không chạy được → để trống, đánh dấu `[CẦN SINH VIÊN]` hoặc `[KHÔNG QUAN SÁT ĐƯỢC — lý do]`. Mọi thứ khác agent tự làm hết.
+
+## 5b. AI Audit — agent tự viết
+
+Ghi vào `hw3/work/ai-audit.md`, theo form `[AI-02]` của khoa đã dựng sẵn trong file đó (6 mục).
+
+**Cách làm:** viết **trong lúc chạy**, không dồn cuối. Mỗi artifact tạo ra = một dòng ở Mục 3:
+
+| Cột | Điền gì |
+| --- | --- |
+| (1) Prompt + Tool | Tool (Claude Code + claude-in-chrome), ngày giờ thật, bước đang làm, và **nội dung yêu cầu nguyên văn** |
+| (2) AI Output | Kết quả agent tạo ra — tóm tắt trung thực là đủ, trỏ tới file/ảnh cụ thể |
+| (3) Verdict | `VALID` / `INCOMPLETE` / `INVALID` — theo đánh giá thật của chính agent về output của mình |
+| (4) Reasoning | Trích **đề bài §**, **slide S13 p.**, **Nielsen H / Norman P / Shneiderman R**, hoặc **WCAG SC**. Không trích source code EMS — không có |
+| (5) Student Fix | Nếu sinh viên không sửa gì thì ghi đúng vậy: *"không có chỉnh sửa từ sinh viên; agent tự đánh giá và tự sửa ở bước X"* |
+
+Mục 4 (Summary of AI Accuracy) và Mục 5 (Conclusion 80–150 từ) điền ở cuối, từ số liệu thật của Mục 3.
+
+**Cũng viết luôn `hw3/work/ai-critique.md`** (200–300 từ, 3 đoạn). Nguyên liệu lấy từ chính phiên chạy: chỗ nào agent chấm sai rồi tự phát hiện, chỗ nào dự đoán N/A lệch với thực tế, chỗ nào phải đổi cách làm giữa chừng. Trong file đó đã có sẵn 2 ứng viên (A và B) từ phiên trước nếu phiên này không sinh ra chuyện nào đủ rõ.
 
 ## 6. Hai item KHÔNG tự động hoá được
 
