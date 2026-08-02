@@ -1,0 +1,41 @@
+EVIDENCE — IA04-13 (C4): contents of the exported file vs what was on screen
+Captured 2026-08-02 by Nguyen Bao Duy (23127179), Group 09
+SUT: https://prod-dev.ems-fitus.cloud/dashboard/admin/users
+Downloaded file: users-export-1785667505695.xlsx  (14339 bytes)
+Read with Python zipfile + XML parsing (not via Excel), so both raw values and cell formats are visible.
+
+=== SCREEN STATE WHEN EXPORT WAS CLICKED ===
+  search filter      : "abc"
+  pagination label   : 1-1 of 1 results
+  rows on screen     : 1  (test abc / abcdefabc@gmail.com)
+  on-screen columns  : USER | Role | MEMBER CODE | Status | CREATED | UPDATED | ACTIONS
+
+=== FILE STRUCTURE ===
+  total rows in sheet : 108
+  row 1 (title)       : ['USER REPORT']
+  row 2 (metadata)    : ['Export date: 8/2/2026 | Exporter: Admin Tôi là']
+  row 3 (header)      : ['Last Name', 'First Name', 'Email', 'Phone', 'Card Code', 'Role', 'Status', 'Created At']
+  DATA ROWS           : 105   <-- the whole dataset; the screen showed 1 row
+
+=== COLUMN COMPARISON ===
+  file header : Last Name | First Name | Email | Phone | Card Code | Role | Status | Created At
+  screen      : USER (name+email) | Role | MEMBER CODE | Status | CREATED | UPDATED
+  -> UPDATED column is ABSENT from the file
+  -> MEMBER CODE is renamed 'Card Code' in the file
+  -> Phone is present in the file but not on screen (extra, not a defect)
+
+=== FIRST 3 DATA ROWS ===
+  ['BÙI QUANG', 'SƠN', '23127468@student.hcmus.edu.vn', '', '23127468', 'Student', 'Hoạt động', '46236.42448041667']
+  ['LÝ QUỐC', 'THẠNH', '23127262@student.hcmus.edu.vn', '', '23127262', 'Student', 'Hoạt động', '46236.38664619213']
+  ['Gia', 'Bảo', 'lgbao23@clc.fitus.edu.vn', '', 'G23328295', 'Guest', 'Hoạt động', '46236.32938732639']
+
+  Note the Status values are Vietnamese ('Hoat dong') while the UI is entirely English ('Active').
+
+=== WHERE THE FILTERED USER ENDED UP ===
+  sheet rows containing 'abcdefabc' : [38]  (i.e. row 36 of 105 data rows)
+
+=== DATE FORMAT CHECK (this one PASSES — recorded so it is not misreported) ===
+  raw value in Created At : 46236.42448041667  (Excel serial number)
+  numFmt defined in xl/styles.xml : ['<numFmt numFmtId="164" formatCode="DD/MM/YYYY HH:MM"/>']
+  -> the cell carries numFmtId 164 = 'DD/MM/YYYY HH:MM', so Excel renders it as a proper date/time.
+  -> NOT reported as a defect.
