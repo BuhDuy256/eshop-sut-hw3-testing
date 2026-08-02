@@ -72,7 +72,7 @@ Lúc 20:44, để chứng minh IA02-13 (thoát dialog không cảnh báo), agent
 
 ---
 
-## Bản nháp (English — 268 từ)
+## Bản nháp (English — 269 từ)
 
 > **Ghi chú:** đây là bản nháp do agent soạn từ log của chính phiên chạy. **Sinh viên nên đọc lại và viết lại bằng lời của mình** trước khi nộp — §11 hỏi về trải nghiệm hợp tác với AI, và một đoạn văn viết bằng giọng của chính người nộp sẽ thuyết phục hơn.
 
@@ -82,4 +82,4 @@ What that changed in how I work: every measurement that depends on an asynchrono
 
 The principle I take from this: **an AI reads state, a human reads process.** The agent captures the DOM at an instant and trusts what it sees; a person watching the same screen sees it still moving and knows to wait. For asynchronous interfaces, being able to measure a number is not the same as the number having settled.
 
-**Số từ:** **268** / 200–300 ✓
+**Số từ:** **269** / 200–300 ✓
