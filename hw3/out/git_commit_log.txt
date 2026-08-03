@@ -1,0 +1,33 @@
+HW03 — Git Commit Log
+Generated directly from `git log` on branch `main`. No message below is
+invented — this is the real, unedited commit history of this repository.
+
+2026-08-02  218cf5e  Initial commit for HW3
+2026-08-02  77c9f22  prepare
+2026-08-02  f94072e  Step 2: shared GUI checklist (frozen, v1.9)
+2026-08-02  c3b3117  Step 1: explore C1-C4 and record widget inventory
+2026-08-02  9133ef7  Step 3: pilot checklist execution on C1
+2026-08-02  9b6802e  Step 5.1: checklist execution on C2
+2026-08-02  1b8db07  Step 5.2: checklist execution on C3
+2026-08-02  ae6756c  Step 5.3: checklist execution on C4
+2026-08-02  97cfe2b  Step 4: bug reports for Task 1B findings
+2026-08-02  5c49131  Step 6: Task 1 summary report
+2026-08-02  306ec61  Step 10: AI audit and AI critique written during the session
+2026-08-02  568a465  Update blockers: B-06 and B-12 resolved, B-13 opened
+2026-08-03  dad415e  Record student-run DevTools result: IA01-07 Pass (skeleton observed)
+2026-08-03  5759c03  IA04-11 scored Fail on C2 from student offline run; add F-021
+2026-08-03  5523966  IA04-11 list-load half: N/A - browser intercepts before EMS loads
+2026-08-03  64bd47c  finish task 1 partially
+2026-08-03  0c8d373  finish task 1
+
+--- Status note (not part of git history — added for transparency) ---
+
+All 17 commits above are Task 1B commits. Task 3 (cross-platform planning,
+execution, evidence, findings reconciliation, the two Agent Skills, and this
+round of `hw3/out/` finalization) exists as real working-tree content under
+`hw3/work/task-3-cross-platform/`, `.claude/skills/`, and
+`hw3/out/reports/task-3-cross-platform/`, but has **not yet been committed**
+to git as of this file's generation (2026-08-03). This log will be
+regenerated once Task 3 work is committed — no placeholder or invented
+commit entries have been added here to make the list look more complete
+than it actually is.

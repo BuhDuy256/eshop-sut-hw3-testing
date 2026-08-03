@@ -941,3 +941,53 @@ Bắt lỗi mạng ở tầng gọi API và thay bằng thông báo theo ngữ c
 ➤ Điền: N/A - Báo cáo lỗi Task 1B
 
 => BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 19 (Task 3) ================
+Bug: F-022 — Sidebar không responsive trên phone; nội dung tràn viewport kể cả sau khi thu gọn sidebar
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-022 — Sidebar không responsive trên phone; nội dung tràn viewport kể cả sau khi thu gọn sidebar
+- Screen: C1 Users list (Task 3 — cross-platform, môi trường Safari/iOS/iPhone thật)
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management** (`/dashboard/admin/users`) trên Safari, iPhone thật (viewport 828×1792)
+2. Quan sát trạng thái mặc định ngay sau khi trang load
+3. Tìm và bấm nút thu gọn sidebar (hamburger, góc trên trái)
+4. Quan sát lại nội dung chính (tiêu đề, search, Export, bảng)
+
+[EXPECTED BEHAVIOR]
+Theo Nielsen H4 (Consistency and Standards) áp dụng cho responsive layout: trên viewport phone, sidebar phải tự thu gọn/ẩn hợp lý và nội dung chính phải co giãn vừa khít chiều rộng màn hình — không đòi hỏi cuộn ngang để thấy các thành phần cơ bản (tiêu đề, nút hành động, bảng dữ liệu).
+
+[ACTUAL RESULT]
+- **Trạng thái mặc định:** sidebar mở toàn bộ (đủ label chữ), chiếm hơn nửa màn hình, che gần hết nội dung chính — chỉ còn 1 dải hẹp bên phải hiển thị được (tiêu đề, search, Export, cột ACTIONS đều bị cắt).
+- **Sau khi thu gọn sidebar về dạng icon-only** (thao tác hợp lý nhất một người dùng thật sẽ làm): sidebar hẹp lại nhưng **nội dung chính vẫn tràn khỏi mép phải viewport** — tiêu đề "Users Management" bị cắt chữ, nút Export bị cắt, vẫn phải cuộn ngang mới xem hết bảng.
+
+Đã thử cả 2 trạng thái sidebar (mở/thu gọn), cả 2 đều không cho phép xem đầy đủ nội dung mà không cuộn ngang — đây không phải lỗi thao tác, mà là hành vi mặc định của trang trên viewport phone.
+
+[SUGGESTED FIX]
+Thêm breakpoint responsive cho viewport ≤ ~430–768px: (a) sidebar mặc định thu gọn/ẩn dạng drawer trên phone; (b) nội dung chính dùng layout co giãn (flex/grid với max-width theo viewport) thay vì giữ nguyên độ rộng thiết kế cho desktop.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/T3_C1_RunF_iOS_Safari_Phone.png (mặc định, sidebar mở) · evidence/C1/T3_C1_RunF_iOS_Safari_Phone_supp1.png (sau cuộn ngang) · evidence/C1/T3_C1_RunF_iOS_Safari_Phone_supp2.png (sau thu gọn sidebar, vẫn tràn)
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 3 (Cross-Browser/Cross-Platform)
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 3 (Cross-Browser/Cross-Platform)
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 3 (Cross-Browser/Cross-Platform)
+
+=> BẤM NÚT SUBMIT.

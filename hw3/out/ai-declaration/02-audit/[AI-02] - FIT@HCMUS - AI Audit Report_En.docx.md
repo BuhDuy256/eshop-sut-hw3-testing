@@ -16,7 +16,7 @@
 | **Student ID:** | 23127179 |
 | **Class / Cohort:** | Group 09 — 23KTPM2 |
 | **Assignment ID:** | HW#03 — GUI & Usability Testing (EMS) |
-| **Assignment date:** | 2026-08-02 (tôi giao Task 1B cho AI thực thi) · 2026-08-03 (tôi tự đo 2 item DevTools + vòng review lần 1) · 2026-08-03/04 (vòng review lần 2: tôi tự kiểm tay và bác bỏ 3 finding, quyết định đánh số lại, tự submit Form) |
+| **Assignment date:** | 2026-08-02 (tôi giao Task 1B cho AI thực thi) · 2026-08-03 (tôi tự đo 2 item DevTools + vòng review lần 1) · 2026-08-03/04 (vòng review lần 2: tôi tự kiểm tay và bác bỏ 3 finding, quyết định đánh số lại, tự submit Form) · 2026-08-03 (Task 3 — cross-platform planning, pilot, execution, đối soát finding, thiết kế và validate 2 Agent Skill, demo video) |
 | **AI tool(s) used:** | **Claude Opus 5 / Sonnet 5** chạy trong **Claude Code**, điều khiển trình duyệt qua extension **Claude in Chrome** (`claude-in-chrome` MCP) |
 | **Did you use AI?** | [x] Yes  [ ] No |
 
@@ -105,31 +105,65 @@ Checklist đã được nhóm chốt trước phiên này (group deliverable, đ
 | **Artifact #23 — Tôi tự submit Google Form** | | | | |
 | Tool: **không dùng AI** — tôi tự đăng nhập bằng email MSSV và submit<br>Time: 2026-08-04 | Tôi dán 18/18 finding vào Form, mỗi finding một lần submit, nội dung lấy nguyên văn từ khối tương ứng trong `bug-reports.md` mà AI đã chuẩn bị sẵn. | **VALID** | §7 yêu cầu nộp bằng chính tài khoản `MSSV@....edu.vn` của tôi — đây là hành động AI không thể và không được làm thay. | Tôi tự thực hiện toàn bộ 18 lần submit, sau đó báo lại kết quả cho AI để cập nhật cột *Form timestamp* (18/18, `2026-08-04`) trong `findings-log.md`, trường `Form submitted` trong `bug-reports.md`, và tôi yêu cầu quét xoá mọi câu "chưa submit"/"0/18" còn sót trong `README.md`. |
 
+### 3.4 — Task 3 (Cross-Platform) và §8 Agent Skills (2026-08-03)
+
+Vòng này khác Task 1B ở một điểm: tôi trực tiếp điều phối phần lớn quyết định
+kỹ thuật trong hội thoại (không chỉ review lại sau), nên bảng dưới đây giữ
+lại đúng các tương tác thể hiện tôi phản biện hoặc sửa AI, không liệt kê các
+bước vận hành thuần túy (mở file, click, "continue", "approve", chỉnh toạ độ
+click, foreground cửa sổ...) — những bước đó là thao tác kỹ thuật cần thiết
+nhưng không phản ánh năng lực đánh giá, nên không đưa vào đây theo đúng mục
+đích của Mục 3.
+
+| (1) Prompt + Tool | (2) AI Output | (3) Verdict | (4) Reasoning (nguồn) | (5) Tôi đã kiểm tra / quyết định gì |
+|---|---|---|---|---|
+| **Artifact #24 — Kế hoạch v1 giả định cloud/thiết bị sẵn có; pilot thật lộ ra blocker, phải đổi chiến lược** | | | | |
+| Tool: Claude<br>Time: 2026-08-03<br>Tôi yêu cầu lập kế hoạch coverage cho 3 OS × 5 browser × 3 device class theo đúng §6 | Bản kế hoạch đầu (v1, 24 dòng/6 run) coi cả 6 cấu hình — kể cả macOS desktop và iOS tablet qua BrowserStack cloud — là chạy được như nhau, không phân biệt cấu hình nào phụ thuộc hạ tầng bên thứ ba chưa được kiểm chứng. | **INCOMPLETE** | §12 chỉ chấp nhận bằng chứng đến từ thực thi thật — một kế hoạch coi cloud session là "chắc chạy được" mà chưa thử là một giả định chưa kiểm chứng, không phải bằng chứng. | Tôi yêu cầu chạy pilot thật (Run D) trước khi tin bất kỳ ô cloud nào là khả thi. Pilot lộ ra BrowserStack Free Trial giới hạn cứng 1 phút/phiên — không đủ login + điều hướng + capture. Tôi từ chối phương án giả lập (DevTools responsive mode gắn nhãn "tablet thật") và yêu cầu đổi sang Coverage Fallback Strategy: 20 cell Executed thật + 8 cell Blocked có bằng chứng, thay vì một ma trận 24 ô trông "đủ" nhưng có phần chưa từng chạy thật. |
+| **Artifact #25 — No-DOM Policy, thứ tự xoá disposable user, và cổng phê duyệt trước hành động không thể hoàn tác** | | | | |
+| Tool: Claude + claude-in-chrome<br>Time: 2026-08-03<br>Tôi yêu cầu mọi thao tác trên EMS chỉ qua UI nhìn thấy được, và yêu cầu giữ nguyên user dùng chung `test abc` cho tới khi tất cả 5 run dùng xong | AI thực thi đúng: không dùng DOM/selector để bypass UI khi thao tác EMS (chỉ dùng DOM-based tool trên panel BrowserStack, không phải trên EMS); hoãn "Full Confirm" (xoá thật) của C3 sang một bước riêng sau cùng; và dừng lại xin xác nhận rõ ràng ("Confirm") trước khi thực sự bấm nút xoá. | **VALID** | Xoá user là hành động không thể hoàn tác; §12 và nguyên tắc an toàn chung của tôi đòi con người phải là người quyết định thời điểm và có xác nhận rõ ràng, không phải AI tự quyết. | Tôi xác nhận rõ ràng bằng từ "Confirm" đúng thời điểm AI hỏi, sau khi cả 5 run đã dùng xong `test abc` ở phạm vi Dialog-only. Tôi kiểm lại rằng AI không tự ý bấm Confirm sớm hơn ở bất kỳ run nào trước đó. |
+| **Artifact #26 — Tách `hw3/work/` và `hw3/out/`; pipeline raw → candidate → final bị bỏ sót một promotion, Agent Skill tự phát hiện** | | | | |
+| Tool: Claude<br>Time: 2026-08-03<br>Tôi yêu cầu mọi evidence phải qua đúng pipeline raw → annotated candidate → human review → final, và `hw3/out/` chỉ chứa bản đã duyệt | Khi chạy `compat-run-planner` lần đầu để đối soát coverage, skill phát hiện ảnh evidence chính (primary) của C1/Run A đã có bản candidate được duyệt từ trước nhưng **chưa từng được promote** sang `hw3/out/` — chỉ có bản supplementary được promote. | **INCOMPLETE** | Một cell Executed thiếu ảnh primary trong thư mục final là một khoảng trống thật trong bằng chứng, dù verdict Pass của cell đó không sai. | Tôi yêu cầu không chụp ảnh mới để lấp chỗ trống (sẽ là dữ liệu không đồng nhất về thời điểm) mà phải promote đúng bản candidate đã được duyệt trước đó. Sau khi sửa, tôi yêu cầu chạy lại skill để xác nhận đủ 20/20 ảnh primary, và ghi lại sự cố này minh bạch trong `skill-validation.md` thay vì âm thầm sửa rồi báo "không có vấn đề gì". |
+| **Artifact #27 — Actor model 3 trạng thái, ghi đúng theo run log, không suy diễn** | | | | |
+| Tool: Claude<br>Time: 2026-08-03<br>Tôi yêu cầu mỗi cell phải ghi rõ Planned và Actual Execution Mode (`AI-executed` / `AI-executed with human checkpoints` / `Human-executed with AI guidance`) | AI ghi đúng: Run A = AI-executed with human checkpoints (Claude trực tiếp điều khiển Chrome); Run B/C/G/F = Human-executed with AI guidance (tôi tự thao tác, AI hướng dẫn từng bước). Không cell nào bị gán mode mà run log không nêu rõ. | **VALID** | Actor model chỉ có giá trị nếu phản ánh đúng ai thực sự bấm chuột — gán sai (ví dụ ghi "AI-executed" cho một run tôi tự tay làm) sẽ khai khống mức độ tự động hoá. | Tôi đối chiếu cả 2 Agent Skill: cả hai đều từ chối tự điền Actual Execution Mode cho bất kỳ cell nào nếu run log tương ứng không nói rõ — đây là một guardrail tôi yêu cầu đưa thẳng vào `SKILL.md` (không phải điều khoản mềm), và xác nhận nó hoạt động đúng khi chạy thật trên dữ liệu Task 3. |
+| **Artifact #28 — Lỗi đếm "24 Executed / 23 Pass" bị tôi phát hiện và yêu cầu sửa thành 20/19/1/8** | | | | |
+| Tool: Claude<br>Time: 2026-08-03<br>Tôi yêu cầu Claude tóm tắt lại kết quả Task 3 giữa phiên | Bản tóm tắt của AI ghi "toàn bộ 24 cell Executed... 23 Pass... 1 Fail... 8 cell Blocked" — con số nội bộ mâu thuẫn (24 + 8 ≠ 28, và thiết kế manifest ngay từ đầu luôn là 20 Executed + 8 Blocked = 28). | **INVALID** | Manifest gốc do chính AI thiết kế đã luôn là 20 Executed/8 Blocked — con số 24/23 là lỗi báo cáo phát sinh giữa chừng, không phải một cách đếm khác hợp lệ. | Tôi yêu cầu Claude tìm và sửa **mọi** chỗ có số sai, không chỉ câu tôi vừa đọc. AI grep toàn bộ file Task 3, xác nhận lỗi thật chỉ tồn tại ở một dòng trong `run-log-A.md` (các chỗ khác nói "24" là so sánh lịch sử hợp lệ với bản kế hoạch v1), sửa lại thành 20/19/1/8, và tôi yêu cầu số này trở thành "nguồn sự thật" cố định được trích dẫn nguyên văn trong mọi artifact Task 3 sau đó (bao gồm cả 2 Agent Skill). |
+| **Artifact #29 — Đối soát F-019/F-020/F-021 và ngày submit Task 1B: AI kết luận mạnh hơn bằng chứng, tôi yêu cầu viết lại** | | | | |
+| Tool: Claude<br>Time: 2026-08-03<br>Tôi yêu cầu AI xác minh F-019/F-020/F-021 (ID cũ trước khi đánh số lại) có bị bỏ sót không, và kiểm lại ngày `2026-08-04` cho 18 finding Task 1B | Lần đầu, AI viết: F-019/F-020 "đã submit dưới một ID mới nào đó", "không có nội dung nào bị thiếu" — chỉ dựa trên phép tính tổng số (21 cũ − 3 loại bỏ = 18 giữ lại), không có bằng chứng trực tiếp nào xác định 2 ID đó là gì. | **INCOMPLETE** | Một phép tính về *tổng số lượng* không chứng minh được *danh tính* của một dòng cụ thể — đây là kết luận mạnh hơn bằng chứng cho phép, đúng loại lỗi §12 muốn ngăn (suy diễn thay cho bằng chứng). | Tôi bác bỏ kết luận đó, yêu cầu viết lại thành "unresolved historical IDs" — không suy đoán ánh xạ. Tôi cũng yêu cầu tách rõ ngày `2026-08-04` (18 finding Task 1B) thành "ghi nhận theo artifact Task 1 đã đóng băng, chưa re-verify độc lập trong phiên này" thay vì khẳng định đã xác minh — vì phiên Task 3 này chỉ đọc lại các artifact cũ, không tự tay kiểm chứng lại việc submit đó. F-021(cũ)→F-018 vẫn giữ nguyên vì có bằng chứng trực tiếp (git commit + evidence path trùng khớp) — tôi chỉ bác bỏ phần *không* có bằng chứng, không bác bỏ cả đôi. |
+| **Artifact #30 — Thiết kế và dry-run validate 2 Agent Skill trên dữ liệu Task 3 thật** | | | | |
+| Tool: Claude, qua skill `generate_skill`<br>Time: 2026-08-03<br>Tôi yêu cầu 2 skill: một skill đối soát coverage (`compat-run-planner`), một skill soạn report draft (`compat-evidence-report`), cả hai phải rút ra từ quy trình thật đã chạy, không phải quy trình lý tưởng | AI viết 2 `SKILL.md` với guardrail tường minh (không tính Blocked thành Executed, không tự đổi verdict, không tự promote sang `hw3/out/`, không suy đoán F-019/F-020...), rồi tự chạy thật trên `compatibility-manifest-working.md` + evidence + run log thật, đối chiếu output với nguồn sự thật `20/19/1/8`. | **VALID** (sau khi sửa 1 gap ở Artifact #26) | §8 yêu cầu skill phải qua pilot thật trước khi được coi là hoàn thành — chạy trên dữ liệu Task 3 thật, không phải dữ liệu mẫu, là cách duy nhất chứng minh guardrail hoạt động chứ không chỉ đọc hay. | Tôi yêu cầu chạy skill 2 lần trên dữ liệu thật (một lần dry run, một lần trong chính video demo) và đối chiếu cả hai lần đều ra đúng 20/19/1/8, không có sai lệch phát sinh giữa hai lần chạy. Tôi chỉ đồng ý promote `SKILL.md` sang `hw3/out/agent-skills/` sau khi `skill-validation.md` ghi PASS cho cả hai skill. |
+
 ---
 
 ## 4. Summary of AI Accuracy
 
 | Metric | Count | Percentage |
 |---|---|---|
-| **Total AI-generated artifacts audited** | **23** | 100 % |
-| **VALID (correct, accepted as-is)** | **11** | 47,8 % |
-| **INVALID (wrong; rejected)** | **6** | 26,1 % |
-| **INCOMPLETE (acceptable after edits)** | **6** | 26,1 % |
+| **Total AI-generated artifacts audited** | **30** | 100 % |
+| **VALID (correct, accepted as-is)** | **14** | 46,7 % |
+| **INVALID (wrong; rejected)** | **7** | 23,3 % |
+| **INCOMPLETE (acceptable after edits)** | **9** | 30,0 % |
 
 **Phân tách theo task:**
 
 | Task | Total | VALID | INVALID | INCOMPLETE |
 |---|---|---|---|---|
-| Task 1 — Checklist execution, bug report, và 2 vòng tôi tự review lại | **23** | 11 | 6 | 6 |
-| Task 2 — User testing design & analysis | 0 | — | — | — |
-| Task 3 — Cross-platform | 0 | — | — | — |
-| §8 — Agent Skills | 0 | — | — | — |
+| Task 1 — Checklist execution, bug report, và 2 vòng tôi tự review lại | 23 | 11 | 6 | 6 |
+| Task 2 — User testing design & analysis | **0 — chưa thực hiện** | — | — | — |
+| Task 3 — Cross-platform | **5** (Artifact #24, #25, #27, #28, #29) | 2 | 1 | 2 |
+| §8 — Agent Skills | **2** (Artifact #26, #30) | 1 | 0 | 1 |
+
+**Lưu ý:** bảng này chưa đầy đủ cho toàn bộ assignment — Task 2 (User
+Testing) chưa thực hiện tại thời điểm ghi nhận này, nên tổng 30 artifact chỉ
+phản ánh Task 1 + Task 3 + Agent Skills. Bảng sẽ được bổ sung dòng Task 2
+trước khi tài liệu này được coi là sẵn sàng cho Final Submission
+Integration.
 
 **Đọc bảng này thế nào — dưới góc nhìn của người review, không phải của AI:**
 
 1. **Tỉ lệ VALID tăng từ 37,5 % (vòng 1, 16 artifact: #1–16) lên 71,4 % (vòng 2, 7 artifact: #17–23)** — không phải vì AI tự nhiên giỏi hơn, mà vì tôi giao việc rõ ràng hơn ở vòng 2: tôi đã tự kiểm chứng trước rồi mới yêu cầu AI cập nhật, thay vì để AI tự phán đoán rồi tôi mới soát lại sau. Con số này phản ánh cách tôi làm việc thay đổi, không phải AI thay đổi.
 2. **6 artifact tôi đánh dấu INVALID trải trên cả hai vòng, nhưng tôi bác bỏ chúng vì hai lý do khác nhau.** Ở vòng 1 (Artifact #6, #8, #9, #10, #16), tôi hoặc AI (trước khi đưa cho tôi) bác bỏ vì lỗi đo đạc — đọc DOM quá sớm, tự nhiễm phép đo, hướng dẫn kiểm thử sai nguyên tắc. Ở vòng 2 (Artifact #20), tôi yêu cầu một vòng tự-đối-chiếu và nó lộ ra lỗi *truy vết phụ thuộc* — sửa một chỗ nhưng chưa kiểm hết chỗ khác. Tôi coi loại lỗi thứ hai nguy hiểm hơn vì nó không tự lộ ra, chỉ lộ khi có người chủ động đòi đối chiếu chéo — đây là lý do tôi giữ yêu cầu "tự đối chiếu sau mỗi đợt sửa lớn" như một bước bắt buộc, không phải tuỳ chọn.
 3. **3 finding tôi tự tay bác bỏ hoàn toàn** (nút ngôn ngữ, focus, toast — Artifact #17–19) không phải vì AI đo sai kỹ thuật, mà vì tôi tự thao tác lại trên SUT thật và thấy kết quả khác với những gì đã ghi. Đây chính là lý do tôi coi §2 (human review) không phải một thủ tục hình thức: AI có thể tự tin báo cáo lại một kết quả đo được, nhưng không có cách nào tự biết liệu phép đo đó có còn đúng tại thời điểm tôi nộp bài hay không — chỉ có tôi, người trực tiếp thao tác lại, mới trả lời được câu đó.
+4. **Ở Task 3, 3 loại lỗi khác nhau xuất hiện, và tôi phải xử lý mỗi loại khác nhau.** Artifact #28 (đếm sai 24/23) là lỗi báo cáo — sửa bằng cách grep lại toàn repo, không cần suy luận gì thêm. Artifact #26 (thiếu 1 ảnh promotion) là lỗi quy trình — chỉ lộ ra khi tôi bắt một Agent Skill tự đối chiếu manifest với đĩa thật, không lộ ra nếu chỉ đọc lại văn bản. Artifact #29 (đối soát F-019/F-020) là lỗi suy luận — AI trình bày một phép tính đúng (21−3=18) như thể nó chứng minh được một điều nó không chứng minh được (danh tính của 2 ID cụ thể). Loại thứ ba nguy hiểm nhất vì kết luận *nghe có vẻ hợp lý* và có số liệu đi kèm — tôi phải tự hỏi "phép tính này chứng minh được đúng cái gì" thay vì chấp nhận vì nó có vẻ chặt chẽ.
 
 ---
 
@@ -143,11 +177,44 @@ Có một loại quyết định tôi giữ hoàn toàn cho mình, không giao c
 
 **Nguyên tắc tôi rút ra:** để AI chạy phần đo đạc và soạn thảo, nhưng bắt nó ghi lại số đo thô để tôi kiểm chứng — ràng buộc đó khiến vòng review lần 1 của tôi làm được trong một giờ thay vì phải chạy lại từ đầu. Sau mỗi chỉnh sửa lớn (như xoá/đánh số lại finding), tôi luôn đòi một vòng AI tự đối chiếu chéo toàn bộ file liên quan, không chỉ file được nêu tên trong lệnh — bài học trực tiếp từ Artifact #20. Và tôi giữ lại cho mình đúng những quyết định §12 nêu — bằng chứng thực thi, ảnh cross-platform, dữ liệu người tham gia thật — cộng thêm hai chỗ §12 không nói tới nhưng tôi thấy bắt buộc phải tự quyết: **mức severity**, và **việc tự tay kiểm chứng lại khi một hành vi UI có thể đã đổi hoặc bị AI chấm nhầm.**
 
+**Task 3 mở rộng nguyên tắc đó theo một hướng mới:** ở Task 1B, việc tôi phải kiểm là "phép đo này còn đúng không". Ở Task 3, việc tôi phải kiểm thường là "kết luận này có thực sự được chứng minh bởi đúng dữ liệu nó trích dẫn, hay chỉ là một phép tính khác nghe có vẻ liên quan" (Artifact #29), và "một quy trình nhiều bước (raw → candidate → final) có thực sự chạy hết tới bước cuối cho từng cell, hay chỉ chạy hết cho hầu hết" (Artifact #26) — loại lỗi thứ hai này chỉ lộ ra khi tôi bắt một công cụ (Agent Skill) tự đối chiếu manifest với đĩa thật, không lộ ra nếu chỉ đọc lại văn bản báo cáo. Tôi giữ nguyên tắc cũ (không tin số cộng nhẩm, luôn đếm lại trực tiếp) nhưng mở rộng thêm: **không tin một kết luận chỉ vì nó có kèm một phép tính đúng** — phép tính đúng không tự động chứng minh điều nó đang được dùng để chứng minh.
+
 ---
 
 ## 6. Mandatory Disclosure (paste verbatim)
 
 > "The Task 1B checklist execution report, bug reports, findings log and summary report were initially generated by **Claude (Claude Code + Claude in Chrome)**, which drove the browser and recorded every measurement under my direction. **I reviewed all 239 completed verdict cells and every evidence screenshot myself, in a dedicated post-execution review pass (2026-08-03), cross-checking each N/A against the widget inventory and each Fail against its screenshot and the checklist's stated Expected Behavior before accepting any of them.** In a second, later review pass (2026-08-03 to 2026-08-04), **I personally re-tested three UI behaviours the AI had scored as Fail — the EN/VI language toggle, keyboard focus on the pagination input and inside the Edit/Delete dialogs, and the success confirmation after Save/Export — directly against the live EMS. I found all three now work correctly, which contradicted the AI's original verdicts, so I rejected those verdicts and instructed the AI to update every dependent artifact.** I then required the AI to cross-check its own output against every dependent file after that change, which surfaced one thing it had missed on its own — a stale note asserting that three retired finding IDs would never be reused, which had become false the moment it renumbered the remaining findings into those same slots; I record this here rather than omit it, because it did not survive to the version I am submitting. **I take full responsibility for the decision to reject those three findings, for the decision to renumber the remaining 18 findings into a continuous `F-001`…`F-018` sequence, and for every severity rating in the final set, including the decision to keep the mislabelled-name finding (F-010) at severity level 3 rather than 4 — all product-impact judgments the AI could not make on its own.** I personally executed the two DevTools-throttling items (IA01-07 under Slow 3G and IA04-11 under Offline) by hand — the agent could not enable throttling — and that data is mine, not the agent's; the agent independently caught and rejected a data-entry mistake I made while reporting one of those results (a mislabelled item code), which I confirmed and let it correct. I personally submitted all 18 findings to the Google Form under my own student-ID email on 2026-08-04. The detailed AI Audit Report is attached as Appendix A. I confirm I did not use AI to generate any artifact listed in the prohibited category."
+
+**Task 3 (Cross-Platform) and §8 Agent Skills — added 2026-08-03:**
+
+> "For Task 3, I directed the pivot from an unverified 24-cell plan to a
+> Coverage Fallback Strategy (20 Executed / 8 Blocked) after a live pilot
+> confirmed a real BrowserStack Free Trial time limit — I refused a
+> simulated-device workaround and required the two cloud-dependent
+> configurations to be marked Blocked with evidence rather than faked.
+> I gave explicit approval before the one irreversible action in this task
+> — the real deletion of the disposable test user during the C3 Full
+> Confirm Final Validation step. I caught and required a correction of a
+> reporting error (an internally inconsistent "24 Executed / 23 Pass"
+> summary partway through the session) and required every Task 3 artifact
+> to cite the corrected 20/19/1/8 figures consistently. I rejected an
+> AI-drafted reconciliation for historical finding IDs F-019/F-020 that
+> presented a totals-only arithmetic check as if it proved the identity of
+> two specific findings, and required it be rewritten as an explicitly
+> unresolved gap instead — no id was fabricated to fill it. I directed the
+> design of two Agent Skills (`compat-run-planner`, `compat-evidence-report`)
+> from the real workflow already executed, required them to be run against
+> the actual Task 3 data (not sample data) before I would accept them as
+> validated, and one of those runs is what surfaced a real evidence-
+> promotion gap (one primary screenshot that had been reviewed but never
+> copied into the final folder) — I required it fixed by promoting the
+> already-reviewed candidate, not by capturing a new one. I take
+> responsibility for every verdict, severity, blocker classification, and
+> promotion decision recorded in the Task 3 report and compatibility
+> matrix. The demo video (https://youtu.be/GbhAEK7x8Vk) shows both skills
+> running end-to-end against these real artifacts; I provided that link
+> myself and it has not been independently reviewed by the AI in this
+> session."
 
 ### Signature
 
@@ -158,8 +225,13 @@ Có một loại quyết định tôi giữ hoàn toàn cho mình, không giao c
 | **Class / Cohort:** | Group 09 — 23KTPM2 |
 | **Course:** | CS423 / CSC13003 – Software Testing |
 | **Instructor:** | Dr. Lam Quang Vu / Dr. Tran Duy Hoang / MSc. Tran Thi Bich Hanh / MSc. Truong Phuoc Loc / MSc. Ho Tuan Thanh |
-| **Date:** | 2026-08-04 |
+| **Date:** | 2026-08-04 (Task 1B) · 2026-08-03 (Task 3 + Agent Skills addendum above) |
 | **Signature:** | Nguyễn Bảo Duy |
+
+**Trạng thái tài liệu:** bao gồm Task 1 (final) và Task 3 + Agent Skills
+(vừa bổ sung). **Task 2 (User Testing) chưa có entry nào** — tài liệu này
+chưa sẵn sàng cho Final Submission Integration cho tới khi Task 2 hoàn tất
+và có entry tương ứng ở Mục 3 và Mục 4.
 
 ---
 
