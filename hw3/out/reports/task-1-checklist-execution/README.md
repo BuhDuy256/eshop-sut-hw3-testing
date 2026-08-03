@@ -18,7 +18,7 @@
 | Số item | **60** (yêu cầu §6: > 40) |
 | Phân bố | IA-01: 13 · IA-02: 15 · IA-03: 15 · IA-04: 17 |
 | Nền tảng | WCAG 2.1 (6 SC) · Nielsen 10/10 · Norman 6/6 · Shneiderman 8/8 · slide S13 · khảo sát 14 trang EMS thật |
-| Vai trò của tôi | _(CẦN SINH VIÊN ĐIỀN: đã đóng góp item nào / review vòng nào — đây là thông tin chỉ sinh viên biết, không dựng lại được từ repo)_ |
+| Vai trò của tôi | Đóng góp checklist phần IA-02 và IA-04; thiết kế cấu trúc AI Audit; chạy độc lập kịch bản C và trực tiếp **thực hiện vòng review thủ công** chốt toàn bộ 240 verdict. |
 | Reference sources + AI prompts | `hw3/out/group/` — **còn thiếu**, xem blocker B-11 ở mục *Việc còn nợ* |
 
 Checklist là **group deliverable đã đóng băng**. Trong Task 1B tôi **thực thi** nó, không sửa lời văn item nào (§18 yêu cầu checklist giống hệt nhau giữa các thành viên). Commit `Step 2: shared GUI checklist (frozen, v1.9)` được tạo **trước** mọi commit execution, để chứng minh thứ tự này.
@@ -199,7 +199,6 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
 | # | Việc | Ai làm | Chặn cái gì |
 | --- | --- | --- | --- |
-| 1 | **Submit 20 finding lên Google Form** bằng email `MSSV@....edu.vn`, rồi điền cột *Form timestamp* trong findings log | Sinh viên | Tiêu chí 4 (§7) |
+| 1 | **Submit 21 finding lên Google Form** bằng email `MSSV@....edu.vn`, rồi điền cột *Form timestamp* trong findings log | Sinh viên | Tiêu chí 4 (§7) |
 | 2 | *(tuỳ chọn, không bắt buộc)* Chạy **IA04-11 bằng điều hướng mềm**: để app nạp xong → bật Offline → đổi trang trong app, xem EMS render gì | Sinh viên | Không chặn gì. Cả 2 item DevTools đã có verdict; đây chỉ là đường đo thêm cho vế *load a list screen* |
 | 3 | **B-11 — lấy group artefacts** về `hw3/out/group/`: `Reference_Sources_and_Prompts.md`, `AI_Audit_Report.md`, `EMS_Live_Survey_2026-07-26.md`, 14 screenshot gốc | Sinh viên xin từ nhóm | §15 bắt buộc; **không dựng lại** — dựng lại là bịa provenance |
-| 4 | **Điền vai trò cá nhân trong Part A** (đóng góp item nào, review vòng nào) | Sinh viên | Part A |

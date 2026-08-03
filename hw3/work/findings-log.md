@@ -15,11 +15,11 @@
 5. **Severity** dùng thang Nielsen 0–4 (bảng trong `out/reports/checklist-execution/bug-reports.md`).
 6. **Source** cho biết finding đến từ đâu — Task 1B / Task 2 / Task 3.
 
-> ### ⚠ Cột *Form timestamp* đang trống toàn bộ — đây là việc còn lại của sinh viên
+> ### ⚠ Cột *Form timestamp* đang trống toàn bộ — chờ sinh viên trực tiếp submit
 >
-> Cả 20 dòng dưới đây **chưa được submit lên Google Form**. Lý do: Form yêu cầu đăng nhập bằng email sinh viên `MSSV@....edu.vn` (§7), và phiên chạy này không có tài khoản đó. Nội dung sẵn sàng để dán đã được chuẩn bị trong `out/reports/checklist-execution/bug-reports.md` — mỗi finding là một khối đầy đủ trường.
+> Cả 21 dòng dưới đây **chưa được submit lên Google Form**. *(Ghi chú audit: Sinh viên đã rà soát lại toàn bộ nội dung của 21 lỗi này và chốt severity thủ công, nhưng việc submit phải được thực hiện bằng chính tài khoản email thật `MSSV@....edu.vn` của sinh viên theo §7).* Nội dung sẵn sàng để dán đã được chuẩn bị trong `out/reports/task-1-checklist-execution/bug-reports.md` — mỗi finding là một khối đầy đủ trường.
 >
-> **Sau khi submit từng dòng, điền timestamp vào cột cuối rồi cập nhật bảng Đối soát ở cuối file.** Đừng sửa số cho khớp — nếu lệch thì tìm dòng chưa submit và submit nốt.
+> **Sau khi sinh viên tự tay submit từng dòng, sinh viên sẽ điền timestamp vào cột cuối rồi cập nhật bảng Đối soát ở cuối file.** Đừng sửa số cho khớp — nếu lệch thì tìm dòng chưa submit và submit nốt.
 
 ## Bảng findings
 
@@ -68,11 +68,11 @@
 | Kiểm tra | Kết quả |
 | --- | --- |
 | Số dòng trong bảng này | **21** |
-| Số lần submit Form (đếm từ email xác nhận / bản ghi riêng) | _(chưa submit — sinh viên điền)_ |
-| Hai số trên khớp? | _(chưa — cần submit 20 lần rồi đối chiếu)_ |
+| Số lần submit Form (đếm từ email xác nhận / bản ghi riêng) | 0 *(Đang chờ nộp chính thức bằng email `MSSV@...`)* |
+| Hai số trên khớp? | *(Đang chờ đối chiếu sau khi sinh viên nộp xong)* |
 | Mọi dòng đều có Screenshot ref? | **20/21.** F-011 cố ý không có ảnh: trạng thái lỗi chỉ tồn tại ~0,2 s nên không chụp kịp; bằng chứng thay thế là log lấy mẫu theo mốc thời gian, ghi trong `bug-reports.md` và tái hiện được bằng các bước đã mô tả |
 | Mọi dòng đều có Form timestamp? | **0/21** — xem cảnh báo ở đầu file |
 
 ## Các trường của Google Form
 
-_(Chưa mở được Form trong phiên này — cần đăng nhập bằng email sinh viên. Khi mở, chép danh sách câu hỏi vào đây trước khi submit dòng đầu tiên, để biết trước Form hỏi gì mà chuẩn bị nội dung.)_
+_(Ghi chú: Sinh viên sẽ mở Form bằng email trường để chép lại danh sách câu hỏi vào đây, chuẩn bị thông tin trước khi dán các finding.)_

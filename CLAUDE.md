@@ -37,6 +37,19 @@ When helping with HW3:
 * Never confuse HW3 with HW2.
 * Do not generate implementation plans or engineering tasks.
 * Treat the EMS web application as an external System Under Test (SUT) that is tested manually through its UI.
+* **Documentation & Audit Integrity:** When generating reports, logs, or audit documents, DO NOT write statements that "shoot the student in the foot" (e.g., claiming the student hasn't reviewed the work, or describing the AI's role in a way that violates academic policy). Ensure the documented process reflects legitimate human-AI collaboration where the student reviews and takes responsibility.
+* **No placeholders or meta-commentary:** Do not include redundant phrases like *"Cần sinh viên điền"*, *"Đây là bản nháp của"*, or similar meta-text in the generated artifacts. Output the final, ready-to-use content.
+
+### Testing & Measurement Guidelines (Lessons from HW3)
+
+To avoid critical mistakes identified during past test executions, adhere strictly to these rules:
+
+1. **Timing & Debounce Awareness:** Do not measure DOM elements immediately after an action if the UI has a loading state, debounce (e.g., search bars), or animations. Wait for a stable state before concluding a test or taking a screenshot.
+2. **Avoid Self-Contamination (Observer Effect):** Ensure that your testing mechanisms (like injecting a banner for screenshots or logging text) do not contaminate the DOM state you are trying to measure (e.g., searching the DOM for error text that you yourself just injected).
+3. **Evidence Consistency:** Always verify that your text conclusion exactly matches the visual evidence. If you claim a UI element (like a focus ring) is missing, make sure it is actually absent in the screenshot. If evidence contradicts your conclusion, revise your conclusion.
+4. **Severity is Contextual:** Do not automatically judge severity solely based on mechanical DOM checks. Consider the impact (e.g., permanent data loss vs. recoverable data entry error). Always defer the final severity judgment to the human tester.
+5. **Validate Test Conditions:** Do not test conditions that are outside the SUT's control (e.g., forcing a hard-reload while offline, which only tests the browser's default offline page, not the SUT). If a test condition cannot be met, report it as N/A or unexecutable rather than forcing a Pass/Fail.
+6. **No Forced Mappings:** If a discovered bug does not map cleanly to any existing checklist item, do not force it into an unrelated item just to fill a column. Report it as an unmapped finding.
 
 Instead, focus on:
 
