@@ -57,22 +57,21 @@ Phân công ban đầu ghi 4 màn hình, trong đó **C3 = "Block-Unblock & Rese
 
 | Màn hình | Applicable | Executed | Passed | Failed | N/A | Chưa execute | Tỉ lệ pass |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1 Users list | 21 | 19 | 11 | 8 | 39 | 2 | 52,4 % |
+| C1 Users list | 21 | 20 | 12 | 8 | 39 | 1 | 57,1 % |
 | C2 Edit User dialog | 14 | 13 | 6 | 7 | 46 | 1 | 42,9 % |
 | C3 Delete confirm | 6 | 5 | 4 | 1 | 54 | 1 | 66,7 % |
 | C4 Export | 3 | 3 | 0 | 3 | 57 | 0 | 0 % |
-| **Tổng (cộng theo lượt màn hình)** | **44** | **40** | **21** | **19** | **196** | **4** | **47,7 %** |
+| **Tổng (cộng theo lượt màn hình)** | **44** | **41** | **22** | **19** | **196** | **3** | **50,0 %** |
 
-**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 11+8+39+2 · C2: 6+7+46+1 · C3: 4+1+54+1 · C4: 0+3+57+0).
+**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 12+8+39+1 · C2: 6+7+46+1 · C3: 4+1+54+1 · C4: 0+3+57+0).
 
-> **N/A không được tính là Passed.** Tỉ lệ pass = `Passed / Applicable` = `21 / 44` = **47,7 %**. Nếu tính sai thành `21 / 240` thì ra 8,8 % — con số vô nghĩa.
+> **N/A không được tính là Passed.** Tỉ lệ pass = `Passed / Applicable` = `22 / 44` = **50,0 %**. Nếu tính sai thành `22 / 240` thì ra 9,2 % — con số vô nghĩa.
 
-**4 item chưa execute** (để trống Verdict có chủ ý, **không** đoán):
+**3 item chưa execute** (để trống Verdict có chủ ý, **không** đoán). Trước đó là 4 — `IA01-07` đã được sinh viên chạy tay ngày **2026-08-03** và nay có verdict **Pass**:
 
 | Item | Màn hình | Vì sao |
 | --- | --- | --- |
-| IA01-07 | C1 | Cần DevTools → Network → **Slow 3G**. Công cụ tự động hoá không bật được throttling |
-| IA04-11 | C1, C2 | Cần DevTools → Network → **Offline**. Như trên |
+| IA04-11 | C1, C2 | Cần DevTools → Network → **Offline**. Công cụ tự động hoá không bật được throttling. Sinh viên có thử một thao tác block/unblock **thành công** ngày 2026-08-03, nhưng đó **không phải** kịch bản offline nên không dùng để chấm item này — quan sát đó được ghi vào **F-014** thay vì ở đây |
 | IA04-04 | C3 | Muốn chấm phải bấm `Confirm` và **xoá thật** một user — không đảo ngược được, bị cấm bởi quy tắc dữ liệu tự đặt |
 
 ### Phân bố Failed theo Interface Aspect
@@ -163,7 +162,7 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
 **Giới hạn đã biết — nói rõ để không ai đọc quá kết quả:**
 
-- **2 item cần DevTools throttling chưa chạy** (IA01-07 Slow 3G, IA04-11 Offline). IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu hỏi còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không. Nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
+- **1 item cần DevTools throttling chưa chạy** (IA04-11 Offline). IA01-07 (Slow 3G) **đã chạy xong ngày 2026-08-03** và đạt: có skeleton khi tải lại trang. IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu hỏi còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không. Nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
 - **Nhánh xoá thật (`Confirm`) không chạy** trên C3, có chủ ý, để không phá dữ liệu. Nên IA04-04 trên C3 không có kết quả.
 - **Không tạo user test mới.** Form Create New User bắt buộc field `Password`; phiên chạy này không nhập mật khẩu vào bất kỳ ô nào. Thay bằng tài khoản test **có sẵn** `test abc` (Guest, Inactive) — đã Block→Unblock→Block round-trip và **trả về đúng trạng thái ban đầu**. Không mất coverage item nào.
 - **Chỉ chấm 1 trong 4 export của EMS.** IA04-13 nói EMS có 4 chỗ export; bộ màn hình scenario C chỉ chứa Export của Users Management.
@@ -190,6 +189,6 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 | # | Việc | Ai làm | Chặn cái gì |
 | --- | --- | --- | --- |
 | 1 | **Submit 20 finding lên Google Form** bằng email `MSSV@....edu.vn`, rồi điền cột *Form timestamp* trong findings log | Sinh viên | Tiêu chí 4 (§7) |
-| 2 | **Chạy IA01-07 (Slow 3G) và IA04-11 (Offline)** bằng DevTools | Sinh viên | 2 ô verdict còn trống |
+| 2 | **Chạy IA04-11 (Offline)** bằng DevTools → Network → Offline, rồi bấm Save Changes trong dialog Edit User | Sinh viên | 1 ô verdict còn trống. ~~IA01-07~~ đã xong 2026-08-03 → **Pass** (có skeleton) |
 | 3 | **B-11 — lấy group artefacts** về `hw3/out/group/`: `Reference_Sources_and_Prompts.md`, `AI_Audit_Report.md`, `EMS_Live_Survey_2026-07-26.md`, 14 screenshot gốc | Sinh viên xin từ nhóm | §15 bắt buộc; **không dựng lại** — dựng lại là bịa provenance |
 | 4 | **Điền vai trò cá nhân trong Part A** (đóng góp item nào, review vòng nào) | Sinh viên | Part A |

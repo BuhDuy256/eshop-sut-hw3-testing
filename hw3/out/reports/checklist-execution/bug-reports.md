@@ -670,6 +670,10 @@ Hệ quả: người dùng sáng mắt phải tự soi lại dòng trong bảng 
 
 Xếp mức 3 vì người dùng phải tin vào một kết quả mà giao diện không hề xác nhận — và nếu thao tác lưu **thất bại**, nhiều khả năng nó cũng im lặng y hệt (chưa kiểm được; cần ca offline của IA04-11).
 
+**Xác nhận độc lập, do sinh viên chạy tay ngày 2026-08-03.** Trên một luồng khác và bằng thao tác thủ công (không qua agent): đăng nhập bằng account admin, mở Edit user của tài khoản `DUY NGUYỄN BẢO` / `23127179@student.hcmus.edu.vn`, bỏ tick `Active` rồi Save. Kết quả báo lại: *"nó update status thôi. Không báo lỗi gì cả."* — cột STATUS chuyển sang `Inactive` và cột UPDATED đổi thành `03/08/2026 09:06`, tức thao tác **đã ghi xuống DB**, nhưng giao diện **không phát bất kỳ thông báo nào**. Điều này xác nhận lỗi trên **luồng block/unblock** bằng một người quan sát khác, một tài khoản khác, một ngày khác — trước đó chỉ mới đo trên luồng Save của agent và luồng Export.
+
+**Vẫn còn bỏ ngỏ:** hành vi khi thao tác lưu **thất bại**. Cần ca offline của IA04-11. Thao tác nói trên **thành công**, nên "không báo lỗi" là đúng như mong đợi và không nói được gì về nhánh thất bại.
+
 **Evidence**
 `evidence/C2/C2_IA04-04_no-toast-after-successful-save.png` · `evidence/C4/C4_IA04-13_export-no-feedback-and-ignores-filter.png`
 

@@ -66,5 +66,9 @@ Mở dialog Edit User và khảo sát trực tiếp DOM:
 ### B-11 ⬜ VẪN CHẶN — cần xin từ nhóm
 4 artefact của nhóm vẫn chưa có trong repo. **Không dựng lại.**
 
-### Blocker mới phát sinh trong phiên — B-13
-**2 item cần DevTools throttling không chạy được bằng công cụ tự động hoá:** `IA01-07` (Slow 3G) và `IA04-11` (Offline). Extension trình duyệt không bật được Network throttling. Hai ô verdict để trống có ghi rõ lý do, **không đoán**. IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không — nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
+### Blocker mới phát sinh trong phiên — B-13 🟡 GIẢI QUYẾT MỘT NỬA (2026-08-03)
+**2 item cần DevTools throttling không chạy được bằng công cụ tự động hoá:** `IA01-07` (Slow 3G) và `IA04-11` (Offline).
+
+**Cập nhật 2026-08-03 — sinh viên chạy tay:**
+- ✅ **IA01-07 — XONG, verdict `Pass`.** DevTools → Network → Slow 3G → hard-reload Users Management: **có skeleton** trong lúc bảng tải. Ghi vào `C1.md`.
+- ⬜ **IA04-11 — VẪN CHƯA CHẠY.** Sinh viên có thử một thao tác block/unblock (logout khỏi user account → sang admin → set Inactive) và báo *"nó update status thôi, không báo lỗi gì cả"*. **Thao tác đó thành công, không phải kịch bản offline**, nên không dùng để chấm item này — quan sát được ghi vào **F-014** như một xác nhận độc lập về việc không có toast. Item vẫn cần: DevTools → Network → **Offline** → bấm Save Changes → xem có báo lỗi + retry không, hay im lặng y hệt lúc thành công. Extension trình duyệt không bật được Network throttling. Hai ô verdict để trống có ghi rõ lý do, **không đoán**. IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không — nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
