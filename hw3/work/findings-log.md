@@ -45,6 +45,7 @@
 | F-018 | Task 1B | C — C4 Export to Excel | Bug | File export thiếu cột `UPDATED` (có trên màn hình, không có trong file) và đổi tên `MEMBER CODE` thành `Card Code`, không khớp thuật ngữ giao diện | IA04-13 · Assignment §5 C4 — "column completeness" | 2 | Thêm cột `Updated At`; đổi `Card Code` → `Member Code` | `evidence/C4/C4_IA04-13_file-contents-vs-screen.txt` | |
 | F-019 | Task 1B | C — C4 Export to Excel | Bug | Giá trị cột Status trong file ghi bằng tiếng Việt (`Hoạt động`) trong khi giao diện hoàn toàn tiếng Anh (`Active`) và không đổi ngôn ngữ được; header file lại bằng tiếng Anh → một bảng trộn 2 ngôn ngữ | IA04-13 · Nielsen H4 | 1 | Cho phần sinh file dùng chung bộ chuỗi i18n với giao diện | `evidence/C4/C4_IA04-13_file-contents-vs-screen.txt` | |
 | F-020 | Task 1B | C — C4 Export to Excel | Usability | Tên file export là `users-export-1785667505695.xlsx` — dùng epoch mili-giây thay vì ngày đọc được | IA04-13 · Nielsen H1 · Shneiderman R3 | 1 | Đặt tên dạng `users-export-2026-08-02_1745.xlsx`; ghi luôn phạm vi filter nếu có | `evidence/C4/C4_IA04-13_file-contents-vs-screen.txt` | |
+| F-021 | Task 1B | C — C2 Edit User dialog | Bug | Khi Save thất bại (offline), EMS **có** báo lỗi inline trong dialog và **không** có toast success giả — nhưng nội dung là chuỗi thô của Fetch API: **`Failed to fetch`**, không nói cái gì hỏng, không nói vì sao, không có nút retry | IA04-11 · Slides S13 p.11 · Nielsen H9 · Shneiderman R5 | 2 | Bắt lỗi mạng ở tầng gọi API, thay bằng thông báo theo ngữ cảnh + nút **Thử lại**; không để chuỗi lỗi JS thô lọt ra UI | `evidence/C2/C2_IA04-11_offline-save-failed-to-fetch.png` | |
 
 **Đường dẫn ảnh** tính tương đối từ `hw3/out/reports/checklist-execution/`.
 
@@ -52,25 +53,25 @@
 
 | Chỉ số | Giá trị |
 | --- | --- |
-| Tổng finding | **20** |
-| Type = Bug | **14** |
+| Tổng finding | **21** |
+| Type = Bug | **15** |
 | Type = Usability | **6** |
 | Severity 4 (Catastrophe) | 0 |
 | Severity 3 (Major) | **5** — F-001, F-010, F-012, F-014, F-017 |
-| Severity 2 (Minor) | **11** |
+| Severity 2 (Minor) | **12** |
 | Severity 1 (Cosmetic) | **4** — F-003, F-008, F-019, F-020 |
-| Truy được về một item checklist | **18** |
+| Truy được về một item checklist | **19** |
 | **Không** thuộc item nào | **2** — F-010, F-011 |
 
 ## Đối soát (điền ở Step 12)
 
 | Kiểm tra | Kết quả |
 | --- | --- |
-| Số dòng trong bảng này | **20** |
+| Số dòng trong bảng này | **21** |
 | Số lần submit Form (đếm từ email xác nhận / bản ghi riêng) | _(chưa submit — sinh viên điền)_ |
 | Hai số trên khớp? | _(chưa — cần submit 20 lần rồi đối chiếu)_ |
-| Mọi dòng đều có Screenshot ref? | **19/20.** F-011 cố ý không có ảnh: trạng thái lỗi chỉ tồn tại ~0,2 s nên không chụp kịp; bằng chứng thay thế là log lấy mẫu theo mốc thời gian, ghi trong `bug-reports.md` và tái hiện được bằng các bước đã mô tả |
-| Mọi dòng đều có Form timestamp? | **0/20** — xem cảnh báo ở đầu file |
+| Mọi dòng đều có Screenshot ref? | **20/21.** F-011 cố ý không có ảnh: trạng thái lỗi chỉ tồn tại ~0,2 s nên không chụp kịp; bằng chứng thay thế là log lấy mẫu theo mốc thời gian, ghi trong `bug-reports.md` và tái hiện được bằng các bước đã mô tả |
+| Mọi dòng đều có Form timestamp? | **0/21** — xem cảnh báo ở đầu file |
 
 ## Các trường của Google Form
 

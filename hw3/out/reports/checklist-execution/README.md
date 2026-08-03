@@ -58,20 +58,20 @@ Phân công ban đầu ghi 4 màn hình, trong đó **C3 = "Block-Unblock & Rese
 | Màn hình | Applicable | Executed | Passed | Failed | N/A | Chưa execute | Tỉ lệ pass |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1 Users list | 21 | 20 | 12 | 8 | 39 | 1 | 57,1 % |
-| C2 Edit User dialog | 14 | 13 | 6 | 7 | 46 | 1 | 42,9 % |
+| C2 Edit User dialog | 14 | 14 | 6 | 8 | 46 | 0 | 42,9 % |
 | C3 Delete confirm | 6 | 5 | 4 | 1 | 54 | 1 | 66,7 % |
 | C4 Export | 3 | 3 | 0 | 3 | 57 | 0 | 0 % |
-| **Tổng (cộng theo lượt màn hình)** | **44** | **41** | **22** | **19** | **196** | **3** | **50,0 %** |
+| **Tổng (cộng theo lượt màn hình)** | **44** | **42** | **22** | **20** | **196** | **2** | **50,0 %** |
 
-**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 12+8+39+1 · C2: 6+7+46+1 · C3: 4+1+54+1 · C4: 0+3+57+0).
+**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 12+8+39+1 · C2: 6+8+46+0 · C3: 4+1+54+1 · C4: 0+3+57+0).
 
 > **N/A không được tính là Passed.** Tỉ lệ pass = `Passed / Applicable` = `22 / 44` = **50,0 %**. Nếu tính sai thành `22 / 240` thì ra 9,2 % — con số vô nghĩa.
 
-**3 item chưa execute** (để trống Verdict có chủ ý, **không** đoán). Trước đó là 4 — `IA01-07` đã được sinh viên chạy tay ngày **2026-08-03** và nay có verdict **Pass**:
+**2 item chưa execute** (để trống Verdict có chủ ý, **không** đoán). Ban đầu là 4; sinh viên chạy tay ngày **2026-08-03** đã đóng `IA01-07` (**Pass**) và `IA04-11` **trên C2** (**Fail**):
 
 | Item | Màn hình | Vì sao |
 | --- | --- | --- |
-| IA04-11 | C1, C2 | Cần DevTools → Network → **Offline**. Công cụ tự động hoá không bật được throttling. Sinh viên có thử một thao tác block/unblock **thành công** ngày 2026-08-03, nhưng đó **không phải** kịch bản offline nên không dùng để chấm item này — quan sát đó được ghi vào **F-014** thay vì ở đây |
+| IA04-11 | **C1 only** | Vế *"submit a form"* **đã chạy xong trên C2 → Fail** (F-021). Vế còn lại — *"load a list screen"* khi đang offline — chưa chạy: lần đo không reload danh sách, bảng phía sau dialog vẫn là dữ liệu cũ. Cần: bật Offline → hard-reload `/dashboard/admin/users` |
 | IA04-04 | C3 | Muốn chấm phải bấm `Confirm` và **xoá thật** một user — không đảo ngược được, bị cấm bởi quy tắc dữ liệu tự đặt |
 
 ### Phân bố Failed theo Interface Aspect
@@ -81,10 +81,10 @@ Phân công ban đầu ghi 4 màn hình, trong đó **C3 = "Block-Unblock & Rese
 | **IA-01 General UI** | **6** (IA01-01, IA01-08, IA01-09, IA01-12 ×3) | Hỏng chủ yếu ở **i18n** và **accessibility**. Nút chuyển ngôn ngữ hoàn toàn không hoạt động, nên toàn bộ khu admin chỉ dùng được bằng tiếng Anh — với một hệ thống của trường đại học Việt Nam thì đây là khiếm khuyết đáng kể. IA01-12 fail trên cả 3 màn hình có tương tác, tức là vấn đề nằm ở component dùng chung chứ không phải một chỗ lẻ |
 | **IA-02 Forms** | **4** (IA02-01, IA02-02, IA02-10, IA02-13) | **Nhóm yếu nhất theo tỉ lệ**: trên C2 có 7 item IA-02 áp dụng được thì 4 hỏng (57 %). Và finding nghiêm trọng nhất của cả Task 1 nằm ở đây — nhãn `First Name`/`Last Name` bị gán ngược (F-012), tức là form **ghi dữ liệu vào sai cột** với người dùng làm đúng theo nhãn |
 | **IA-03 Navigation** | **4** (IA03-01, IA03-06, IA03-08, IA03-13) | Có một chủ đề chung rõ rệt: **trạng thái danh sách không được lưu ở đâu cả**. URL không bao giờ đổi (`/dashboard/admin/users` suốt), nên Back mất trang + rows-per-page, danh sách không chia sẻ được bằng link, và không có sort để bù |
-| **IA-04 Feedback / State** | **5** (IA04-04 ×2, IA04-12 ×2, IA04-13) | **Nhóm hỏng triệt để nhất về bản chất:** EMS **không có hệ thống toast nào cả** và **không có một vùng `aria-live`/`role="status"` nào** trên toàn bộ luồng đã kiểm. Mọi hành động ghi (save, block/unblock, export) đều hoàn tất trong im lặng. Với người dùng screen reader, kết quả của thao tác là **không thể biết được** |
+| **IA-04 Feedback / State** | **6** (IA04-04 ×2, IA04-11, IA04-12 ×2, IA04-13) | **Nhóm nhiều lỗi nhất — nhưng bức tranh đã rõ hơn sau ca offline, và cần nói chính xác:** EMS **không có hệ thống toast** và **không có một vùng `aria-live`/`role="status"` nào** trên toàn bộ luồng đã kiểm, nên mọi hành động ghi **thành công** (save, block/unblock, export) đều hoàn tất trong im lặng — với người dùng screen reader, kết quả là **không thể biết được**. **Nhưng khi hành động ghi *thất bại* thì EMS *có* báo** (ca offline, F-021): một khối lỗi đỏ inline trong dialog. Nghĩa là hệ thống có **đường báo lỗi mà không có đường báo thành công** — bất đối xứng, chứ không phải im lặng hoàn toàn. Đây là một điểm mà báo cáo ban đầu **phỏng đoán sai theo hướng bi quan** và đã được sửa sau khi có dữ liệu thật |
 
 **Nhận định tổng thể:** hai điểm yếu xuyên suốt, cùng lặp lại trên nhiều màn hình nên gần như chắc chắn là vấn đề ở tầng component/kiến trúc chứ không phải lỗi lẻ:
-1. **Không có kênh phản hồi trạng thái** (IA-04) — không toast, không live region, ở mọi luồng.
+1. **Kênh phản hồi trạng thái bất đối xứng** (IA-04) — không toast, không live region cho **thành công**; có báo lỗi inline cho **thất bại** nhưng nội dung là chuỗi thô của JavaScript.
 2. **Accessibility bàn phím và nhãn** (IA-01 + IA-02) — focus không vào dialog, focus ring trong suốt, `<label>` không nối với input, `aria-required` vắng mặt.
 
 Điểm sáng: **C3 (dialog xác nhận xoá) làm đúng gần hết** — gọi đúng tên record, nêu rõ hậu quả không hoàn tác được, tô đỏ nút phá huỷ, chặn click xuyên nền, ESC hành xử như Cancel. Đây là bằng chứng rằng đội phát triển **biết** cách làm đúng ở chỗ họ có chú ý tới.
@@ -119,7 +119,7 @@ Hai finding này **vẫn được báo cáo đầy đủ** và vẫn nên submit
 
 ## Bug & Usability findings từ Task 1
 
-**20 finding.** Bug: 14 · Usability: 6. Severity: `4` → 0 · `3` → 5 · `2` → 11 · `1` → 4.
+**21 finding.** Bug: 15 · Usability: 6. Severity: `4` → 0 · `3` → 5 · `2` → 12 · `1` → 4.
 
 | Findings-Log-ID | Screen | Type | Sev | Tiêu đề |
 | --- | --- | --- | --- | --- |
@@ -139,6 +139,7 @@ Hai finding này **vẫn được báo cáo đầy đủ** và vẫn nên submit
 | F-015 | C2 | Usability | 2 | Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì |
 | F-016 | C2 | Usability | 2 | Bấm Enter ở ô cuối của form không kích hoạt hành động chính |
 | F-018 | C4 | Bug | 2 | File export thiếu cột UPDATED và đổi tên cột MEMBER CODE |
+| F-021 | C2 | Bug | 2 | Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch`, không hướng dẫn, không retry |
 | F-003 | C1 | Usability | 1 | Kiểu tiêu đề trang không nhất quán giữa các màn hình admin |
 | F-008 | C1 | Usability | 1 | Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách |
 | F-019 | C4 | Bug | 1 | Giá trị Status trong file export là tiếng Việt trong khi giao diện tiếng Anh |
@@ -146,7 +147,7 @@ Hai finding này **vẫn được báo cáo đầy đủ** và vẫn nên submit
 
 Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
-> ⚠ **Chưa submit lên Google Form.** Form yêu cầu đăng nhập bằng email sinh viên `MSSV@....edu.vn` (§7), không có trong phiên chạy này. Cả 20 finding đã ở dạng sẵn sàng dán, cột *Form timestamp* trong findings log để trống chờ điền sau khi submit.
+> ⚠ **Chưa submit lên Google Form.** Form yêu cầu đăng nhập bằng email sinh viên `MSSV@....edu.vn` (§7), không có trong phiên chạy này. Cả 21 finding đã ở dạng sẵn sàng dán, cột *Form timestamp* trong findings log để trống chờ điền sau khi submit.
 
 ## Ghi chú về quy trình
 
@@ -162,7 +163,7 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
 **Giới hạn đã biết — nói rõ để không ai đọc quá kết quả:**
 
-- **1 item cần DevTools throttling chưa chạy** (IA04-11 Offline). IA01-07 (Slow 3G) **đã chạy xong ngày 2026-08-03** và đạt: có skeleton khi tải lại trang. IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu hỏi còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không. Nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
+- **Chỉ còn nửa sau của IA04-11 chưa chạy** (reload danh sách khi offline). IA01-07 (Slow 3G) **đã xong** → Pass (có skeleton). IA04-11 vế submit form **đã xong** → Fail (F-021). Ghi chú đáng lưu: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu hỏi còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không. Nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
 - **Nhánh xoá thật (`Confirm`) không chạy** trên C3, có chủ ý, để không phá dữ liệu. Nên IA04-04 trên C3 không có kết quả.
 - **Không tạo user test mới.** Form Create New User bắt buộc field `Password`; phiên chạy này không nhập mật khẩu vào bất kỳ ô nào. Thay bằng tài khoản test **có sẵn** `test abc` (Guest, Inactive) — đã Block→Unblock→Block round-trip và **trả về đúng trạng thái ban đầu**. Không mất coverage item nào.
 - **Chỉ chấm 1 trong 4 export của EMS.** IA04-13 nói EMS có 4 chỗ export; bộ màn hình scenario C chỉ chứa Export của Users Management.
@@ -178,10 +179,10 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 | Reference sources + AI prompts (group) | ❌ **Chưa có** — blocker B-11, phải xin từ nhóm, không dựng lại |
 | Giải thích item nào AI bỏ sót và vì sao | ✅ Mục *"The four grounding pillars"* + *"Known weakness"* trong checklist |
 | Execute checklist trên ≥ 3 màn hình | ✅ 4 bề mặt (C1, C2, C3, C4) — kèm ghi chú trung thực rằng phạm vi C3 đã hẹp lại vì Reset Password không tồn tại |
-| Đánh dấu Passed/Failed từng item từng màn hình | ✅ 240 ô verdict; 236 đã điền, **4 để trống có ghi rõ lý do** (không đoán) |
+| Đánh dấu Passed/Failed từng item từng màn hình | ✅ 240 ô verdict; 238 đã điền, **2 để trống có ghi rõ lý do** (không đoán) |
 | Cột Notes ghi lý do cho mỗi Failed | ✅ Mọi Fail đều có số đo cụ thể hoặc chuỗi ký tự nguyên văn, không có dòng nào ghi chung chung |
-| Screenshot cho item Failed | ✅ 19 ảnh + 1 file `.txt` phân tích nội dung xlsx + chính file `.xlsx` gốc. **1 finding (F-011) cố ý không có ảnh** vì trạng thái chỉ tồn tại ~0,2 s — ghi rõ lý do và thay bằng log lấy mẫu theo mốc thời gian |
-| Bug có: screen, steps, expected vs actual, severity, screenshot | ✅ Cả 20 finding đủ trường; mọi *Expected* đều trích từ cột *Expected Behavior* của item hoặc từ heuristic/WCAG được cite, không suy từ code |
+| Screenshot cho item Failed | ✅ 20 ảnh + 1 file `.txt` phân tích nội dung xlsx + chính file `.xlsx` gốc. **1 finding (F-011) cố ý không có ảnh** vì trạng thái chỉ tồn tại ~0,2 s — ghi rõ lý do và thay bằng log lấy mẫu theo mốc thời gian |
+| Bug có: screen, steps, expected vs actual, severity, screenshot | ✅ Cả 21 finding đủ trường; mọi *Expected* đều trích từ cột *Expected Behavior* của item hoặc từ heuristic/WCAG được cite, không suy từ code |
 | Bug đã report qua kênh §7 | ❌ **Chưa** — cần email sinh viên để đăng nhập Google Form. Nội dung đã sẵn sàng dán |
 
 ## Việc còn nợ
@@ -189,6 +190,6 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 | # | Việc | Ai làm | Chặn cái gì |
 | --- | --- | --- | --- |
 | 1 | **Submit 20 finding lên Google Form** bằng email `MSSV@....edu.vn`, rồi điền cột *Form timestamp* trong findings log | Sinh viên | Tiêu chí 4 (§7) |
-| 2 | **Chạy IA04-11 (Offline)** bằng DevTools → Network → Offline, rồi bấm Save Changes trong dialog Edit User | Sinh viên | 1 ô verdict còn trống. ~~IA01-07~~ đã xong 2026-08-03 → **Pass** (có skeleton) |
+| 2 | **Chạy nốt nửa sau của IA04-11**: bật Offline rồi **hard-reload** `/dashboard/admin/users`, xem danh sách báo lỗi có nghĩa hay spinner vô tận / trắng trang | Sinh viên | 1 ô verdict trên C1. ~~IA01-07~~ và ~~IA04-11 trên C2~~ đã xong 2026-08-03 |
 | 3 | **B-11 — lấy group artefacts** về `hw3/out/group/`: `Reference_Sources_and_Prompts.md`, `AI_Audit_Report.md`, `EMS_Live_Survey_2026-07-26.md`, 14 screenshot gốc | Sinh viên xin từ nhóm | §15 bắt buộc; **không dựng lại** — dựng lại là bịa provenance |
 | 4 | **Điền vai trò cá nhân trong Part A** (đóng góp item nào, review vòng nào) | Sinh viên | Part A |

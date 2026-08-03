@@ -34,7 +34,7 @@ Mức dùng AI trong Task 1B của bài này **cao hơn hẳn** mức "AI hỗ t
 | Gộp finding trùng nguyên nhân, chấm severity | **Agent** |
 | **Chỉ đạo, đặt phạm vi, đặt ranh giới an toàn dữ liệu, quyết định mức tự chủ** | **Sinh viên** |
 | Review từng verdict trước khi chốt | **Không ai** — sinh viên quyết định không review, xem ghi chú bên dưới |
-| **Chạy 2 item cần DevTools throttling** (agent không bật được) | **Sinh viên**, ngày 2026-08-03 — xem Artifact #14. `IA01-07` đã xong; `IA04-11` vẫn còn |
+| **Chạy 2 item cần DevTools throttling** (agent không bật được) | **Sinh viên**, ngày 2026-08-03 — xem Artifact #14. `IA01-07` đã xong (Pass); `IA04-11` xong vế submit form (Fail → F-021), còn vế reload danh sách |
 
 **Chính sách AI của môn là Open**, nên việc này hợp lệ; §8 còn tính điểm cho việc thiết kế Agent Skill. Nhưng có hai điều phải nói thẳng để bản khai này trung thực:
 
@@ -92,6 +92,8 @@ Prompt gốc của sinh viên là một prompt dài giao toàn bộ Task 1B; cá
 | Tool: Claude Opus 5<br>Time: 2026-08-02 19:30–21:00<br>Step: runbook Step 3.1, 4.2, 5.1, 6.1<br>Prompt: *"viết bug report, chấm severity, điền findings log, viết báo cáo tổng hợp"* | 4 file execution (240 dòng verdict), `bug-reports.md` (20 khối), `findings-log.md` (20 dòng), `README.md` tổng hợp. | **INCOMPLETE** | Bản đầu của `README.md` và `C2.md` ghi **C2 = 7 Pass / 6 Fail**; đếm lại bằng cách parse trực tiếp bảng verdict trong file cho ra **6 Pass / 7 Fail**. Kéo theo tổng sai: 22/18 thay vì 21/19, và tỉ lệ pass 50,0 % thay vì 47,7 %. Vi phạm chính quy tắc kiểm tra số học mà runbook Step 6.1 bắt buộc. | Không có chỉnh sửa từ sinh viên; agent tự phát hiện khi chạy một script parse lại 4 file execution để đối chiếu, thay vì tin vào con số đã tự cộng nhẩm. Sửa cả `C2.md` và `README.md`; sửa luôn dòng phân bố Failed theo IA-04 (4 → 5). |
 | **Artifact #14 — Hai item DevTools do sinh viên chạy tay (2026-08-03)** | | | | |
 | Tool: **không dùng AI** — sinh viên tự thao tác trên Chrome DevTools<br>Time: 2026-08-03<br>Step: runbook Step 3.1 vòng 7<br>Prompt: *(không có prompt — agent chỉ đưa hướng dẫn từng click, sinh viên tự chạy và tự báo kết quả)* | Sinh viên báo lại 2 kết quả: (a) **IA01-07 Slow 3G → "Có Skeleton"**; (b) mô tả một thao tác block/unblock: *"Tôi đã logout khỏi User account và qua account Admin để inactive thì nó update status thôi. Không báo lỗi gì cả."* | **INCOMPLETE** | (a) hợp lệ và đủ để chấm **IA01-07 = Pass** — khớp trực tiếp với Expected *"A spinner/skeleton shows while data loads"*. (b) **không hợp lệ để chấm IA04-11**: Verification Rule của item yêu cầu **ép server fail bằng DevTools → Network → Offline** rồi mới submit; thao tác được mô tả là một lần block **thành công**, nên "không báo lỗi" là đúng như mong đợi và không nói gì về nhánh thất bại. Ngoài ra sinh viên ghi nhầm mã item là `IA04-07` (item card Pending/Resolved của scenario D) thay vì `IA01-07`. | **Đây là dòng đầu tiên có đóng góp trực tiếp của sinh viên.** Agent xử lý: (1) sửa mã item `IA04-07` → `IA01-07` và nói rõ lý do thay vì im lặng ghi vào ô sai; (2) ghi `IA01-07 = Pass` kèm **ranh giới phạm vi** — vế skeleton đã xác nhận, vế "số không nháy 0" chưa được báo riêng nên ghi rõ là chưa đo; (3) **từ chối chấm IA04-11**, giữ ô trống; (4) chuyển quan sát (b) sang **F-014** làm xác nhận độc lập trên luồng block/unblock, do một người khác, một tài khoản khác, một ngày khác. |
+| **Artifact #15 — Ca offline IA04-11 chạy đúng kịch bản (2026-08-03, lần 2)** | | | | |
+| Tool: **không dùng AI** — sinh viên tự thao tác trên Chrome DevTools<br>Time: 2026-08-03<br>Step: runbook Step 3.1 vòng 7<br>Prompt: *(không có prompt — agent đưa hướng dẫn từng click sau khi từ chối chấm item ở Artifact #14; sinh viên chạy lại đúng kịch bản và gửi ảnh màn hình kèm panel Network)* | Ảnh cho thấy dialog Edit User của `NGUYỄN BẢO DUY` với khối lỗi đỏ inline ghi **`Failed to fetch`**, panel Network 97 request gần như toàn bộ `(failed)`, console 121 error. | **VALID** | Đúng Verification Rule của IA04-11 (*"Force a server-side failure — DevTools → Network → Offline — then submit a form"*). Ảnh chứa đủ để chấm 4 vế của Expected: có báo lỗi ✅, không toast success giả ✅, không spinner vô tận ✅, **nhưng không phải plain language và không có retry** ❌. | Không có chỉnh sửa từ sinh viên ngoài việc **chạy lại đúng kịch bản** sau khi agent từ chối chấm ở lần trước — đây là chỗ vòng lặp "agent từ chối → sinh viên chạy lại → có dữ liệu thật" tạo ra giá trị. Agent chấm `IA04-11 = Fail` **chỉ trên C2** và **giữ ô C1 trống** vì vế *"load a list screen"* chưa chạy; tạo **F-021**; và **sửa lại F-014**, nơi bản đầu đã phỏng đoán sai rằng nhánh thất bại cũng im lặng — phỏng đoán đó nay bị dữ liệu bác bỏ và được đánh dấu là đã kiểm chứng thay vì xoá đi. |
 
 ---
 
@@ -99,23 +101,23 @@ Prompt gốc của sinh viên là một prompt dài giao toàn bộ Task 1B; cá
 
 | Metric | Count | Percentage |
 |---|---|---|
-| **Total AI-generated artifacts audited** | **14** | 100 % |
-| **VALID (correct, accepted as-is)** | **6** | 42,9 % |
-| **INVALID (wrong; rejected)** | **3** | 21,4 % |
-| **INCOMPLETE (acceptable after edits)** | **5** | 35,7 % |
+| **Total AI-generated artifacts audited** | **15** | 100 % |
+| **VALID (correct, accepted as-is)** | **7** | 46,7 % |
+| **INVALID (wrong; rejected)** | **3** | 20,0 % |
+| **INCOMPLETE (acceptable after edits)** | **5** | 33,3 % |
 
 **Phân tách theo task:**
 
 | Task | Total | VALID | INVALID | INCOMPLETE |
 |---|---|---|---|---|
-| Task 1 — Checklist execution & bug report | **14** | 6 | 3 | 5 |
+| Task 1 — Checklist execution & bug report | **15** | 7 | 3 | 5 |
 | Task 2 — User testing design & analysis | 0 | — | — | — |
 | Task 3 — Cross-platform | 0 | — | — | — |
 | §8 — Agent Skills | 0 | — | — | — |
 
 **Đọc bảng này thế nào — hai điều đáng chú ý:**
 
-1. **Hơn một nửa artifact (8/14) không dùng được nguyên trạng.** Tỉ lệ này cao, và nó cao vì bản audit ghi lại cả những sai lầm **được sửa trong nội bộ phiên chạy** chứ không chỉ những gì còn lại ở sản phẩm cuối. Một bản audit chỉ ghi kết quả cuối sẽ hiện gần 100 % VALID và **không nói gì hữu ích cả**.
+1. **Hơn một nửa artifact (8/15) không dùng được nguyên trạng.** Tỉ lệ này cao, và nó cao vì bản audit ghi lại cả những sai lầm **được sửa trong nội bộ phiên chạy** chứ không chỉ những gì còn lại ở sản phẩm cuối. Một bản audit chỉ ghi kết quả cuối sẽ hiện gần 100 % VALID và **không nói gì hữu ích cả**.
 2. **Cả 3 trường hợp INVALID đều là lỗi *phương pháp đo*, không phải lỗi diễn giải.** Đo quá sớm khi UI còn debounce (#6); phép đo tự nhiễm vì chú thích của người test lọt vào vùng được đo (#9); ảnh và lời chú thích mâu thuẫn nhau (#10). Đây chính là loại sai lầm mà một người chạy tay **ít mắc hơn** — người ta nhìn màn hình và thấy ngay là "chưa xong đâu, còn đang tải", trong khi agent đọc DOM theo mốc thời gian cố định và tin vào con số đọc được.
 
 ---
@@ -143,7 +145,7 @@ AI hỏng ở chỗ **biết khi nào một quan sát đã đủ chín**. Cả b
 > - **Bằng chứng thực thi:** mọi ảnh trong `evidence/` đều chụp từ **EMS thật đang chạy** tại `https://prod-dev.ems-fitus.cloud`, trong phiên 2026-08-02, không dựng lại, không chỉnh sửa nội dung trang. Dải chú thích màu đen trên đầu mỗi ảnh **do người test chèn vào** và được **ghi rõ như vậy ngay trên chính dải đó**; nó chỉ chứa `location.href` thật, giờ hệ thống, và số đo — không che hay sửa nội dung EMS.
 > - **Ảnh cross-platform (Task 3):** chưa thực hiện, chưa có artifact nào.
 > - **Dữ liệu 5 người tham gia user testing (Task 2):** chưa thực hiện, chưa có artifact nào. **Không được** sinh dữ liệu người tham gia bằng AI.
-> - **Các ô verdict để trống không được điền bằng suy đoán** — ranh giới này được giữ nguyên suốt cả hai phiên. Ban đầu có 4 ô trống; ngày 2026-08-03 sinh viên tự chạy `IA01-07` trên DevTools nên ô đó nay có verdict **Pass** với nguồn quan sát ghi rõ trong Notes. **Còn 3 ô trống**: `IA04-11` (×2 — cần Offline throttling) và `IA04-04` trên C3 (không kích hoạt nhánh xoá thật). Khi sinh viên báo một quan sát **không khớp** với Verification Rule của item, agent **từ chối chấm** và chuyển quan sát sang chỗ nó thực sự thuộc về, thay vì nới lỏng item cho vừa dữ liệu — xem Artifact #14.
+> - **Các ô verdict để trống không được điền bằng suy đoán** — ranh giới này được giữ nguyên suốt cả hai phiên. Ban đầu có 4 ô trống; ngày 2026-08-03 sinh viên tự chạy `IA01-07` trên DevTools nên ô đó nay có verdict **Pass** với nguồn quan sát ghi rõ trong Notes. **Còn 2 ô trống**: `IA04-11` trên **C1** (vế reload danh sách khi offline) và `IA04-04` trên C3 (không kích hoạt nhánh xoá thật). Khi sinh viên báo một quan sát **không khớp** với Verification Rule của item, agent **từ chối chấm** và chuyển quan sát sang chỗ nó thực sự thuộc về, thay vì nới lỏng item cho vừa dữ liệu — xem Artifact #14.
 
 ### Signature
 

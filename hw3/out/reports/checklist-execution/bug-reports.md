@@ -78,16 +78,16 @@ Nếu phân vân giữa hai mức: chọn mức **thấp hơn** và ghi lý do v
 
 ## Danh sách bug
 
-**20 finding**, đánh số `F-001`…`F-020` — dùng chung ID với `hw3/work/findings-log.md` để một finding chỉ có **một** mã duy nhất xuyên suốt bug report → findings log → Google Form.
+**21 finding**, đánh số `F-001`…`F-021` — dùng chung ID với `hw3/work/findings-log.md` để một finding chỉ có **một** mã duy nhất xuyên suốt bug report → findings log → Google Form.
 
 | Nguồn | Số finding |
 | --- | --- |
-| Từ item Fail có trong checklist | **18** |
+| Từ item Fail có trong checklist | **19** |
 | **Không** thuộc item nào trong 60 item (phát hiện trong lúc chạy) | **2** — F-010, F-011 |
 
 > **Hai finding không map được vào item nào.** F-010 và F-011 đều là lỗi thật, tái hiện được, nhưng checklist v1.9 **không có item nào nói về ô search của bảng dữ liệu**. Chúng vẫn được báo cáo và vẫn nên submit lên Google Form (§7 nhận bug bất kể có thuộc checklist hay không), và khoảng trống này được ghi lại như một đề xuất cho **v2.0** trong `README.md`. Gán chúng vào một item không liên quan chỉ để "có mã item" sẽ là gán sai bằng chứng.
 
-**Phân bố severity:** `4` → 0 · `3` → 5 · `2` → 11 · `1` → 4 · `0` → 0.
+**Phân bố severity:** `4` → 0 · `3` → 5 · `2` → 12 · `1` → 4 · `0` → 0.
 **Không có finding nào ở mức 4.** Trong phiên này không quan sát được trường hợp nào mất dữ liệu, tác động nhầm record, hay chặn hoàn toàn công việc. Mức cao nhất là 3.
 
 ---
@@ -668,7 +668,9 @@ Luồng **Export** cũng vậy: bấm Export → file về thật (14 339 bytes)
 
 Hệ quả: người dùng sáng mắt phải tự soi lại dòng trong bảng mới biết đã lưu được chưa; người dùng screen reader **không có cách nào biết** hành động đã hoàn tất. Với Export thì phản hồi duy nhất nằm hoàn toàn ngoài trang (trong thư mục Downloads).
 
-Xếp mức 3 vì người dùng phải tin vào một kết quả mà giao diện không hề xác nhận — và nếu thao tác lưu **thất bại**, nhiều khả năng nó cũng im lặng y hệt (chưa kiểm được; cần ca offline của IA04-11).
+Xếp mức 3 vì người dùng phải tin vào một kết quả mà giao diện không hề xác nhận.
+
+> **✅ Đã kiểm nhánh thất bại — và kết quả bác bỏ dự đoán ban đầu của báo cáo này.** Bản đầu của F-014 phỏng đoán rằng *"nếu thao tác lưu thất bại, nhiều khả năng nó cũng im lặng y hệt"*. Ca offline (IA04-11, sinh viên chạy tay 2026-08-03) cho thấy **không phải vậy**: khi Save **thất bại**, EMS **có** hiện một khối lỗi đỏ inline trong dialog. Nghĩa là EMS **có** đường báo lỗi, chỉ là **không** có đường báo thành công. Điều này làm F-014 **nhẹ hơn** dự đoán — không tồn tại kịch bản "lưu hỏng trông y hệt lưu thành công". Chất lượng của thông báo lỗi đó lại là một vấn đề riêng, tách thành **F-021**. Phỏng đoán ban đầu được giữ lại ở đây có gạch bỏ thay vì xoá đi, để thấy nó đã được kiểm chứng và bác bỏ.
 
 **Xác nhận độc lập, do sinh viên chạy tay ngày 2026-08-03.** Trên một luồng khác và bằng thao tác thủ công (không qua agent): đăng nhập bằng account admin, mở Edit user của tài khoản `DUY NGUYỄN BẢO` / `23127179@student.hcmus.edu.vn`, bỏ tick `Active` rồi Save. Kết quả báo lại: *"nó update status thôi. Không báo lỗi gì cả."* — cột STATUS chuyển sang `Inactive` và cột UPDATED đổi thành `03/08/2026 09:06`, tức thao tác **đã ghi xuống DB**, nhưng giao diện **không phát bất kỳ thông báo nào**. Điều này xác nhận lỗi trên **luồng block/unblock** bằng một người quan sát khác, một tài khoản khác, một ngày khác — trước đó chỉ mới đo trên luồng Save của agent và luồng Export.
 
@@ -901,6 +903,62 @@ Tên file là `users-export-1785667505695.xlsx`. Phần `1785667505695` là **ep
 
 ---
 
+### F-021 — Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch` của JavaScript, không có hướng dẫn và không có retry
+
+| Trường | Nội dung |
+| --- | --- |
+| **Screen** | C2 Edit User dialog |
+| **Checklist items** | IA04-11 |
+| **Type** | Bug |
+| **Severity** | 2 — Minor |
+| **URL** | https://prod-dev.ems-fitus.cloud/dashboard/admin/users |
+| **Account** | admin@gmail.com |
+| **Browser / OS** | Chrome / Windows 11 |
+| **Ngày phát hiện** | 2026-08-03 (sinh viên chạy tay — agent không bật được DevTools throttling) |
+| **Findings-Log-ID** | F-021 |
+| **Form submitted** | _(chưa submit)_ |
+
+**Steps to reproduce**
+1. Mở **Users Management**, `F12` → tab **Network** → dropdown throttling → **Offline**
+2. Bấm **Edit user** trên một dòng bất kỳ
+3. Đổi một giá trị — ví dụ bỏ tick checkbox **Active**
+4. Bấm **Save Changes**
+
+**Expected**
+Theo IA04-11 (Slides S13 p.11 — *"Mishandling of server process failures"* / Nielsen H9 — Recognize, Diagnose, Recover / Shneiderman R5 — Simple Error Handling): *"Every failure gives a visible plain-language error stating **what failed** and **offering a retry**. Never an infinite spinner, a permanently blank screen, a raw stack trace or HTTP code, or — worst — a false success toast for an action that did not persist."*
+
+**Actual**
+Ba trong bốn vế **đạt**, và ghi ra đây trước vì đó là phần EMS làm đúng:
+- ✅ **Có báo lỗi nhìn thấy được**, dạng khối nền đỏ **inline ngay trong dialog**, đặt ngay phía trên cặp nút `Cancel` / `Save Changes` — đúng chỗ người dùng đang nhìn.
+- ✅ **KHÔNG có toast success giả.** Đây chính là thứ Expected gọi là *"worst"*, và EMS tránh được.
+- ✅ Không spinner quay vô tận, không trắng trang; dialog vẫn mở nguyên với dữ liệu người dùng đã nhập.
+
+Vế **hỏng** là vế item nêu đầu tiên — **nội dung của thông báo**:
+
+> **`Failed to fetch`**
+
+Đây là **chuỗi lỗi thô của Fetch API JavaScript lọt nguyên văn ra giao diện**. Nó:
+- không nói **cái gì** hỏng — không hề nhắc tới việc lưu thông tin người dùng;
+- không nói **vì sao** — không nhắc tới mất kết nối mạng;
+- không nói **phải làm gì tiếp**;
+- **không kèm nút retry** nào. Muốn thử lại, người dùng phải tự đoán là bấm `Save Changes` lần nữa.
+
+Với một admin không rành kỹ thuật, `Failed to fetch` không phân biệt được với "hệ thống lỗi", "dữ liệu sai", hay "tài khoản không đủ quyền".
+
+**Bối cảnh mạng lúc đo:** DevTools Network ghi **97 request, gần như toàn bộ `(failed)`** — gồm `users?page=1&limit=5&search=…`, `track`, và `socket.io/?EIO=4&transport=polling`; console báo 121 error.
+
+**Vì sao chấm mức 2 chứ không cao hơn:** người dùng **biết** là thao tác đã hỏng (vế quan trọng nhất — không có xác nhận sai), dữ liệu đã nhập không mất, và khi có mạng lại thì bấm Save lần nữa là xong. Khiếm khuyết nằm ở chất lượng thông báo và ở việc thiếu affordance retry, không ở việc mất dữ liệu hay hiểu sai kết quả.
+
+**Quan hệ với F-014:** hai finding này **ngược chiều nhau và cùng đúng** — EMS **có** đường báo lỗi (finding này, chỉ là nội dung kém) nhưng **không** có đường báo thành công (F-014). Kết quả của ca offline đã **bác bỏ** phỏng đoán ban đầu trong F-014 rằng nhánh thất bại cũng im lặng.
+
+**Evidence**
+`evidence/C2/C2_IA04-11_offline-save-failed-to-fetch.png`
+
+**Suggested fix**
+Bắt lỗi mạng ở tầng gọi API và thay bằng thông báo theo ngữ cảnh — ví dụ *"Không lưu được thay đổi: mất kết nối tới máy chủ. Kiểm tra mạng rồi thử lại."* — kèm nút **Thử lại** ngay trong khối lỗi. Không để bất kỳ chuỗi lỗi thô nào của JavaScript hay mã HTTP hiển thị cho người dùng cuối.
+
+---
+
 ## Đối chiếu Fail → finding (kiểm tra không sót, không trùng)
 
 | Màn hình | Item Fail | Finding tương ứng |
@@ -921,10 +979,11 @@ Tên file là `users-export-1785667505695.xlsx`. Phần `1785667505695` là **ep
 | C2 | IA02-13 | F-015 |
 | C2 | IA04-04 | F-014 |
 | C2 | IA04-12 | F-014 (gộp — cùng nguyên nhân gốc: không có hệ thống toast) |
+| C2 | IA04-11 | **F-021** |
 | C3 | IA01-12 | F-004 (gộp) |
 | C4 | IA04-04 | F-014 (gộp) |
 | C4 | IA04-12 | F-014 (gộp) |
 | C4 | IA04-13 | F-017 + F-018 + F-019 + F-020 (4 nguyên nhân gốc khác nhau) |
 
-**Tổng:** 18 lượt item Fail trên 4 màn hình → **18 finding có item** + **2 finding ngoài checklist** = **20 finding**.
+**Tổng:** 20 lượt item Fail trên 4 màn hình → **19 finding có item** + **2 finding ngoài checklist** = **21 finding**.
 Mọi item Fail đều đã được xử lý; không finding nào không truy được về một quan sát cụ thể có số đo.
