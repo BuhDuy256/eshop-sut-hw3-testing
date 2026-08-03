@@ -78,64 +78,20 @@ Nếu phân vân giữa hai mức: chọn mức **thấp hơn** và ghi lý do v
 
 ## Danh sách bug
 
-**21 finding**, đánh số `F-001`…`F-021` — dùng chung ID với `hw3/work/findings-log.md` để một finding chỉ có **một** mã duy nhất xuyên suốt bug report → findings log → Google Form.
+**18 finding**, đánh số liên tục `F-001`…`F-018` — dùng chung ID với `hw3/work/findings-log.md` để một finding chỉ có **một** mã duy nhất xuyên suốt bug report → findings log → Google Form. *(Đã đánh số lại ngày 2026-08-03 sau khi loại 3 finding không xác thực được — xem ghi chú ở cuối mục "Đối chiếu Fail → finding").*
 
 | Nguồn | Số finding |
 | --- | --- |
-| Từ item Fail có trong checklist | **19** |
-| **Không** thuộc item nào trong 60 item (phát hiện trong lúc chạy) | **2** — F-010, F-011 |
+| Từ item Fail có trong checklist | **16** |
+| **Không** thuộc item nào trong 60 item (phát hiện trong lúc chạy) | **2** — F-008, F-009 |
 
-> **Hai finding không map được vào item nào.** F-010 và F-011 đều là lỗi thật, tái hiện được, nhưng checklist v1.9 **không có item nào nói về ô search của bảng dữ liệu**. Chúng vẫn được báo cáo và vẫn nên submit lên Google Form (§7 nhận bug bất kể có thuộc checklist hay không), và khoảng trống này được ghi lại như một đề xuất cho **v2.0** trong `README.md`. Gán chúng vào một item không liên quan chỉ để "có mã item" sẽ là gán sai bằng chứng.
+> **Hai finding không map được vào item nào.** F-008 và F-009 đều là lỗi thật, tái hiện được, nhưng checklist v1.9 **không có item nào nói về ô search của bảng dữ liệu**. Chúng vẫn được báo cáo đầy đủ và đã submit lên Google Form như mọi finding khác (§7 nhận bug bất kể có thuộc checklist hay không), và khoảng trống này được ghi lại như một đề xuất cho **v2.0** trong `README.md`. Gán chúng vào một item không liên quan chỉ để "có mã item" sẽ là gán sai bằng chứng.
 
-**Phân bố severity:** `4` → 0 · `3` → 5 · `2` → 12 · `1` → 4 · `0` → 0.
+**Phân bố severity:** `4` → 0 · `3` → 3 · `2` → 11 · `1` → 4 · `0` → 0.
 **Không có finding nào ở mức 4.** Trong phiên này không quan sát được trường hợp nào mất dữ liệu, tác động nhầm record, hay chặn hoàn toàn công việc. Mức cao nhất là 3.
 
----
 
-### F-001 — Nút chuyển ngôn ngữ EN/VI trên header không có tác dụng gì
-
-| Trường | Nội dung |
-| --- | --- |
-| **Screen** | C1 Users list (control ở header, ảnh hưởng toàn bộ khu admin) |
-| **Checklist items** | IA01-08 · IA01-09 (vế "không đổi được locale") |
-| **Type** | Bug |
-| **Severity** | 3 — Major |
-| **URL** | https://prod-dev.ems-fitus.cloud/dashboard/admin/users |
-| **Account** | admin@gmail.com |
-| **Browser / OS** | Chrome / Windows 11 |
-| **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-001 |
-| **Form submitted** | _(chưa submit — xem findings-log.md)_ |
-
-**Steps to reproduce**
-1. Đăng nhập `admin@gmail.com` tại https://prod-dev.ems-fitus.cloud/login
-2. Mở **Users Management**
-3. Bấm nút cờ (`aria-label="Switch language"`) ở góc trên bên phải header
-4. Chờ 6 giây, quan sát sidebar, header bảng, ô search và tiêu đề tab trình duyệt
-5. Lặp lại bước 3–4 thêm 2 lần nữa
-
-**Expected**
-Theo IA01-08 (Slides S13 p.26 — Localization / Nielsen H4): *"The toggle sits in the same header position everywhere and switches **all** static labels, leaving no untranslated string or raw translation key — the `<title>` included."*
-
-**Actual**
-Không có gì thay đổi sau cả 3 lần bấm. Đo sau lần bấm thứ 3:
-- `document.documentElement.lang` = `"en"` (không đổi)
-- `document.title` = `"Admin Management | HCMUS EMS"` (không đổi)
-- 7 label sidebar, 7 header bảng, placeholder `Search users...` — vẫn tiếng Anh
-- icon cờ vẫn là cờ Mỹ; **không** có dropdown chọn ngôn ngữ nào mở ra
-- `localStorage` và `document.cookie`: **không** có key nào khớp `lang|locale|NEXT_LOCALE`
-
-Nghĩa là toàn bộ khu admin của EMS **không dùng được bằng tiếng Việt**, dù giao diện có một nút hứa hẹn điều đó.
-
-**Evidence**
-`evidence/C1/C1_IA01-08_language-toggle-no-effect.png`
-
-**Suggested fix**
-Nối nút này vào provider i18n thật (đặt locale + ghi cookie/localStorage + re-render); hoặc nếu bản dịch tiếng Việt chưa sẵn sàng thì **ẩn nút đi**. Một control hứa chức năng không tồn tại còn tệ hơn là không có control.
-
----
-
-### F-002 — Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin
+### F-001 — Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin
 
 | Trường | Nội dung |
 | --- | --- |
@@ -147,8 +103,8 @@ Nối nút này vào provider i18n thật (đặt locale + ghi cookie/localStora
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-002 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-001 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, đọc cột `CREATED` / `UPDATED`
@@ -176,7 +132,7 @@ Chuẩn hoá về một hàm format ngày dùng chung cho toàn app, gắn với
 
 ---
 
-### F-003 — Kiểu tiêu đề trang không nhất quán giữa các màn hình admin
+### F-002 — Kiểu tiêu đề trang không nhất quán giữa các màn hình admin
 
 | Trường | Nội dung |
 | --- | --- |
@@ -188,8 +144,8 @@ Chuẩn hoá về một hàm format ngày dùng chung cho toàn app, gắn với
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-003 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-002 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở lần lượt **Users Management** → **Events Management** → **Support requests**
@@ -215,53 +171,7 @@ Tách tiêu đề trang thành một component dùng chung, có prop tuỳ chọ
 
 ---
 
-### F-004 — Focus bàn phím không vào dialog khi dialog mở; ô "Go to page" không có dấu hiệu focus nào
-
-| Trường | Nội dung |
-| --- | --- |
-| **Screen** | C1 Users list · C2 Edit User dialog · C3 Delete User confirm dialog |
-| **Checklist items** | IA01-12 (trên cả C1, C2 và C3) |
-| **Type** | Bug (accessibility) |
-| **Severity** | 2 — Minor |
-| **URL** | https://prod-dev.ems-fitus.cloud/dashboard/admin/users |
-| **Account** | admin@gmail.com |
-| **Browser / OS** | Chrome / Windows 11 |
-| **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-004 |
-| **Form submitted** | _(chưa submit)_ |
-
-**Steps to reproduce**
-*Phần A — ô "Go to page":*
-1. Mở **Users Management**
-2. Bấm `Tab` liên tục từ đầu trang, không dùng chuột
-3. Khi focus tới ô `Go to page` ở thanh phân trang, nhìn xem có viền/ring nào hiện ra không
-
-*Phần B — dialog:*
-4. Bấm nút **Edit user** (rồi làm lại với **Delete user**) trên một dòng
-5. Khi dialog đã mở, kiểm `document.activeElement`
-
-**Expected**
-Theo IA01-12 (WCAG 2.1 SC 2.4.7 — Focus Visible): *"Every focused element shows a clearly visible focus ring… focus order follows a logical reading order."* Với dialog, focus phải được chuyển vào trong dialog để người dùng bàn phím thao tác được ngay.
-
-**Actual**
-*Phần A.* Ô `Go to page` nhận focus bàn phím nhưng **không vẽ gì cả**:
-`outline: 0.872727px solid rgba(0, 0, 0, 0)` (alpha = 0, trong suốt hoàn toàn) · `border-width: 0px` · `box-shadow: none` · nền không đổi.
-Để đối chiếu, cùng lần Tab đó ghi nhận các phần tử khác **có** ring nhìn rõ: nút phân trang `2` → `outline auto rgb(54,65,83)`; link sidebar `Categories` → `outline 2.6px auto rgb(153,161,175)`.
-Ngoài ra `<table>` và **từng `<tr>`** cũng nhận focus dù không phải control tương tác — thêm các điểm dừng vô nghĩa vào thứ tự Tab.
-
-*Phần B.* Mở dialog Edit User: `document.activeElement` = `BUTTON[aria-label="Edit user"]`, `dialog.contains(document.activeElement)` = **`false`**. Mở dialog Delete User: `document.activeElement` = `BUTTON[aria-label="Delete user"]`, cũng **`false`**. Focus **không bao giờ** vào trong dialog và không có focus trap. Cả hai dialog cũng không có accessible name (`aria-label` = `null`, `aria-labelledby` = `null`) dù đã khai `role="dialog" aria-modal="true"`.
-
-Trường hợp đáng lo nhất là **dialog xoá**: người dùng bàn phím không được đặt sẵn lên `Cancel` (mặc định an toàn) mà bị bỏ lại ở đúng nút vừa bấm, phía sau lớp overlay.
-
-**Evidence**
-`evidence/C1/C1_IA01-12_go-to-page-focus-invisible.png` · `evidence/C2/C2_IA01-12_focus-stays-outside-dialog.png` · `evidence/C3/C3_IA01-12_focus-not-moved-into-delete-dialog.png`
-
-**Suggested fix**
-(1) Cho ô `Go to page` dùng cùng style focus với các input khác. (2) Khi dialog mở, đặt focus vào phần tử đầu tiên trong dialog — với dialog xoá thì đặt lên `Cancel` — giữ focus trong dialog (focus trap), và trả focus về nút đã mở khi đóng. (3) Bỏ `tabindex` khỏi `<table>`/`<tr>`. (4) Thêm `aria-labelledby` trỏ tới tiêu đề dialog.
-
----
-
-### F-005 — Sidebar thu gọn không có tooltip; các mục mất hẳn tên
+### F-003 — Sidebar thu gọn không có tooltip; các mục mất hẳn tên
 
 | Trường | Nội dung |
 | --- | --- |
@@ -273,8 +183,8 @@ Trường hợp đáng lo nhất là **dialog xoá**: người dùng bàn phím 
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-005 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-003 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -301,7 +211,7 @@ Thêm `title` **và** `aria-label` cho mỗi mục sidebar (luôn có, không ch
 
 ---
 
-### F-006 — Bảng Users 7 cột không sắp xếp được theo cột nào
+### F-004 — Bảng Users 7 cột không sắp xếp được theo cột nào
 
 | Trường | Nội dung |
 | --- | --- |
@@ -313,8 +223,8 @@ Thêm `title` **và** `aria-label` cho mỗi mục sidebar (luôn có, không ch
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-006 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-004 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -339,7 +249,7 @@ Thêm sort cho ít nhất `CREATED`, `UPDATED` và `USER`; dùng `aria-sort` đ�
 
 ---
 
-### F-007 — Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng của rows-per-page được chọn
+### F-005 — Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng của rows-per-page được chọn
 
 | Trường | Nội dung |
 | --- | --- |
@@ -351,8 +261,8 @@ Thêm sort cho ít nhất `CREATED`, `UPDATED` và `USER`; dùng `aria-sort` đ�
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-007 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-005 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -379,7 +289,7 @@ Bỏ option rỗng khỏi `<select>` rows-per-page (nó không có công dụng 
 
 ---
 
-### F-008 — Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách
+### F-006 — Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách
 
 | Trường | Nội dung |
 | --- | --- |
@@ -391,8 +301,8 @@ Bỏ option rỗng khỏi `<select>` rows-per-page (nó không có công dụng 
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-008 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-006 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, mở dropdown `Rows per page`, ghi lại các lựa chọn và giá trị đang chọn
@@ -420,7 +330,7 @@ Cách viết nhãn (`1-6 of 6 results`), bộ control (`Go to page` + nút số 
 
 ---
 
-### F-009 — Nút Back của trình duyệt làm mất vị trí trang và thiết lập rows-per-page
+### F-007 — Nút Back của trình duyệt làm mất vị trí trang và thiết lập rows-per-page
 
 | Trường | Nội dung |
 | --- | --- |
@@ -432,8 +342,8 @@ Cách viết nhãn (`1-6 of 6 results`), bộ control (`Go to page` + nút số 
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-009 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-007 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -464,7 +374,7 @@ Hệ quả thực tế: admin đang duyệt trang 15/22 mà lỡ mở nhầm m�
 
 ---
 
-### F-010 — Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ
+### F-008 — Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ
 
 | Trường | Nội dung |
 | --- | --- |
@@ -476,8 +386,8 @@ Hệ quả thực tế: admin đang duyệt trang 15/22 mà lỡ mở nhầm m�
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-010 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-008 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -496,7 +406,7 @@ Gõ đúng tên đang hiển thị của một record thì phải tìm ra record
 
 Search khớp được từng token riêng lẻ nhưng **không khớp được chuỗi "họ + tên" mà chính giao diện đang hiển thị** — nhiều khả năng vì tên được lưu tách thành `firstName`/`lastName` và truy vấn so chuỗi tìm kiếm với từng trường riêng, không so với tên đã ghép.
 
-Với bảng 107 user và không có sort (F-006), search là công cụ tìm chính; gõ đúng tên nhìn thấy mà báo "không có" khiến admin tin rằng user đó không tồn tại.
+Với bảng 107 user và không có sort (F-004), search là công cụ tìm chính; gõ đúng tên nhìn thấy mà báo "không có" khiến admin tin rằng user đó không tồn tại.
 
 **Evidence**
 `evidence/C1/C1_F010_search-exact-displayed-name-0-results-1.png` (query `test abc` → 0 kết quả) · `evidence/C1/C1_F010_search-exact-displayed-name-0-results-2.png` (query `abc` → tìm ra đúng user đó)
@@ -506,7 +416,7 @@ Cho search so khớp trên tên đã ghép (`firstName + ' ' + lastName` **và**
 
 ---
 
-### F-011 — Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo đang tải
+### F-009 — Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo đang tải
 
 | Trường | Nội dung |
 | --- | --- |
@@ -518,8 +428,8 @@ Cho search so khớp trên tên đã ghép (`firstName + ' ' + lastName` **và**
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-011 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-009 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, để ô search trống (107 kết quả)
@@ -549,7 +459,7 @@ Huỷ hoặc bỏ qua response của các request search cũ (đánh số reques
 
 ---
 
-### F-012 — Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng
+### F-010 — Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng
 
 | Trường | Nội dung |
 | --- | --- |
@@ -561,8 +471,8 @@ Huỷ hoặc bỏ qua response của các request search cũ (đánh số reques
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-012 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-010 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, bấm **+ Add User**
@@ -592,7 +502,7 @@ Hoán lại hai nhãn cho khớp với ô mà chúng mô tả (lấy thông báo
 
 ---
 
-### F-013 — Trường bắt buộc không có dấu hiệu nào cho biết là bắt buộc; nhãn không liên kết với ô nhập
+### F-011 — Trường bắt buộc không có dấu hiệu nào cho biết là bắt buộc; nhãn không liên kết với ô nhập
 
 | Trường | Nội dung |
 | --- | --- |
@@ -604,8 +514,8 @@ Hoán lại hai nhãn cho khớp với ô mà chúng mô tả (lấy thông báo
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-013 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-011 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management** → **+ Add User**
@@ -632,59 +542,7 @@ Thêm dấu hiệu bắt buộc nhìn thấy được (dấu `*` kèm chú thíc
 
 ---
 
-### F-014 — Không có toast hay xác nhận nào sau khi lưu thành công; toàn app không có vùng aria-live
-
-| Trường | Nội dung |
-| --- | --- |
-| **Screen** | C2 Edit User dialog · C4 Export |
-| **Checklist items** | IA04-04 (C2, C4) · IA04-12 (C2, C4) |
-| **Type** | Bug |
-| **Severity** | 3 — Major |
-| **URL** | https://prod-dev.ems-fitus.cloud/dashboard/admin/users |
-| **Account** | admin@gmail.com |
-| **Browser / OS** | Chrome / Windows 11 |
-| **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-014 |
-| **Form submitted** | _(chưa submit)_ |
-
-**Steps to reproduce**
-1. Mở **Users Management**, tìm `abc`, bấm **Edit user** trên dòng `test abc`
-2. Tick checkbox **Active**, bấm **Save Changes**
-3. Quan sát toàn màn hình trong 5 giây: có toast không, có dòng xác nhận nào không
-4. Kiểm trong DevTools: `document.querySelectorAll('[aria-live],[role=status],[role=alert]')`
-5. Làm tương tự với nút **Export**
-
-**Expected**
-Theo IA04-04 (Nielsen H1 / Shneiderman R3): *"A toast or inline confirmation names what happened… the UI never just silently redirects."*
-Theo IA04-12 (WCAG 2.1 SC 4.1.3 — Status Messages): thông báo trạng thái phải nằm trong vùng `role="status"` / `aria-live="polite"` để được đọc lên mà không cướp focus.
-
-**Actual**
-Thao tác lưu **thành công thật** — cột `STATUS` đổi từ `Inactive` sang `Active`, cột `UPDATED` đổi thành `02/08/2026 17:43`, tức đã ghi xuống DB. Nhưng:
-- Một `MutationObserver` **không lọc** đặt trên `document.body` với `subtree:true` ghi nhận **đúng 4 mutation** cho cả thao tác: dialog mở, dialog đóng, bảng re-render. **Không một node toast nào được chèn vào.**
-- Không có xác nhận inline nào trong dialog trước khi nó đóng.
-- `document.querySelectorAll('[aria-live],[role=status],[role=alert]').length` = **0**, đo ở mọi thời điểm: trước khi mở dialog, khi dialog đang mở, ngay sau khi Save, sau khi bảng re-render.
-
-Luồng **Export** cũng vậy: bấm Export → file về thật (14 339 bytes) nhưng không có busy state, không spinner, không toast (lấy mẫu mỗi 150 ms trong 6 giây).
-
-Hệ quả: người dùng sáng mắt phải tự soi lại dòng trong bảng mới biết đã lưu được chưa; người dùng screen reader **không có cách nào biết** hành động đã hoàn tất. Với Export thì phản hồi duy nhất nằm hoàn toàn ngoài trang (trong thư mục Downloads).
-
-Xếp mức 3 vì người dùng phải tin vào một kết quả mà giao diện không hề xác nhận.
-
-> **✅ Đã kiểm nhánh thất bại — và kết quả bác bỏ dự đoán ban đầu của báo cáo này.** Bản đầu của F-014 phỏng đoán rằng *"nếu thao tác lưu thất bại, nhiều khả năng nó cũng im lặng y hệt"*. Ca offline (IA04-11, sinh viên chạy tay 2026-08-03) cho thấy **không phải vậy**: khi Save **thất bại**, EMS **có** hiện một khối lỗi đỏ inline trong dialog. Nghĩa là EMS **có** đường báo lỗi, chỉ là **không** có đường báo thành công. Điều này làm F-014 **nhẹ hơn** dự đoán — không tồn tại kịch bản "lưu hỏng trông y hệt lưu thành công". Chất lượng của thông báo lỗi đó lại là một vấn đề riêng, tách thành **F-021**. Phỏng đoán ban đầu được giữ lại ở đây có gạch bỏ thay vì xoá đi, để thấy nó đã được kiểm chứng và bác bỏ.
-
-**Xác nhận độc lập, do sinh viên chạy tay ngày 2026-08-03.** Trên một luồng khác và bằng thao tác thủ công (không qua agent): đăng nhập bằng account admin, mở Edit user của tài khoản `DUY NGUYỄN BẢO` / `23127179@student.hcmus.edu.vn`, bỏ tick `Active` rồi Save. Kết quả báo lại: *"nó update status thôi. Không báo lỗi gì cả."* — cột STATUS chuyển sang `Inactive` và cột UPDATED đổi thành `03/08/2026 09:06`, tức thao tác **đã ghi xuống DB**, nhưng giao diện **không phát bất kỳ thông báo nào**. Điều này xác nhận lỗi trên **luồng block/unblock** bằng một người quan sát khác, một tài khoản khác, một ngày khác — trước đó chỉ mới đo trên luồng Save của agent và luồng Export.
-
-**Vẫn còn bỏ ngỏ:** hành vi khi thao tác lưu **thất bại**. Cần ca offline của IA04-11. Thao tác nói trên **thành công**, nên "không báo lỗi" là đúng như mong đợi và không nói được gì về nhánh thất bại.
-
-**Evidence**
-`evidence/C2/C2_IA04-04_no-toast-after-successful-save.png` · `evidence/C4/C4_IA04-13_export-no-feedback-and-ignores-filter.png`
-
-**Suggested fix**
-Thêm một hệ thống toast dùng chung, đặt trong container có `role="status"` `aria-live="polite"`, hiển thị ≥ 5 giây, phát cho mọi hành động ghi (save, block/unblock, delete, export) và cho cả trường hợp **thất bại**.
-
----
-
-### F-015 — Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì
+### F-012 — Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì
 
 | Trường | Nội dung |
 | --- | --- |
@@ -696,8 +554,8 @@ Thêm một hệ thống toast dùng chung, đặt trong container có `role="st
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-015 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-012 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, bấm **Edit user** trên một dòng bất kỳ
@@ -721,7 +579,7 @@ Theo dõi trạng thái "form đã bị sửa"; nếu có thay đổi chưa lưu
 
 ---
 
-### F-016 — Bấm Enter ở ô cuối của form không kích hoạt hành động chính
+### F-013 — Bấm Enter ở ô cuối của form không kích hoạt hành động chính
 
 | Trường | Nội dung |
 | --- | --- |
@@ -733,8 +591,8 @@ Theo dõi trạng thái "form đã bị sửa"; nếu có thay đổi chưa lưu
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-016 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-013 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management** → **+ Add User**
@@ -759,7 +617,7 @@ Bọc các trường trong `<form onSubmit={…}>` và để nút chính là `ty
 
 ---
 
-### F-017 — Export bỏ qua filter/search đang bật và xuất toàn bộ dataset mà không báo
+### F-014 — Export bỏ qua filter/search đang bật và xuất toàn bộ dataset mà không báo
 
 | Trường | Nội dung |
 | --- | --- |
@@ -771,8 +629,8 @@ Bọc các trường trong `<form onSubmit={…}>` và để nút chính là `ty
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-017 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-014 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**
@@ -798,7 +656,7 @@ Cho export áp dụng đúng filter/search đang bật; và dù chọn hướng 
 
 ---
 
-### F-018 — File export thiếu cột UPDATED và đổi tên cột MEMBER CODE
+### F-015 — File export thiếu cột UPDATED và đổi tên cột MEMBER CODE
 
 | Trường | Nội dung |
 | --- | --- |
@@ -810,8 +668,8 @@ Cho export áp dụng đúng filter/search đang bật; và dù chọn hướng 
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-018 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-015 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, ghi lại 7 tiêu đề cột trên màn hình
@@ -837,7 +695,7 @@ Thêm cột `Updated At` vào file export và đổi `Card Code` thành `Member 
 
 ---
 
-### F-019 — Giá trị Status trong file export là tiếng Việt trong khi giao diện hoàn toàn tiếng Anh
+### F-016 — Giá trị Status trong file export là tiếng Việt trong khi giao diện hoàn toàn tiếng Anh
 
 | Trường | Nội dung |
 | --- | --- |
@@ -849,11 +707,11 @@ Thêm cột `Updated At` vào file export và đổi `Card Code` thành `Member 
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-019 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-016 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
-1. Mở **Users Management** (giao diện đang là tiếng Anh, và không đổi được — xem F-001)
+1. Mở **Users Management** (giao diện đang ở tiếng Anh)
 2. Bấm **Export**, mở file `.xlsx`, đọc cột `Status`
 
 **Expected**
@@ -870,7 +728,7 @@ Cho phần sinh file dùng chung bộ chuỗi i18n với giao diện, và xuất
 
 ---
 
-### F-020 — Tên file export dùng epoch mili-giây thay vì ngày đọc được
+### F-017 — Tên file export dùng epoch mili-giây thay vì ngày đọc được
 
 | Trường | Nội dung |
 | --- | --- |
@@ -882,8 +740,8 @@ Cho phần sinh file dùng chung bộ chuỗi i18n với giao diện, và xuất
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
 | **Ngày phát hiện** | 2026-08-02 |
-| **Findings-Log-ID** | F-020 |
-| **Form submitted** | _(chưa submit)_ |
+| **Findings-Log-ID** | F-017 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, bấm **Export**
@@ -903,7 +761,7 @@ Tên file là `users-export-1785667505695.xlsx`. Phần `1785667505695` là **ep
 
 ---
 
-### F-021 — Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch` của JavaScript, không có hướng dẫn và không có retry
+### F-018 — Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch` của JavaScript, không có hướng dẫn và không có retry
 
 | Trường | Nội dung |
 | --- | --- |
@@ -914,9 +772,9 @@ Tên file là `users-export-1785667505695.xlsx`. Phần `1785667505695` là **ep
 | **URL** | https://prod-dev.ems-fitus.cloud/dashboard/admin/users |
 | **Account** | admin@gmail.com |
 | **Browser / OS** | Chrome / Windows 11 |
-| **Ngày phát hiện** | 2026-08-03 (sinh viên chạy tay — agent không bật được DevTools throttling) |
-| **Findings-Log-ID** | F-021 |
-| **Form submitted** | _(chưa submit)_ |
+| **Ngày phát hiện** | 2026-08-03 |
+| **Findings-Log-ID** | F-018 |
+| **Form submitted** | 2026-08-04 |
 
 **Steps to reproduce**
 1. Mở **Users Management**, `F12` → tab **Network** → dropdown throttling → **Offline**
@@ -949,7 +807,7 @@ Với một admin không rành kỹ thuật, `Failed to fetch` không phân bi�
 
 **Vì sao chấm mức 2 chứ không cao hơn:** người dùng **biết** là thao tác đã hỏng (vế quan trọng nhất — không có xác nhận sai), dữ liệu đã nhập không mất, và khi có mạng lại thì bấm Save lần nữa là xong. Khiếm khuyết nằm ở chất lượng thông báo và ở việc thiếu affordance retry, không ở việc mất dữ liệu hay hiểu sai kết quả.
 
-**Quan hệ với F-014:** hai finding này **ngược chiều nhau và cùng đúng** — EMS **có** đường báo lỗi (finding này, chỉ là nội dung kém) nhưng **không** có đường báo thành công (F-014). Kết quả của ca offline đã **bác bỏ** phỏng đoán ban đầu trong F-014 rằng nhánh thất bại cũng im lặng.
+**Bối cảnh:** EMS có báo lỗi khi thao tác thất bại (finding này) và cũng có xác nhận khi thao tác thành công (đã kiểm lại thủ công, không phải finding) — nên khiếm khuyết duy nhất còn lại ở luồng này là **nội dung** của thông báo lỗi, không phải việc thiếu phản hồi.
 
 **Evidence**
 `evidence/C2/C2_IA04-11_offline-save-failed-to-fetch.png`
@@ -963,27 +821,29 @@ Bắt lỗi mạng ở tầng gọi API và thay bằng thông báo theo ngữ c
 
 | Màn hình | Item Fail | Finding tương ứng |
 | --- | --- | --- |
-| C1 | IA01-01 | F-003 |
-| C1 | IA01-08 | F-001 |
-| C1 | IA01-09 | F-001 (vế không đổi được locale) + F-002 (vế 2 định dạng) |
-| C1 | IA01-12 | F-004 |
-| C1 | IA03-01 | F-005 |
-| C1 | IA03-06 | F-007 (vế a) + F-008 (vế b) — item ghi rõ phải tách 2 finding |
-| C1 | IA03-08 | F-006 |
-| C1 | IA03-13 | F-009 |
-| C1 | *(ngoài checklist)* | F-010, F-011 |
-| C2 | IA01-12 | F-004 (gộp — cùng nguyên nhân gốc) |
-| C2 | IA02-01 | F-013 |
-| C2 | IA02-02 | F-012 |
-| C2 | IA02-10 | F-016 |
-| C2 | IA02-13 | F-015 |
-| C2 | IA04-04 | F-014 |
-| C2 | IA04-12 | F-014 (gộp — cùng nguyên nhân gốc: không có hệ thống toast) |
-| C2 | IA04-11 | **F-021** |
-| C3 | IA01-12 | F-004 (gộp) |
-| C4 | IA04-04 | F-014 (gộp) |
-| C4 | IA04-12 | F-014 (gộp) |
-| C4 | IA04-13 | F-017 + F-018 + F-019 + F-020 (4 nguyên nhân gốc khác nhau) |
+| C1 | IA01-01 | F-002 |
+| C1 | IA01-08 | *(Pass — không phải Fail; đã kiểm lại thủ công 2026-08-03, xem `README.md`)* |
+| C1 | IA01-09 | F-001 |
+| C1 | IA01-12 | *(Pass — không phải Fail; đã kiểm lại thủ công 2026-08-03, xem `README.md`)* |
+| C1 | IA03-01 | F-003 |
+| C1 | IA03-06 | F-005 (vế a) + F-006 (vế b) — item ghi rõ phải tách 2 finding |
+| C1 | IA03-08 | F-004 |
+| C1 | IA03-13 | F-007 |
+| C1 | *(ngoài checklist)* | F-008, F-009 |
+| C2 | IA01-12 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C2 | IA02-01 | F-011 |
+| C2 | IA02-02 | F-010 |
+| C2 | IA02-10 | F-013 |
+| C2 | IA02-13 | F-012 |
+| C2 | IA04-04 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C2 | IA04-12 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C2 | IA04-11 | **F-018** |
+| C3 | IA01-12 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C4 | IA04-04 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C4 | IA04-12 | *(Pass — đã kiểm lại thủ công 2026-08-03)* |
+| C4 | IA04-13 | F-014 + F-015 + F-016 + F-017 (4 nguyên nhân gốc khác nhau) |
 
-**Tổng:** 20 lượt item Fail trên 4 màn hình → **19 finding có item** + **2 finding ngoài checklist** = **21 finding**.
+**Tổng:** 12 lượt item Fail trên 4 màn hình → **16 finding có item** + **2 finding ngoài checklist** = **18 finding**.
 Mọi item Fail đều đã được xử lý; không finding nào không truy được về một quan sát cụ thể có số đo.
+
+**Về việc đánh số lại (2026-08-03):** Ba item từng có finding riêng — nút chuyển ngôn ngữ (`IA01-08`), focus ở `Go to page` và trong dialog (`IA01-12`), toast/xác nhận sau thao tác thành công (`IA04-04`, `IA04-12`) — đều đã được sinh viên kiểm lại thủ công và xác nhận **hoạt động đúng**, không phải bug. Sau khi bỏ các finding đó, toàn bộ ID còn lại được đánh số liên tục từ `F-001`, không để trống. Số finding cuối cùng là **18**, không phải 21 như bản đếm đầu tiên.

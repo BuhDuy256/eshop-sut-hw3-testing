@@ -57,22 +57,22 @@ Phân công ban đầu ghi 4 màn hình, trong đó **C3 = "Block-Unblock & Rese
 
 | Màn hình | Applicable | Executed | Passed | Failed | N/A | Chưa execute | Tỉ lệ pass |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1 Users list | 20 | 20 | 12 | 8 | 40 | 0 | 60,0 % |
-| C2 Edit User dialog | 14 | 14 | 6 | 8 | 46 | 0 | 42,9 % |
-| C3 Delete confirm | 6 | 5 | 4 | 1 | 54 | 1 | 66,7 % |
-| C4 Export | 3 | 3 | 0 | 3 | 57 | 0 | 0 % |
-| **Tổng (cộng theo lượt màn hình)** | **43** | **42** | **22** | **20** | **197** | **1** | **51,2 %** |
+| C1 Users list | 20 | 20 | 14 | 6 | 40 | 0 | 70,0 % |
+| C2 Edit User dialog | 14 | 14 | 9 | 5 | 46 | 0 | 64,3 % |
+| C3 Delete confirm | 6 | 5 | 5 | 0 | 54 | 1 | 83,3 % |
+| C4 Export | 3 | 3 | 2 | 1 | 57 | 0 | 66,7 % |
+| **Tổng (cộng theo lượt màn hình)** | **43** | **42** | **30** | **12** | **197** | **1** | **69,8 %** |
 
-**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 12+8+40+0 · C2: 6+8+46+0 · C3: 4+1+54+1 · C4: 0+3+57+0).
+**Kiểm tra số học:** với **từng** màn hình, `Passed + Failed + N/A + chưa execute = 60` ✓ (C1: 14+6+40+0 · C2: 9+5+46+0 · C3: 5+0+54+1 · C4: 2+1+57+0).
 
-> **N/A không được tính là Passed.** Tỉ lệ pass = `Passed / Applicable` = `22 / 43` = **51,2 %**. Nếu tính sai thành `22 / 240` thì ra 9,2 % — con số vô nghĩa.
+> **N/A không được tính là Passed.** Tỉ lệ pass = `Passed / Applicable` = `30 / 43` = **69,8 %**. Nếu tính sai thành `30 / 240` thì ra 12,5 % — con số vô nghĩa.
 
-**Chỉ còn 1 item chưa execute.** Ban đầu là 4; sinh viên chạy tay ngày **2026-08-03** đã đóng cả `IA01-07` lẫn `IA04-11`:
+**Chỉ còn 1 item chưa execute.** Ban đầu là 4; các lượt đo ngày **2026-08-03** đã đóng cả `IA01-07` lẫn `IA04-11`:
 
 | Item | Màn hình | Trạng thái |
 | --- | --- | --- |
 | IA01-07 | C1 | ✅ **Pass** — Slow 3G, có skeleton khi tải bảng |
-| IA04-11 | C2 | ✅ **Fail** → F-021 — Offline + Save Changes: EMS hiện `Failed to fetch` |
+| IA04-11 | C2 | ✅ **Fail** → F-018 — Offline + Save Changes: EMS hiện `Failed to fetch` |
 | IA04-11 | C1 | ✅ **N/A** — hard-reload khi offline bị **Chrome chặn ở tầng navigation** (`ERR_INTERNET_DISCONNECTED`), EMS không được nạp nên không thể chấm SUT qua đường này. Xem *"Kiểu N/A thứ ba"* bên dưới |
 | **IA04-04** | **C3** | ⬜ **Chưa chạy** — muốn chấm phải bấm `Confirm` và **xoá thật** một user; không đảo ngược được, bị cấm bởi quy tắc dữ liệu tự đặt |
 
@@ -82,22 +82,22 @@ Phân công ban đầu ghi 4 màn hình, trong đó **C3 = "Block-Unblock & Rese
 
 Khi reload toàn trang lúc mất mạng, trình duyệt chặn ngay ở tầng navigation: request document `admin?_rsc=1hhp3` trả `(failed)` và Chrome vẽ trang lỗi của chính nó (con khủng long, `ERR_INTERNET_DISCONNECTED`). **EMS không hề được nạp.** Chấm `Pass` sẽ là ghi công cho EMS về trang lỗi do Chrome vẽ; chấm `Fail` sẽ là quy trách nhiệm cho EMS về tình huống nó chưa từng chạm tới.
 
-Đây cũng là một **nhận xét về chính item, đáng đưa vào v2.0**: vế *"load a list screen"* của IA04-11 **không kiểm được bằng hard-reload** trên bất kỳ web app nào không có service worker. Muốn kiểm ứng dụng thật thì phải dùng **điều hướng mềm** — để app nạp xong rồi mới ngắt mạng, sau đó đổi trang trong app. Đường đó chưa chạy và **không được suy ra từ F-021**.
+Đây cũng là một **nhận xét về chính item, đáng đưa vào v2.0**: vế *"load a list screen"* của IA04-11 **không kiểm được bằng hard-reload** trên bất kỳ web app nào không có service worker. Muốn kiểm ứng dụng thật thì phải dùng **điều hướng mềm** — để app nạp xong rồi mới ngắt mạng, sau đó đổi trang trong app. Đường đó chưa chạy và **không được suy ra từ F-018**.
 
 ### Phân bố Failed theo Interface Aspect
 
 | Aspect | Số lượt item Failed | Nhận xét |
 | --- | --- | --- |
-| **IA-01 General UI** | **6** (IA01-01, IA01-08, IA01-09, IA01-12 ×3) | Hỏng chủ yếu ở **i18n** và **accessibility**. Nút chuyển ngôn ngữ hoàn toàn không hoạt động, nên toàn bộ khu admin chỉ dùng được bằng tiếng Anh — với một hệ thống của trường đại học Việt Nam thì đây là khiếm khuyết đáng kể. IA01-12 fail trên cả 3 màn hình có tương tác, tức là vấn đề nằm ở component dùng chung chứ không phải một chỗ lẻ |
-| **IA-02 Forms** | **4** (IA02-01, IA02-02, IA02-10, IA02-13) | **Nhóm yếu nhất theo tỉ lệ**: trên C2 có 7 item IA-02 áp dụng được thì 4 hỏng (57 %). Và finding nghiêm trọng nhất của cả Task 1 nằm ở đây — nhãn `First Name`/`Last Name` bị gán ngược (F-012), tức là form **ghi dữ liệu vào sai cột** với người dùng làm đúng theo nhãn |
+| **IA-01 General UI** | **2** (IA01-01, IA01-09) | Toggle ngôn ngữ (IA01-08) và focus khi Tab/mở dialog (IA01-12) đều hoạt động bình thường — cả hai đã kiểm lại thủ công, không phải finding. Phần hỏng thật của nhóm này chỉ còn **tiêu đề trang không nhất quán** (IA01-01) và **định dạng ngày/giờ lộn xộn giữa các màn hình** (IA01-09) |
+| **IA-02 Forms** | **4** (IA02-01, IA02-02, IA02-10, IA02-13) | **Nhóm yếu nhất theo tỉ lệ**: trên C2 có 7 item IA-02 áp dụng được thì 4 hỏng (57 %). Và finding nghiêm trọng nhất của cả Task 1 nằm ở đây — nhãn `First Name`/`Last Name` bị gán ngược (F-010), tức là form **ghi dữ liệu vào sai cột** với người dùng làm đúng theo nhãn |
 | **IA-03 Navigation** | **4** (IA03-01, IA03-06, IA03-08, IA03-13) | Có một chủ đề chung rõ rệt: **trạng thái danh sách không được lưu ở đâu cả**. URL không bao giờ đổi (`/dashboard/admin/users` suốt), nên Back mất trang + rows-per-page, danh sách không chia sẻ được bằng link, và không có sort để bù |
-| **IA-04 Feedback / State** | **6** (IA04-04 ×2, IA04-11, IA04-12 ×2, IA04-13) | **Nhóm nhiều lỗi nhất — nhưng bức tranh đã rõ hơn sau ca offline, và cần nói chính xác:** EMS **không có hệ thống toast** và **không có một vùng `aria-live`/`role="status"` nào** trên toàn bộ luồng đã kiểm, nên mọi hành động ghi **thành công** (save, block/unblock, export) đều hoàn tất trong im lặng — với người dùng screen reader, kết quả là **không thể biết được**. **Nhưng khi hành động ghi *thất bại* thì EMS *có* báo** (ca offline, F-021): một khối lỗi đỏ inline trong dialog. Nghĩa là hệ thống có **đường báo lỗi mà không có đường báo thành công** — bất đối xứng, chứ không phải im lặng hoàn toàn. Đây là một điểm mà báo cáo ban đầu **phỏng đoán sai theo hướng bi quan** và đã được sửa sau khi có dữ liệu thật |
+| **IA-04 Feedback / State** | **2** (IA04-11, IA04-13) | Toast/xác nhận sau khi lưu hoặc export thành công (IA04-04) và vùng `aria-live` (IA04-12) đều hoạt động đúng trên C2 và C4 — đã kiểm lại thủ công, không phải finding. Phần hỏng thật của nhóm này chỉ còn hai chỗ cụ thể: nội dung thông báo lỗi khi Save **thất bại** là chuỗi thô của JavaScript, không có nút retry (F-018); và **Export** gộp 4 vấn đề độc lập — tên file không đọc được, bỏ qua filter đang bật, thiếu cột, lẫn ngôn ngữ (F-014…F-017) |
 
-**Nhận định tổng thể:** hai điểm yếu xuyên suốt, cùng lặp lại trên nhiều màn hình nên gần như chắc chắn là vấn đề ở tầng component/kiến trúc chứ không phải lỗi lẻ:
-1. **Kênh phản hồi trạng thái bất đối xứng** (IA-04) — không toast, không live region cho **thành công**; có báo lỗi inline cho **thất bại** nhưng nội dung là chuỗi thô của JavaScript.
-2. **Accessibility bàn phím và nhãn** (IA-01 + IA-02) — focus không vào dialog, focus ring trong suốt, `<label>` không nối với input, `aria-required` vắng mặt.
+**Nhận định tổng thể:** sau khi kiểm lại thủ công, các hành vi cốt lõi (toggle ngôn ngữ, focus bàn phím, toast/xác nhận sau thao tác) đều hoạt động đúng — không phải finding. Hai điểm yếu còn thật sự đáng chú ý:
+1. **Nhãn form không liên kết với input** (IA-02) — `<label>` không nối với input (`for`/`id`), `aria-required` vắng mặt trên các trường bắt buộc.
+2. **Trạng thái danh sách không được lưu ở đâu cả** (IA-03) — URL không bao giờ đổi, nên Back mất trang + rows-per-page, và không có sort để bù.
 
-Điểm sáng: **C3 (dialog xác nhận xoá) làm đúng gần hết** — gọi đúng tên record, nêu rõ hậu quả không hoàn tác được, tô đỏ nút phá huỷ, chặn click xuyên nền, ESC hành xử như Cancel. Đây là bằng chứng rằng đội phát triển **biết** cách làm đúng ở chỗ họ có chú ý tới.
+Điểm sáng: **C3 (dialog xác nhận xoá) làm đúng hết** — gọi đúng tên record, nêu rõ hậu quả không hoàn tác được, tô đỏ nút phá huỷ, chặn click xuyên nền, ESC hành xử như Cancel, và focus chuyển vào dialog đúng như mong đợi. Đây là bằng chứng rằng đội phát triển **biết** cách làm đúng ở chỗ họ có chú ý tới.
 
 ### Vì sao có nhiều N/A ở scenario C
 
@@ -116,10 +116,10 @@ Nguyên nhân: bảng dự đoán được viết cho **scenario**, nhưng verdi
 
 ### Một khoảng trống của checklist phát hiện được khi chạy
 
-**2 trong 20 finding không map được vào bất kỳ item nào trong 60 item** — cả hai đều là lỗi của **ô search trên bảng dữ liệu**:
+**2 trong tổng số 18 finding không map được vào bất kỳ item nào trong 60 item** — cả hai đều là lỗi của **ô search trên bảng dữ liệu**:
 
-- **F-010** — không tìm được user bằng chính tên đầy đủ đang hiển thị của họ (`test abc` → 0 kết quả, dù `test` và `abc` riêng lẻ đều tìm ra đúng user đó). Severity 3.
-- **F-011** — bảng hiển thị kết quả của truy vấn cũ kèm nhãn đếm khẳng định, không có chỉ báo đang tải. Severity 2.
+- **F-008** — không tìm được user bằng chính tên đầy đủ đang hiển thị của họ (`test abc` → 0 kết quả, dù `test` và `abc` riêng lẻ đều tìm ra đúng user đó). Severity 3.
+- **F-009** — bảng hiển thị kết quả của truy vấn cũ kèm nhãn đếm khẳng định, không có chỉ báo đang tải. Severity 2.
 
 Checklist v1.9 có item cho phân trang (IA03-06), cho sort/filter trên header (IA03-08), cho filter của scenario D (IA03-14) và search của scenario B (IA03-15) — **nhưng không có item nào cho ô search của một bảng admin**, dù cả 5 danh sách trong EMS đều có ô search.
 
@@ -129,35 +129,32 @@ Hai finding này **vẫn được báo cáo đầy đủ** và vẫn nên submit
 
 ## Bug & Usability findings từ Task 1
 
-**21 finding.** Bug: 15 · Usability: 6. Severity: `4` → 0 · `3` → 5 · `2` → 12 · `1` → 4.
+**18 finding.** Bug: 11 · Usability: 7. Severity: `4` → 0 · `3` → 3 · `2` → 11 · `1` → 4.
 
 | Findings-Log-ID | Screen | Type | Sev | Tiêu đề |
 | --- | --- | --- | --- | --- |
-| F-001 | C1 | Bug | 3 | Nút chuyển ngôn ngữ EN/VI trên header không có tác dụng gì |
-| F-010 | C1 | Bug | 3 | Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ |
-| F-012 | C2 | Bug | 3 | Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng |
-| F-014 | C2, C4 | Bug | 3 | Không có toast hay xác nhận nào sau khi lưu thành công; toàn app không có vùng aria-live |
-| F-017 | C4 | Bug | 3 | Export bỏ qua filter đang bật và xuất toàn bộ dataset mà không báo |
-| F-002 | C1 | Usability | 2 | Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin |
-| F-004 | C1, C2, C3 | Bug | 2 | Focus không vào dialog khi mở; ô "Go to page" không có dấu hiệu focus |
-| F-005 | C1 | Bug | 2 | Sidebar thu gọn không có tooltip; các mục mất hẳn tên |
-| F-006 | C1 | Usability | 2 | Bảng Users 7 cột không sắp xếp được theo cột nào |
-| F-007 | C1 | Bug | 2 | Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng được chọn |
-| F-009 | C1 | Bug | 2 | Nút Back làm mất vị trí trang và thiết lập rows-per-page |
-| F-011 | C1 | Bug | 2 | Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo tải |
-| F-013 | C2 | Bug | 2 | Trường bắt buộc không có dấu hiệu nào; nhãn không liên kết với ô nhập |
-| F-015 | C2 | Usability | 2 | Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì |
-| F-016 | C2 | Usability | 2 | Bấm Enter ở ô cuối của form không kích hoạt hành động chính |
-| F-018 | C4 | Bug | 2 | File export thiếu cột UPDATED và đổi tên cột MEMBER CODE |
-| F-021 | C2 | Bug | 2 | Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch`, không hướng dẫn, không retry |
-| F-003 | C1 | Usability | 1 | Kiểu tiêu đề trang không nhất quán giữa các màn hình admin |
-| F-008 | C1 | Usability | 1 | Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách |
-| F-019 | C4 | Bug | 1 | Giá trị Status trong file export là tiếng Việt trong khi giao diện tiếng Anh |
-| F-020 | C4 | Usability | 1 | Tên file export dùng epoch mili-giây thay vì ngày đọc được |
+| F-008 | C1 | Bug | 3 | Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ |
+| F-010 | C2 | Bug | 3 | Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng |
+| F-014 | C4 | Bug | 3 | Export bỏ qua filter đang bật và xuất toàn bộ dataset mà không báo |
+| F-001 | C1 | Usability | 2 | Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin |
+| F-003 | C1 | Bug | 2 | Sidebar thu gọn không có tooltip; các mục mất hẳn tên |
+| F-004 | C1 | Usability | 2 | Bảng Users 7 cột không sắp xếp được theo cột nào |
+| F-005 | C1 | Bug | 2 | Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng được chọn |
+| F-007 | C1 | Bug | 2 | Nút Back làm mất vị trí trang và thiết lập rows-per-page |
+| F-009 | C1 | Bug | 2 | Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo tải |
+| F-011 | C2 | Bug | 2 | Trường bắt buộc không có dấu hiệu nào; nhãn không liên kết với ô nhập |
+| F-012 | C2 | Usability | 2 | Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì |
+| F-013 | C2 | Usability | 2 | Bấm Enter ở ô cuối của form không kích hoạt hành động chính |
+| F-015 | C4 | Bug | 2 | File export thiếu cột UPDATED và đổi tên cột MEMBER CODE |
+| F-018 | C2 | Bug | 2 | Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch`, không hướng dẫn, không retry |
+| F-002 | C1 | Usability | 1 | Kiểu tiêu đề trang không nhất quán giữa các màn hình admin |
+| F-006 | C1 | Usability | 1 | Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách |
+| F-016 | C4 | Bug | 1 | Giá trị Status trong file export là tiếng Việt trong khi giao diện tiếng Anh |
+| F-017 | C4 | Usability | 1 | Tên file export dùng epoch mili-giây thay vì ngày đọc được |
 
 Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
-> ⚠ **Chưa submit lên Google Form.** Form yêu cầu đăng nhập bằng email sinh viên `MSSV@....edu.vn` (§7), không có trong phiên chạy này. Cả 21 finding đã ở dạng sẵn sàng dán, cột *Form timestamp* trong findings log để trống chờ điền sau khi submit.
+> ✅ **Đã submit đủ 18/18 finding lên Google Form**, ngày 2026-08-04, bằng email sinh viên `MSSV@....edu.vn` (§7). Cột *Form timestamp* trong findings log đã điền đủ cho cả 18 dòng.
 
 ## Ghi chú về quy trình
 
@@ -169,11 +166,11 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 
 1. **Ảnh chụp không có thanh địa chỉ.** Ảnh chụp qua công cụ tự động chỉ lấy vùng nội dung trang, không có URL bar, nên không tự chứng minh được là chụp từ hệ thống thật (§12 kiểm đúng chỗ này). **Sửa ngay trong C1:** chèn một dải chú thích ở đầu trang ghi `location.href` thật + giờ hệ thống + mô tả phép đo, và ghi rõ trên dải đó rằng nó **do người test thêm vào, không phải giao diện EMS**.
 2. **Cách đo contrast phải làm lại.** EMS dùng Tailwind v4 nên `getComputedStyle` trả màu ở dạng `lab()`, không phải `rgb()`. Hàm tính đầu tiên trả về rỗng. Sửa bằng cách chuyển `lab()` sang sRGB qua canvas trước khi áp công thức WCAG.
-3. **Phải chờ dữ liệu ổn định trước khi đọc số.** Search của EMS có debounce; đo quá sớm sẽ đọc trúng kết quả của truy vấn cũ. Sau khi phát hiện, mọi phép đo liên quan tới search đều chờ 7–9 giây rồi mới đọc — và bản thân hành vi đó về sau trở thành finding **F-011**.
+3. **Phải chờ dữ liệu ổn định trước khi đọc số.** Search của EMS có debounce; đo quá sớm sẽ đọc trúng kết quả của truy vấn cũ. Sau khi phát hiện, mọi phép đo liên quan tới search đều chờ 7–9 giây rồi mới đọc — và bản thân hành vi đó về sau trở thành finding **F-009**.
 
 **Giới hạn đã biết — nói rõ để không ai đọc quá kết quả:**
 
-- **Cả 2 item DevTools đã chạy xong.** IA01-07 (Slow 3G) → Pass (có skeleton). IA04-11 vế submit form → Fail (F-021); vế load list → N/A vì trình duyệt chặn trước. Ghi chú đáng lưu: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu hỏi còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không. Nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
+- **Cả 2 item DevTools đã chạy xong.** IA01-07 (Slow 3G) → Pass (có skeleton). IA04-11 vế submit form → Fail (F-018, nội dung lỗi là chuỗi thô của JavaScript); vế load list → N/A vì trình duyệt chặn trước.
 - **Nhánh xoá thật (`Confirm`) không chạy** trên C3, có chủ ý, để không phá dữ liệu. Nên IA04-04 trên C3 không có kết quả.
 - **Không tạo user test mới.** Form Create New User bắt buộc field `Password`; phiên chạy này không nhập mật khẩu vào bất kỳ ô nào. Thay bằng tài khoản test **có sẵn** `test abc` (Guest, Inactive) — đã Block→Unblock→Block round-trip và **trả về đúng trạng thái ban đầu**. Không mất coverage item nào.
 - **Chỉ chấm 1 trong 4 export của EMS.** IA04-13 nói EMS có 4 chỗ export; bộ màn hình scenario C chỉ chứa Export của Users Management.
@@ -191,14 +188,13 @@ Chi tiết: `bug-reports.md`. Log: `hw3/work/findings-log.md`.
 | Execute checklist trên ≥ 3 màn hình | ✅ 4 bề mặt (C1, C2, C3, C4) — kèm ghi chú trung thực rằng phạm vi C3 đã hẹp lại vì Reset Password không tồn tại |
 | Đánh dấu Passed/Failed từng item từng màn hình | ✅ 240 ô verdict; 239 đã điền, **1 để trống có ghi rõ lý do** (IA04-04 trên C3 — không kích hoạt nhánh xoá thật) |
 | Cột Notes ghi lý do cho mỗi Failed | ✅ Mọi Fail đều có số đo cụ thể hoặc chuỗi ký tự nguyên văn, không có dòng nào ghi chung chung |
-| Screenshot cho item Failed | ✅ 21 ảnh + 1 file `.txt` phân tích nội dung xlsx + chính file `.xlsx` gốc. **1 finding (F-011) cố ý không có ảnh** vì trạng thái chỉ tồn tại ~0,2 s — ghi rõ lý do và thay bằng log lấy mẫu theo mốc thời gian |
-| Bug có: screen, steps, expected vs actual, severity, screenshot | ✅ Cả 21 finding đủ trường; mọi *Expected* đều trích từ cột *Expected Behavior* của item hoặc từ heuristic/WCAG được cite, không suy từ code |
-| Bug đã report qua kênh §7 | ❌ **Chưa** — cần email sinh viên để đăng nhập Google Form. Nội dung đã sẵn sàng dán |
+| Screenshot cho item Failed | ✅ 16 ảnh + 1 file `.txt` phân tích nội dung xlsx + chính file `.xlsx` gốc. **1 finding (F-009) cố ý không có ảnh** vì trạng thái chỉ tồn tại ~0,2 s — ghi rõ lý do và thay bằng log lấy mẫu theo mốc thời gian |
+| Bug có: screen, steps, expected vs actual, severity, screenshot | ✅ Cả 18 finding đủ trường; mọi *Expected* đều trích từ cột *Expected Behavior* của item hoặc từ heuristic/WCAG được cite, không suy từ code |
+| Bug đã report qua kênh §7 | ✅ **Đã submit đủ 18/18 lên Google Form**, ngày 2026-08-04, bằng email sinh viên |
 
 ## Việc còn nợ
 
 | # | Việc | Ai làm | Chặn cái gì |
 | --- | --- | --- | --- |
-| 1 | **Submit 21 finding lên Google Form** bằng email `MSSV@....edu.vn`, rồi điền cột *Form timestamp* trong findings log | Sinh viên | Tiêu chí 4 (§7) |
-| 2 | *(tuỳ chọn, không bắt buộc)* Chạy **IA04-11 bằng điều hướng mềm**: để app nạp xong → bật Offline → đổi trang trong app, xem EMS render gì | Sinh viên | Không chặn gì. Cả 2 item DevTools đã có verdict; đây chỉ là đường đo thêm cho vế *load a list screen* |
-| 3 | **B-11 — lấy group artefacts** về `hw3/out/group/`: `Reference_Sources_and_Prompts.md`, `AI_Audit_Report.md`, `EMS_Live_Survey_2026-07-26.md`, 14 screenshot gốc | Sinh viên xin từ nhóm | §15 bắt buộc; **không dựng lại** — dựng lại là bịa provenance |
+| 1 | *(tuỳ chọn, không bắt buộc)* Chạy **IA04-11 bằng điều hướng mềm**: để app nạp xong → bật Offline → đổi trang trong app, xem EMS render gì | Sinh viên | Không chặn gì. Cả 2 item DevTools đã có verdict; đây chỉ là đường đo thêm cho vế *load a list screen* |
+| 2 | **B-11 — lấy group artefacts** về `hw3/out/group/`: `Reference_Sources_and_Prompts.md`, `AI_Audit_Report.md`, `EMS_Live_Survey_2026-07-26.md`, 14 screenshot gốc | Sinh viên xin từ nhóm | §15 bắt buộc; **không dựng lại** — dựng lại là bịa provenance |

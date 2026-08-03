@@ -1,0 +1,943 @@
+=== HƯỚNG DẪN COPY-PASTE ĐIỀN FORM TỪNG TRƯỜNG ===
+Làm theo đúng chỉ dẫn cho TỪNG CÂU HỎI của form cho mỗi lần submit.
+
+================ LẦN SUBMIT 1 ================
+Bug: F-001 — Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-001 — Ngày giờ hiển thị theo hai định dạng khác nhau giữa các màn hình admin
+- Screen: C1 Users list (so với Support request management)
+- Type: Usability
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, đọc cột `CREATED` / `UPDATED`
+2. Mở **Support requests**, đọc cột `TIME`
+3. Trong panel **Filters** của Support requests, xem placeholder của 2 ô `From date` / `To date`
+
+[EXPECTED BEHAVIOR]
+Theo IA01-09 (Slides S13 p.26 / Nielsen H4): ngày giờ và số phải render theo **một** quy ước của locale đang chọn, không phải mỗi màn hình một kiểu.
+
+[ACTUAL RESULT]
+Ba quy ước cùng tồn tại trong cùng một phiên, cùng một locale:
+- Users Management: `02/08/2026 17:11` — `dd/MM/yyyy`, 24 giờ
+- Support request management: `Aug 2, 2026, 12:56 AM` — kiểu Mỹ, 12 giờ AM/PM
+- Ô date filter native của Support requests: placeholder `mm/dd/yyyy` — thứ tự tháng/ngày kiểu Mỹ
+
+Với một ngày như `02/08` thì hai cách đọc lệch nhau **6 tháng** (2 tháng 8 so với 8 tháng 2), và không có gì trên màn hình nói cho người dùng biết đang dùng quy ước nào.
+
+Ghi lại vế **đạt** để không thổi phồng: **không** thấy raw ISO timestamp nào lọt ra giao diện.
+
+[SUGGESTED FIX]
+Chuẩn hoá về một hàm format ngày dùng chung cho toàn app, gắn với locale đang chọn. Ưu tiên `dd/MM/yyyy` vì đây là hệ thống của một trường đại học Việt Nam.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA01-09_two-date-formats-1-users.png · evidence/C1/C1_IA01-09_two-date-formats-2-support.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 2 ================
+Bug: F-002 — Kiểu tiêu đề trang không nhất quán giữa các màn hình admin
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-002 — Kiểu tiêu đề trang không nhất quán giữa các màn hình admin
+- Screen: C1 Users list (so với Events Management và Support request management)
+- Type: Usability
+- Severity: 1 — Cosmetic
+
+[STEPS TO REPRODUCE]
+1. Mở lần lượt **Users Management** → **Events Management** → **Support requests**
+2. Mỗi lần, quan sát tiêu đề trang: độ đậm chữ, có gạch chân accent hay không, có dòng mô tả phụ hay không
+
+[EXPECTED BEHAVIOR]
+Theo IA01-01 (Nielsen H4 — Consistency and Standards / Slides S13 p.16): *"one page-title style system-wide"*.
+
+[ACTUAL RESULT]
+Ba màn hình, hai kiểu:
+
+| Màn hình | font-weight | Gạch chân accent | Subtitle |
+| --- | --- | --- | --- |
+| Users Management | 700 | có (cyan) | không |
+| Events | 700 | có (cyan) | không |
+| Support request management | **800** | **không** | **có** — "Review and respond to support requests." |
+
+[SUGGESTED FIX]
+Tách tiêu đề trang thành một component dùng chung, có prop tuỳ chọn cho subtitle, để cả 3 màn hình render qua cùng một đường.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA01-01_page-title-inconsistent-1-users.png · evidence/C1/C1_IA01-01_page-title-inconsistent-2-support.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 3 ================
+Bug: F-003 — Sidebar thu gọn không có tooltip; các mục mất hẳn tên
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-003 — Sidebar thu gọn không có tooltip; các mục mất hẳn tên
+- Screen: C1 Users list (sidebar dùng chung toàn khu admin)
+- Type: Bug (accessibility / usability)
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Bấm **Collapse** ở đáy sidebar
+3. Rê chuột lên từng icon và giữ yên 3 giây
+
+[EXPECTED BEHAVIOR]
+Theo IA03-01 (Nielsen H1 / H7 / Shneiderman R2 / Slides S13 p.17): *"Collapsed, the sidebar becomes icon-only yet stays fully navigable (icons clickable, **tooltips present**) and expands again — all nine destinations remain reachable in one click in both states."*
+
+[ACTUAL RESULT]
+Sidebar thu gọn đúng và 9 đích vẫn click được, **nhưng không có tooltip nào**:
+- **0/11** mục có thuộc tính `title`
+- **0/11** mục có `aria-label`
+- Rê chuột lên icon `Categories` giữ 3 giây → **0** node `[role=tooltip]`, `.tooltip` hay `[data-tooltip]`; chuỗi "Categories" xuất hiện **0 lần** trong text nhìn thấy được
+- Ở trạng thái thu gọn đã ổn định, **10/11** mục có `textContent` **rỗng** — tức các mục (gồm `Analytics` và `Settings`) không còn tên gọi nào, kể cả cho screen reader
+
+Sau khi thu gọn, người dùng phải nhớ 9 icon nghĩa là gì, và người dùng screen reader mất khả năng điều hướng sidebar.
+
+[SUGGESTED FIX]
+Thêm `title` **và** `aria-label` cho mỗi mục sidebar (luôn có, không chỉ khi thu gọn), hoặc giữ nhãn text trong DOM và ẩn bằng kỹ thuật visually-hidden thay vì xoá khỏi cây.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA03-01_collapsed-sidebar-no-tooltip.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 4 ================
+Bug: F-004 — Bảng Users 7 cột không sắp xếp được theo cột nào
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-004 — Bảng Users 7 cột không sắp xếp được theo cột nào
+- Screen: C1 Users list
+- Type: Usability
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Bấm thử vào từng tiêu đề cột: `USER`, `MEMBER CODE`, `CREATED`, `UPDATED`
+3. Kiểm trong DevTools: `document.querySelectorAll('[aria-sort]')`
+
+[EXPECTED BEHAVIOR]
+Theo IA03-08 (Norman P1 / Slides S13 p.12, p.14): *"For a table this wide, a **complete absence of sorting** is a usability finding, not a pass."*
+
+[ACTUAL RESULT]
+`document.querySelectorAll('[aria-sort]').length` = **0** trên toàn trang. Chỉ **2/7** tiêu đề có control (icon phễu ở `Role` và `Status`) và cả hai đều là **filter**. Năm cột còn lại — `USER`, `MEMBER CODE`, `CREATED`, `UPDATED`, `ACTIONS` — không có control nào; bấm vào tiêu đề không có phản ứng.
+
+Với 107 user trải trên 22 trang (rows-per-page = 5), không có cách nào sắp xếp theo ngày tạo hay theo tên; admin muốn tìm user mới nhất phải lật từng trang.
+
+Ghi lại hai vế **đạt** của cùng item để không thổi phồng: icon phễu **có** đổi hình khi filter đang bật, và filter **sống qua phân trang**.
+
+[SUGGESTED FIX]
+Thêm sort cho ít nhất `CREATED`, `UPDATED` và `USER`; dùng `aria-sort` để phơi trạng thái sắp xếp; dùng icon mũi tên (khác hẳn icon phễu) để phân biệt sort với filter.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA03-08_seven-columns-zero-sort.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 5 ================
+Bug: F-005 — Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng của rows-per-page được chọn
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-005 — Nhãn phân trang hiện "NaN-NaN of 107 results" khi option rỗng của rows-per-page được chọn
+- Screen: C1 Users list
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Bấm vào dropdown **Rows per page** ở thanh phân trang để mở nó
+3. Bấm `Esc` để đóng dropdown, rồi bấm `Tab`
+   *(Cách trực tiếp hơn: chọn option **đầu tiên** — option rỗng — của `<select>` đó.)*
+4. Đọc nhãn ở giữa thanh phân trang
+
+[EXPECTED BEHAVIOR]
+Theo IA03-06 (Nielsen H4): *"each label is arithmetically true — it states a range matching the rows displayed and the real total"*. Nhãn phân trang phải luôn là một khoảng số hợp lệ.
+
+[ACTUAL RESULT]
+Nhãn hiện **`NaN-NaN of 107 results`** — giá trị `NaN` thô của JavaScript lọt thẳng ra giao diện. Cùng lúc, ô `Rows per page` hiển thị **trống**, còn bảng vẫn render **5 dòng**.
+
+Nguyên nhân quan sát được ở DOM: `<select>` rows-per-page **xuất xưởng kèm một option rỗng làm option đầu tiên** — `[...select.options].map(o => o.value)` trả về `["", "5", "10", "20", "50", "100"]`. Khi option `""` được chọn, phép tính khoảng trang chạy trên một giá trị không phải số.
+
+Với các giá trị bình thường thì nhãn hoàn toàn đúng — đã đếm tay và khớp ở 3 mốc: `1-5 of 105` với 5 dòng, `1-100 of 105` với đúng 100 dòng, `101-105 of 105` với đúng 5 dòng.
+
+[SUGGESTED FIX]
+Bỏ option rỗng khỏi `<select>` rows-per-page (nó không có công dụng gì) và thêm giá trị mặc định phòng hờ khi state rows-per-page không phải số, để nhãn không bao giờ render `NaN`.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA03-06_label-shows-NaN-NaN.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 6 ================
+Bug: F-006 — Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-006 — Thang "rows per page" và giá trị mặc định khác nhau giữa các danh sách
+- Screen: C1 Users list (so với Events Management và Support request management)
+- Type: Usability
+- Severity: 1 — Cosmetic
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, mở dropdown `Rows per page`, ghi lại các lựa chọn và giá trị đang chọn
+2. Làm lại với **Events Management**
+3. Làm lại với **Support requests**
+
+[EXPECTED BEHAVIOR]
+Theo IA03-06 vế (b) (Nielsen H4): *"the five lists agree — same rows-per-page scale, same label wording, same control set, same position."*
+
+[ACTUAL RESULT]
+| Danh sách | Thang rows-per-page | Mặc định |
+| --- | --- | --- |
+| Users Management | 5 / 10 / 20 / 50 / 100 | **5** |
+| Events Management | 5 / 10 / 20 / 50 / 100 | **5** |
+| Support request management | **10** / 20 / 50 / 100 — *thiếu lựa chọn 5* | **20** |
+
+Cách viết nhãn (`1-6 of 6 results`), bộ control (`Go to page` + nút số trang) và vị trí (thanh dưới cùng) thì giống nhau — chỉ thang và mặc định là lệch.
+
+[SUGGESTED FIX]
+Đưa thang rows-per-page và giá trị mặc định vào một hằng số dùng chung cho mọi bảng.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA03-06_pagination-scale-differs.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 7 ================
+Bug: F-007 — Nút Back của trình duyệt làm mất vị trí trang và thiết lập rows-per-page
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-007 — Nút Back của trình duyệt làm mất vị trí trang và thiết lập rows-per-page
+- Screen: C1 Users list
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Đặt `Rows per page` = **10**
+3. Sang **trang 2** — nhãn lúc này đọc `11-20 of 106 results`
+4. Bấm **Categories** trên sidebar (hoặc mở màn hình admin bất kỳ khác)
+5. Bấm nút **Back** của trình duyệt
+6. Đọc lại nhãn phân trang và ô `Rows per page`
+
+[EXPECTED BEHAVIOR]
+Theo IA03-13 (Nielsen H3 / Slides S13 p.18): *"Back returns to the list with filter and page still applied — not to an unfiltered page 1."*
+
+[ACTUAL RESULT]
+Sau khi Back:
+- nhãn thành **`1-5 of 106 results`** (đáng lẽ `11-20 of 106 results`)
+- bảng render **5 dòng** (đáng lẽ 10)
+- ô `Rows per page` **tự về 5** (đáng lẽ giữ 10)
+
+Mất cả vị trí trang lẫn thiết lập rows-per-page. Nguyên nhân quan sát được: **URL không bao giờ đổi** — suốt quá trình luôn là `/dashboard/admin/users`, không có query string mang page/filter/rows, nên Back không có gì để khôi phục.
+
+Hệ quả thực tế: admin đang duyệt trang 15/22 mà lỡ mở nhầm một màn hình khác thì phải bấm lại từ đầu.
+
+[SUGGESTED FIX]
+Đưa page / rows-per-page / filter / search vào query string của URL và đọc lại từ đó khi mount. Việc này đồng thời làm danh sách chia sẻ được bằng link — hiện giờ không chia sẻ được.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_IA03-13_before-page2-rows10.png · evidence/C1/C1_IA03-13_after-back-reset-page1-rows5.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 8 ================
+Bug: F-008 — Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-008 — Không tìm được user bằng chính tên đầy đủ đang hiển thị của họ
+- Screen: C1 Users list
+- Type: Bug
+- Severity: 3 — Major
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Tìm trong bảng một user có tên hiển thị gồm 2 từ — ví dụ dòng hiển thị đúng chữ **`test abc`**
+3. Gõ **`test abc`** (nguyên văn tên đang hiển thị) vào ô `Search users...`
+4. Chờ ~8 giây cho kết quả ổn định
+5. Để đối chiếu, xoá đi rồi gõ lần lượt `test`, rồi `abc`
+
+[EXPECTED BEHAVIOR]
+Gõ đúng tên đang hiển thị của một record thì phải tìm ra record đó. Đây là kỳ vọng cơ bản nhất của một ô search (Nielsen H6 — Recognition Rather Than Recall: người dùng nhận ra cái tên trên màn hình và gõ lại nó, chứ không phải nhớ xem tên đó được lưu tách thành mấy trường).
+
+[ACTUAL RESULT]
+- `test abc` → **`No users found matching your filters.`**, **0 dòng** — trong khi dòng đó đang hiển thị đúng chữ `test abc` ngay trước đó
+- `test` → **6 dòng**, có chứa user đó ✓
+- `abc` → **1 dòng**, đúng user đó ✓
+
+Search khớp được từng token riêng lẻ nhưng **không khớp được chuỗi "họ + tên" mà chính giao diện đang hiển thị** — nhiều khả năng vì tên được lưu tách thành `firstName`/`lastName` và truy vấn so chuỗi tìm kiếm với từng trường riêng, không so với tên đã ghép.
+
+Với bảng 107 user và không có sort (F-004), search là công cụ tìm chính; gõ đúng tên nhìn thấy mà báo "không có" khiến admin tin rằng user đó không tồn tại.
+
+[SUGGESTED FIX]
+Cho search so khớp trên tên đã ghép (`firstName + ' ' + lastName` **và** `lastName + ' ' + firstName`), hoặc tách chuỗi tìm kiếm theo khoảng trắng rồi yêu cầu mọi token đều khớp ở bất kỳ trường nào.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C1/C1_F010_search-exact-displayed-name-0-results-1.png (query test abc → 0 kết quả) · evidence/C1/C1_F010_search-exact-displayed-name-0-results-2.png (query abc → tìm ra đúng user đó)
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 9 ================
+Bug: F-009 — Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo đang tải
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-009 — Bảng hiển thị kết quả cũ kèm số đếm khẳng định, không có chỉ báo đang tải
+- Screen: C1 Users list
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, để ô search trống (107 kết quả)
+2. Gõ **`test`** vào ô search với tốc độ gõ bình thường
+3. Quan sát nhãn phân trang và số dòng trong khoảng **3–4 giây** ngay sau khi gõ xong
+
+[EXPECTED BEHAVIOR]
+Theo Nielsen H1 — Visibility of System Status: trong lúc dữ liệu đang tải, giao diện phải cho biết là **đang tải**; không được hiển thị dữ liệu của một truy vấn khác như thể đó là kết quả cuối cùng.
+
+[ACTUAL RESULT]
+Đo bằng cách gắn interval lấy mẫu mỗi 200 ms trong lúc gõ:
+
+```
+3780 ms  q='test'  label='1-94of94results'  rows=94
+3998 ms  q='test'  label='1-6of6results'    rows=6
+```
+
+Tại mốc 3,78 giây — khi ô search **đã hiện đủ chữ `test`** — bảng render **94 dòng** và nhãn ghi **`1-94 of 94 results`**. Đó là kết quả của một tiền tố ngắn hơn còn sót lại. Nhãn này **tự nó nhất quán về số học** (94 dòng, ghi 94) nên không có gì gợi ý rằng nó sai; không có spinner, không có skeleton, không làm mờ bảng. Đến 4,0 giây nó mới đổi thành kết quả đúng `1-6 of 6 results`.
+
+Trong gần một giây, giao diện khẳng định chắc chắn một con số sai cho truy vấn đang hiển thị.
+
+[SUGGESTED FIX]
+Huỷ hoặc bỏ qua response của các request search cũ (đánh số request, chỉ nhận response mới nhất), và hiển thị trạng thái đang tải (làm mờ bảng hoặc skeleton) từ lúc gõ tới lúc có kết quả.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: Không có ảnh — trạng thái chỉ tồn tại ~0,2 s nên chụp bằng tay không kịp. Bằng chứng là log lấy mẫu ở trên, tái hiện được bằng đúng các bước trong *Steps to reproduce*. *(Ghi rõ điều này thay vì gán một ảnh không thể hiện đúng khoảnh khắc đó.)*
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 10 ================
+Bug: F-010 — Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-010 — Nhãn "First Name" và "Last Name" bị gán ngược so với ô nhập tương ứng
+- Screen: C2 Edit User dialog · dialog Create New User
+- Type: Bug
+- Severity: 3 — Major
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, bấm **+ Add User**
+2. Nhìn ô nằm dưới nhãn **`First Name`** → placeholder của nó ghi **`Last Name`**; ô dưới nhãn `Last Name` có placeholder `First Name`
+3. Bấm **Create User** khi form còn trống → đọc thông báo lỗi dưới từng ô
+4. Đối chiếu độc lập: bấm **Export**, mở file `.xlsx`, so cột `First Name` / `Last Name` của một user với dialog **Edit user** của chính user đó
+
+[EXPECTED BEHAVIOR]
+Theo IA02-02 (Nielsen H6 — Recognition Rather Than Recall / Slides S13 p.16 — Labels): nhãn của một ô phải gọi đúng dữ liệu mà ô đó chứa. Đây là chức năng tối thiểu của một nhãn.
+
+[ACTUAL RESULT]
+**Ba nguồn độc lập đều nói nhãn sai:**
+
+1. **Placeholder** — ô dưới nhãn `First Name` có placeholder `Last Name`, và ngược lại.
+2. **Thông báo lỗi validation** — submit form rỗng: ô dưới nhãn `First Name` báo **`Last name is required`**; ô dưới nhãn `Last Name` báo **`First name is required`**.
+3. **File Excel do chính EMS xuất ra** — user hiển thị trong bảng là `SƠN BÙI QUANG`; file ghi `Last Name = "BÙI QUANG"`, `First Name = "SƠN"`; dialog Edit của đúng user đó hiển thị ô `First Name` = `BÙI QUANG`, ô `Last Name` = `SƠN`.
+
+Cả ba nguồn đều xác định ô bên trái là **họ**; chỉ riêng cái nhãn nói nó là tên.
+
+**Hệ quả:** admin làm theo nhãn sẽ gõ tên vào ô họ và họ vào ô tên. Dữ liệu vào sai cột, **không có cảnh báo nào**, và chỉ lộ ra khi xuất file hoặc khi tên hiển thị sai thứ tự ở nơi khác. Xếp mức 3 chứ không phải 4 vì dữ liệu vẫn được lưu và vẫn sửa lại được — nhưng đây là finding đáng sửa trước nhất trong toàn bộ báo cáo này.
+
+[SUGGESTED FIX]
+Hoán lại hai nhãn cho khớp với ô mà chúng mô tả (lấy thông báo lỗi và header file export làm chuẩn, vì hai chỗ đó đang đúng). Sau đó rà lại dữ liệu đã nhập qua form này, vì các bản ghi tạo trước khi sửa có thể đã bị đảo họ/tên.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C2/C2_IA02-02_validation-messages-prove-labels-swapped.png · evidence/C2/C2_IA02-01_no-required-marker-and-swapped-labels.png · evidence/C4/C4_IA04-13_file-contents-vs-screen.txt
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 11 ================
+Bug: F-011 — Trường bắt buộc không có dấu hiệu nào cho biết là bắt buộc; nhãn không liên kết với ô nhập
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-011 — Trường bắt buộc không có dấu hiệu nào cho biết là bắt buộc; nhãn không liên kết với ô nhập
+- Screen: C2 Edit User dialog · dialog Create New User
+- Type: Bug (accessibility)
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management** → **+ Add User**
+2. Nhìn 8 nhãn: có dấu `*` hay chữ "required" ở đâu không?
+3. Trong DevTools, kiểm `required`, `aria-required`, và thuộc tính `for` của các `<label>`
+4. Bấm **Create User** khi form trống để xem hệ thống thực sự bắt buộc những trường nào
+
+[EXPECTED BEHAVIOR]
+Theo IA02-01 (Norman P3 / P6 / Slides S13 p.11): *"no required field unmarked… and the requirement exposed programmatically as well as visually."*
+
+[ACTUAL RESULT]
+Ba vế lệch nhau:
+- **(a) Nhìn thấy — không có gì.** `dialog.textContent.includes('*')` = `false`. Kiểm cả marker vẽ bằng CSS: `getComputedStyle(label, '::before').content` và `'::after'` đều trả `none` trên **cả 8** nhãn. Không dấu sao, không chữ "required", không đổi màu. Trớ trêu là **chỉ trường không bắt buộc mới được đánh dấu** — placeholder ghi `Member Code (Optional)`.
+- **(b) Programmatic — nửa vời.** `required=true` có trên First Name / Last Name / Email / Password, nhưng `aria-required` = `null` trên **toàn bộ** input. Nặng hơn: **`<label>` không liên kết với input** — cả 7 `<label>` đều `for=null`, và `input.labels` rỗng với mọi trường trừ checkbox `Active`.
+- **(c) Thực sự chặn — có.** Submit rỗng bị chặn với 4 lỗi.
+
+Kết quả: hệ thống bắt buộc 4 trường, không nói cho người nhìn biết trường nào bắt buộc, và không phơi thông tin đó cho screen reader. Người dùng chỉ biết bằng cách submit hỏng.
+
+[SUGGESTED FIX]
+Thêm dấu hiệu bắt buộc nhìn thấy được (dấu `*` kèm chú thích, hoặc chữ "required") cho 4 trường đó; thêm `aria-required="true"`; và nối `<label for>` với `id` của input để nhãn được đọc lên cùng ô.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C2/C2_IA02-01_no-required-marker-and-swapped-labels.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 12 ================
+Bug: F-012 — Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-012 — Thoát dialog đang sửa dở làm mất thay đổi, không hỏi gì
+- Screen: C2 Edit User dialog
+- Type: Usability
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, bấm **Edit user** trên một dòng bất kỳ
+2. Sửa nội dung một ô — ví dụ gõ `UNSAVED-EDIT-999` đè lên ô `Phone Number`
+3. **Không** bấm Save. Bấm phím `Esc`
+4. Mở lại dialog của đúng user đó
+
+[EXPECTED BEHAVIOR]
+Theo IA02-13 (Nielsen H5 — Error Prevention / Shneiderman R6 — Permit Easy Reversal): *"Every exit path warns that unsaved changes will be lost and offers a way to stay; entered data is never discarded silently."*
+
+[ACTUAL RESULT]
+Dialog đóng **ngay lập tức**, không hỏi gì. Kiểm sau khi đóng (đã loại phần chú thích của người test ra khỏi phép tìm): không có chuỗi nào khớp `unsaved|discard|are you sure|lost` xuất hiện trên trang. Nội dung vừa gõ biến mất hoàn toàn; mở lại dialog thì ô `Phone Number` trở về giá trị cũ. Không có cảnh báo, không có lựa chọn "ở lại", không có cách khôi phục.
+
+Phạm vi đã chạy: đường thoát bằng `Esc`. Hai đường còn lại của dialog (`Cancel`, `X`) chưa thao tác riêng, nhưng vì **không tồn tại cơ chế cảnh báo nào** nên nhiều khả năng cũng vậy.
+
+[SUGGESTED FIX]
+Theo dõi trạng thái "form đã bị sửa"; nếu có thay đổi chưa lưu thì `Esc`/`Cancel`/`X` phải hiện hộp xác nhận "Bỏ thay đổi?" với lựa chọn ở lại.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C2/C2_IA02-13_esc-discards-edit-silently-1-before.png · evidence/C2/C2_IA02-13_esc-discards-edit-silently-2-after.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 13 ================
+Bug: F-013 — Bấm Enter ở ô cuối của form không kích hoạt hành động chính
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-013 — Bấm Enter ở ô cuối của form không kích hoạt hành động chính
+- Screen: C2 dialog Create New User / Edit User
+- Type: Usability
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management** → **+ Add User**
+2. Điền vài trường
+3. Đặt con trỏ vào ô `Member Code` và bấm **Enter**
+
+[EXPECTED BEHAVIOR]
+Theo IA02-10 (Norman P4 — Mapping / Slides S13 p.18): *"Enter triggers the primary submit/search action — and never a different button (Delete, Cancel) nor a page reload that loses input."*
+
+[ACTUAL RESULT]
+**Không có gì xảy ra.** Dialog vẫn mở, **0** thông báo lỗi inline xuất hiện, không có user nào được tạo, `performance.getEntriesByType('navigation')[0].type` vẫn là `navigate` (không reload), nội dung đã gõ vẫn còn. Enter **không** kích hoạt `Create User`.
+
+Nguyên nhân quan sát được: dialog **không có phần tử `<form>`** — `dialog.querySelector('form')` trả về `null` — nên trình duyệt không có gì để implicit-submit.
+
+Ghi lại vế **đạt** để không thổi phồng: Enter cũng **không** kích hoạt nhầm `Cancel`/`X` và **không** làm mất dữ liệu đã gõ. Ở ô search một trường của C1, Enter hành xử đúng (đã chấm Pass).
+
+[SUGGESTED FIX]
+Bọc các trường trong `<form onSubmit={…}>` và để nút chính là `type="submit"`, để Enter hoạt động theo quy ước bàn phím.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C2/C2_IA02-10_enter-does-nothing-on-form.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 14 ================
+Bug: F-014 — Export bỏ qua filter/search đang bật và xuất toàn bộ dataset mà không báo
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-014 — Export bỏ qua filter/search đang bật và xuất toàn bộ dataset mà không báo
+- Screen: C4 Export to Excel
+- Type: Bug
+- Severity: 3 — Major
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**
+2. Gõ `abc` vào ô search → màn hình còn đúng **1 dòng**, nhãn ghi `1-1 of 1 results`
+3. Bấm **Export**
+4. Mở file `.xlsx` vừa tải về và đếm số dòng dữ liệu
+
+[EXPECTED BEHAVIOR]
+Theo IA04-13 (Assignment §5 C4 / Nielsen H1): *"the UI makes unambiguous **whether the export covers the current filter/page or the whole dataset** — silently exporting something other than what the user is looking at is a Fail."*
+
+[ACTUAL RESULT]
+Màn hình hiển thị **1 dòng**; file tải về chứa **105 dòng dữ liệu** — toàn bộ dataset. User đang được lọc nằm ở **dòng thứ 38** trong file.
+
+Giao diện **không hề** nói export lấy toàn bộ hay lấy phần đang lọc: không có hộp thoại chọn phạm vi, không có chú thích cạnh nút, không có thông báo sau khi tải.
+
+Hệ quả: admin lọc ra một nhóm rồi bấm Export với ý định lấy đúng nhóm đó sẽ nhận về toàn bộ danh sách — và nếu không mở file ra đếm thì không biết. Ở chiều ngược lại, đây cũng là rủi ro đưa dữ liệu ngoài ý muốn ra ngoài khi file được gửi đi.
+
+[SUGGESTED FIX]
+Cho export áp dụng đúng filter/search đang bật; và dù chọn hướng nào cũng phải nói rõ ngay tại nút hoặc trong một hộp thoại xác nhận ("Xuất 1 dòng đang lọc" so với "Xuất toàn bộ 105 dòng").
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C4/C4_IA04-13_export-no-feedback-and-ignores-filter.png · evidence/C4/C4_IA04-13_file-contents-vs-screen.txt · evidence/C4/users-export-1785667505695.xlsx
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 15 ================
+Bug: F-015 — File export thiếu cột UPDATED và đổi tên cột MEMBER CODE
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-015 — File export thiếu cột UPDATED và đổi tên cột MEMBER CODE
+- Screen: C4 Export to Excel
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, ghi lại 7 tiêu đề cột trên màn hình
+2. Bấm **Export**, mở file `.xlsx`, đọc dòng header
+3. So hai danh sách
+
+[EXPECTED BEHAVIOR]
+Theo IA04-13: *"Its columns are complete relative to the on-screen table (Users: USER · Role · MEMBER CODE · Status · CREATED · UPDATED)."*
+
+[ACTUAL RESULT]
+- Header trong file: `Last Name · First Name · Email · Phone · Card Code · Role · Status · Created At`
+- Trên màn hình: `USER · Role · MEMBER CODE · Status · CREATED · UPDATED · ACTIONS`
+
+→ Cột **`UPDATED` thiếu hẳn** khỏi file, dù đây là cột dùng để biết bản ghi nào vừa bị sửa.
+→ `MEMBER CODE` bị đổi tên thành **`Card Code`** trong file, không khớp thuật ngữ trên giao diện.
+→ (`Phone` có trong file mà không có trên màn hình — thừa thì không phải lỗi, chỉ ghi nhận.)
+
+[SUGGESTED FIX]
+Thêm cột `Updated At` vào file export và đổi `Card Code` thành `Member Code` cho khớp với giao diện.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C4/C4_IA04-13_file-contents-vs-screen.txt · evidence/C4/users-export-1785667505695.xlsx
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 16 ================
+Bug: F-016 — Giá trị Status trong file export là tiếng Việt trong khi giao diện hoàn toàn tiếng Anh
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-016 — Giá trị Status trong file export là tiếng Việt trong khi giao diện hoàn toàn tiếng Anh
+- Screen: C4 Export to Excel
+- Type: Bug
+- Severity: 1 — Cosmetic
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management** (giao diện đang ở tiếng Anh)
+2. Bấm **Export**, mở file `.xlsx`, đọc cột `Status`
+
+[EXPECTED BEHAVIOR]
+Nội dung file xuất ra phải dùng cùng ngôn ngữ với giao diện đã tạo ra nó (Nielsen H4 — Consistency and Standards).
+
+[ACTUAL RESULT]
+Giao diện hiển thị `Active` / `Inactive`; file ghi **`Hoạt động`**. Header của file thì lại bằng tiếng Anh (`Last Name`, `Status`, `Created At`) — nên bản thân file đã trộn hai ngôn ngữ trong cùng một bảng.
+
+[SUGGESTED FIX]
+Cho phần sinh file dùng chung bộ chuỗi i18n với giao diện, và xuất theo locale đang chọn.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C4/C4_IA04-13_file-contents-vs-screen.txt · evidence/C4/users-export-1785667505695.xlsx
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 17 ================
+Bug: F-017 — Tên file export dùng epoch mili-giây thay vì ngày đọc được
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-017 — Tên file export dùng epoch mili-giây thay vì ngày đọc được
+- Screen: C4 Export to Excel
+- Type: Usability
+- Severity: 1 — Cosmetic
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, bấm **Export**
+2. Nhìn tên file trong thư mục Downloads
+
+[EXPECTED BEHAVIOR]
+Theo IA04-13: *"The file arrives with a meaningful, dated filename."*
+
+[ACTUAL RESULT]
+Tên file là `users-export-1785667505695.xlsx`. Phần `1785667505695` là **epoch tính bằng mili-giây** — đúng về kỹ thuật nhưng không ai đọc ra được đó là ngày nào. Xuất vài lần trong ngày sẽ được một loạt file không phân biệt nổi nếu không mở ra.
+
+[SUGGESTED FIX]
+Đặt tên theo dạng đọc được, ví dụ `users-export-2026-08-02_1745.xlsx`; nếu export có áp filter thì ghi luôn phạm vi vào tên file.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C4/C4_IA04-13_file-contents-vs-screen.txt (dòng Downloaded file:)
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
+
+================ LẦN SUBMIT 18 ================
+Bug: F-018 — Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch` của JavaScript, không có hướng dẫn và không có retry
+
+👉 Câu: Tốc độ tải trang của hệ thống như thế nào?
+➤ Chọn: Bình thường
+
+👉 Câu: Trong quá trình sử dụng, bạn có gặp lỗi nào không?
+➤ Chọn: Có
+
+👉 Câu: Nếu có, vui lòng mô tả lỗi bạn gặp phải.
+➤ Copy và dán TẤT CẢ phần nằm giữa 2 đường cắt kéo dưới đây vào ô trả lời:
+✂--------------------------------------------------
+[BUG ID & TITLE] F-018 — Lỗi khi lưu thất bại hiện chuỗi thô `Failed to fetch` của JavaScript, không có hướng dẫn và không có retry
+- Screen: C2 Edit User dialog
+- Type: Bug
+- Severity: 2 — Minor
+
+[STEPS TO REPRODUCE]
+1. Mở **Users Management**, `F12` → tab **Network** → dropdown throttling → **Offline**
+2. Bấm **Edit user** trên một dòng bất kỳ
+3. Đổi một giá trị — ví dụ bỏ tick checkbox **Active**
+4. Bấm **Save Changes**
+
+[EXPECTED BEHAVIOR]
+Theo IA04-11 (Slides S13 p.11 — *"Mishandling of server process failures"* / Nielsen H9 — Recognize, Diagnose, Recover / Shneiderman R5 — Simple Error Handling): *"Every failure gives a visible plain-language error stating **what failed** and **offering a retry**. Never an infinite spinner, a permanently blank screen, a raw stack trace or HTTP code, or — worst — a false success toast for an action that did not persist."*
+
+[ACTUAL RESULT]
+Ba trong bốn vế **đạt**, và ghi ra đây trước vì đó là phần EMS làm đúng:
+- ✅ **Có báo lỗi nhìn thấy được**, dạng khối nền đỏ **inline ngay trong dialog**, đặt ngay phía trên cặp nút `Cancel` / `Save Changes` — đúng chỗ người dùng đang nhìn.
+- ✅ **KHÔNG có toast success giả.** Đây chính là thứ Expected gọi là *"worst"*, và EMS tránh được.
+- ✅ Không spinner quay vô tận, không trắng trang; dialog vẫn mở nguyên với dữ liệu người dùng đã nhập.
+
+Vế **hỏng** là vế item nêu đầu tiên — **nội dung của thông báo**:
+
+> **`Failed to fetch`**
+
+Đây là **chuỗi lỗi thô của Fetch API JavaScript lọt nguyên văn ra giao diện**. Nó:
+- không nói **cái gì** hỏng — không hề nhắc tới việc lưu thông tin người dùng;
+- không nói **vì sao** — không nhắc tới mất kết nối mạng;
+- không nói **phải làm gì tiếp**;
+- **không kèm nút retry** nào. Muốn thử lại, người dùng phải tự đoán là bấm `Save Changes` lần nữa.
+
+Với một admin không rành kỹ thuật, `Failed to fetch` không phân biệt được với "hệ thống lỗi", "dữ liệu sai", hay "tài khoản không đủ quyền".
+
+**Bối cảnh mạng lúc đo:** DevTools Network ghi **97 request, gần như toàn bộ `(failed)`** — gồm `users?page=1&limit=5&search=…`, `track`, và `socket.io/?EIO=4&transport=polling`; console báo 121 error.
+
+**Vì sao chấm mức 2 chứ không cao hơn:** người dùng **biết** là thao tác đã hỏng (vế quan trọng nhất — không có xác nhận sai), dữ liệu đã nhập không mất, và khi có mạng lại thì bấm Save lần nữa là xong. Khiếm khuyết nằm ở chất lượng thông báo và ở việc thiếu affordance retry, không ở việc mất dữ liệu hay hiểu sai kết quả.
+
+**Bối cảnh:** EMS có báo lỗi khi thao tác thất bại (finding này) và cũng có xác nhận khi thao tác thành công (đã kiểm lại thủ công, không phải finding) — nên khiếm khuyết duy nhất còn lại ở luồng này là **nội dung** của thông báo lỗi, không phải việc thiếu phản hồi.
+
+[SUGGESTED FIX]
+Bắt lỗi mạng ở tầng gọi API và thay bằng thông báo theo ngữ cảnh — ví dụ *"Không lưu được thay đổi: mất kết nối tới máy chủ. Kiểm tra mạng rồi thử lại."* — kèm nút **Thử lại** ngay trong khối lỗi. Không để bất kỳ chuỗi lỗi thô nào của JavaScript hay mã HTTP hiển thị cho người dùng cuối.
+--------------------------------------------------✂
+
+👉 Câu: Hình ảnh / video lỗi mà bạn gặp phải
+➤ Chọn file: evidence/C2/C2_IA04-11_offline-save-failed-to-fetch.png
+
+👉 Câu: Điều bạn thích nhất ở hệ thống EMS là gì?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Điều gì khiến bạn chưa hài lòng khi sử dụng EMS?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+👉 Câu: Bạn mong muốn EMS bổ sung hoặc cải thiện tính năng nào?
+➤ Điền: N/A - Báo cáo lỗi Task 1B
+
+=> BẤM NÚT SUBMIT.
