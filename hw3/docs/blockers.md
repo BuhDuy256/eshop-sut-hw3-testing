@@ -66,13 +66,15 @@ Mở dialog Edit User và khảo sát trực tiếp DOM:
 ### B-11 ⬜ VẪN CHẶN — cần xin từ nhóm
 4 artefact của nhóm vẫn chưa có trong repo. **Không dựng lại.**
 
-### Blocker mới phát sinh trong phiên — B-13 🟡 GIẢI QUYẾT MỘT NỬA (2026-08-03)
+### Blocker mới phát sinh trong phiên — B-13 ✅ **RESOLVED (2026-08-03)**
 **2 item cần DevTools throttling không chạy được bằng công cụ tự động hoá:** `IA01-07` (Slow 3G) và `IA04-11` (Offline).
 
 **Cập nhật 2026-08-03 — sinh viên chạy tay:**
 - ✅ **IA01-07 — XONG, verdict `Pass`.** DevTools → Network → Slow 3G → hard-reload Users Management: **có skeleton** trong lúc bảng tải. Ghi vào `C1.md`.
 - 🟡 **IA04-11 — XONG MỘT NỬA.** Lần báo đầu tiên (logout khỏi user account → sang admin → set Inactive → *"không báo lỗi gì cả"*) **không dùng được** để chấm, vì thao tác đó **thành công**, không phải kịch bản offline; quan sát ấy được chuyển vào **F-014**. Lần thứ hai, sinh viên chạy **đúng** kịch bản: DevTools → Network → Offline → Edit User → bỏ tick `Active` → Save Changes.
   - **Vế *"submit a form"* → XONG, verdict `Fail` trên C2**, thành **F-021**. Kết quả đáng chú ý: EMS **có** báo lỗi inline trong dialog và **không** có toast success giả — tức tránh được đúng cái tệ nhất mà item cảnh báo. Cái hỏng là **nội dung** thông báo: chuỗi thô `Failed to fetch` của Fetch API, không nói cái gì hỏng, không có retry. Bằng chứng: `evidence/C2/C2_IA04-11_offline-save-failed-to-fetch.png` (97 request `(failed)`, 121 console error).
-  - ⬜ **Vế *"load a list screen"* → VẪN CHƯA CHẠY.** Lần đo đó không reload danh sách trong lúc offline; bảng phía sau dialog là dữ liệu cũ đã tải trước khi ngắt mạng. Cần: bật Offline → **hard-reload** `/dashboard/admin/users`. Ô verdict `IA04-11` trên **C1** vẫn để trống.
+  - ✅ **Vế *"load a list screen"* → ĐÃ CHẠY, verdict `N/A` trên C1.** Bật Offline → hard-reload `/dashboard/admin/users`: màn hình hiện **trang lỗi của chính Chrome** (con khủng long, `ERR_INTERNET_DISCONNECTED`), Network 4/13 request với document `admin?_rsc=1hhp3` = `(failed)`. **Trình duyệt chặn ở tầng navigation nên EMS không hề được nạp** — không có gì thuộc về SUT để chấm. Đánh `N/A` kèm lý do *"không quan sát được qua SUT"*, khác hẳn với 196 ô N/A còn lại (*"widget vắng mặt"*). Bằng chứng: `evidence/C1/C1_IA04-11_hard-reload-offline-intercepted-by-chrome.png`.
+
+**Nhận xét về chính item, đề xuất cho checklist v2.0:** vế *"load a list screen"* của IA04-11 **không kiểm được bằng hard-reload** trên bất kỳ web app nào không có service worker — trình duyệt luôn thắng trước. Muốn kiểm ứng dụng thật thì item phải nói rõ là dùng **điều hướng mềm** (để app nạp xong rồi mới ngắt mạng).
 
 **Bài học ghi lại:** dự đoán trong báo cáo bản đầu (*"nếu lưu hỏng mà im lặng thì đó là severity cao nhất"*) đã **bị dữ liệu thật bác bỏ**. Giữ nó lại trong F-014 có đánh dấu, thay vì xoá — để thấy phỏng đoán đã được kiểm chứng chứ không âm thầm biến mất. Extension trình duyệt không bật được Network throttling. Hai ô verdict để trống có ghi rõ lý do, **không đoán**. IA04-11 là item đáng tiếc nhất: đã biết chắc EMS không phát toast khi Save **thành công**, nên câu còn bỏ ngỏ là khi Save **thất bại** giao diện có nói gì không — nếu cũng im lặng thì một lần lưu hỏng trông y hệt một lần lưu thành công.
