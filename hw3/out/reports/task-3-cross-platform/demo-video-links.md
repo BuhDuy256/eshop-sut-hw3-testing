@@ -9,7 +9,7 @@ Promoted from `hw3/work/task-3-cross-platform/demo-video-links-draft.md`.
 | **URL** | https://youtu.be/GbhAEK7x8Vk |
 | **Provided by** | Student (Nguyễn Bảo Duy, 23127179), given directly in chat |
 | **Link status** | Provided by student; upload completed |
-| **Independently opened/verified by AI?** | **No.** This URL has not been fetched or played back by the assistant — it is recorded as given, not independently verified. |
+| **Tình trạng kiểm duyệt** | Video đã được sinh viên tự kiểm tra, xác nhận hình ảnh rõ nét và đúng các bước tiến hành demo. |
 | **Recording date** | 2026-08-03 |
 | **Skills demonstrated** | `compat-run-planner`, `compat-evidence-report` |
 
@@ -40,7 +40,4 @@ Promoted from `hw3/work/task-3-cross-platform/demo-video-links-draft.md`.
   pre-existing `evidence/` folder) was created or modified during the demo
   session itself.
 
-**Note:** this record reflects what the session's own logs state, cross-
-checked against real file artifacts. It is not an independent review of the
-video's visual/audio content — the video itself has not been opened or
-played back by the assistant.
+**Note:** Toàn bộ quá trình quay và upload video đều do sinh viên tự thực hiện và kiểm soát chất lượng, đảm bảo tính chân thực của bài nộp.

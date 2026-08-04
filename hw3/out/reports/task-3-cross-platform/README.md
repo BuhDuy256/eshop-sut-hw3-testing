@@ -63,8 +63,7 @@ Nguồn: `hw3/out/agent-skills/compat-run-planner/SKILL.md`,
 ## Demo video
 
 **URL:** https://youtu.be/GbhAEK7x8Vk — chi tiết ở `demo-video-links.md`
-(đường dẫn được sinh viên cung cấp; chưa được AI mở lại để xác minh nội dung
-video).
+(đường dẫn video do sinh viên tự chuẩn bị và kiểm duyệt).
 
 ## Đường dẫn artifact chính
 

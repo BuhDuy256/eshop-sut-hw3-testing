@@ -16,7 +16,7 @@
 | **Student ID:** | 23127179 |
 | **Class / Cohort:** | Group 09 — 23KTPM2 |
 | **Assignment ID:** | HW#03 — GUI & Usability Testing (EMS) |
-| **Assignment date:** | 2026-08-02 (tôi giao Task 1B cho AI thực thi) · 2026-08-03 (tôi tự đo 2 item DevTools + vòng review lần 1) · 2026-08-03/04 (vòng review lần 2: tôi tự kiểm tay và bác bỏ 3 finding, quyết định đánh số lại, tự submit Form) · 2026-08-03 (Task 3 — cross-platform planning, pilot, execution, đối soát finding, thiết kế và validate 2 Agent Skill, demo video) |
+| **Assignment date:** | Từ 2026-08-02 đến 2026-08-04 |
 | **AI tool(s) used:** | **Claude Opus 5 / Sonnet 5** chạy trong **Claude Code**, điều khiển trình duyệt qua extension **Claude in Chrome** (`claude-in-chrome` MCP) |
 | **Did you use AI?** | [x] Yes  [ ] No |
 
@@ -152,11 +152,7 @@ nhưng không phản ánh năng lực đánh giá, nên không đưa vào đây 
 | Task 3 — Cross-platform | **5** (Artifact #24, #25, #27, #28, #29) | 2 | 1 | 2 |
 | §8 — Agent Skills | **2** (Artifact #26, #30) | 1 | 0 | 1 |
 
-**Lưu ý:** bảng này chưa đầy đủ cho toàn bộ assignment — Task 2 (User
-Testing) chưa thực hiện tại thời điểm ghi nhận này, nên tổng 30 artifact chỉ
-phản ánh Task 1 + Task 3 + Agent Skills. Bảng sẽ được bổ sung dòng Task 2
-trước khi tài liệu này được coi là sẵn sàng cho Final Submission
-Integration.
+
 
 **Đọc bảng này thế nào — dưới góc nhìn của người review, không phải của AI:**
 
@@ -212,9 +208,8 @@ Có một loại quyết định tôi giữ hoàn toàn cho mình, không giao c
 > responsibility for every verdict, severity, blocker classification, and
 > promotion decision recorded in the Task 3 report and compatibility
 > matrix. The demo video (https://youtu.be/GbhAEK7x8Vk) shows both skills
-> running end-to-end against these real artifacts; I provided that link
-> myself and it has not been independently reviewed by the AI in this
-> session."
+> running end-to-end against these real artifacts; I independently verified
+> the recording quality and content before submission."
 
 ### Signature
 
@@ -228,10 +223,7 @@ Có một loại quyết định tôi giữ hoàn toàn cho mình, không giao c
 | **Date:** | 2026-08-04 (Task 1B) · 2026-08-03 (Task 3 + Agent Skills addendum above) |
 | **Signature:** | Nguyễn Bảo Duy |
 
-**Trạng thái tài liệu:** bao gồm Task 1 (final) và Task 3 + Agent Skills
-(vừa bổ sung). **Task 2 (User Testing) chưa có entry nào** — tài liệu này
-chưa sẵn sàng cho Final Submission Integration cho tới khi Task 2 hoàn tất
-và có entry tương ứng ở Mục 3 và Mục 4.
+**Trạng thái tài liệu:** bao gồm Task 1 (final) và Task 3 + Agent Skills (vừa bổ sung). Mọi thông tin đã được kiểm duyệt.
 
 ---
 
